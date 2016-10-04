@@ -1,0 +1,97 @@
+﻿  <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Cập nhật contactDetail {{contactDetail.Name}}
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+        <li><a href="#">ContactDetail</a></li>
+        <li><a ui-sref="contactDetails">Danh sách</a></li>
+        <li class="active">Cập nhật</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Horizontal Form -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{contactDetail.Name}}</h3>
+        </div><!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" novalidate name="frmUpdateContactDetail" role="form" ng-submit="UpdateContactDetail()">
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Tên</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" required name="name" ng-model="contactDetail.Name">
+                        <span ng-show="frmUpdateContactDetail.name.$invalid" class="has-error">Phải nhập tên danh mục</span>
+                        <span ng-show="frmUpdateContactDetail.name.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Điện thoại</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" ng-model="contactDetail.Phone">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" required name="email" ng-model="contactDetail.Email">
+                        <span ng-show="frmUpdateContactDetail.email.$invalid" class="has-error">Phải nhập email</span>
+                        <span ng-show="frmUpdateContactDetail.email.$error.maxlength" class="has-error">Email chỉ được 256 ký tự</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Website</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" ng-model="contactDetail.Website">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Địa chỉ</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" ng-model="contactDetail.Address">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Lat</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" name="lat" ng-model="contactDetail.Lat">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Lng</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" name="lng" ng-model="contactDetail.Lng">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Other</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" name="other" ng-model="contactDetail.Other"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="status" ng-model="contactDetail.Status" ng-checked="contactDetail.Status"> Kích hoạt
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            <div class="box-footer">
+                <button ui-sref="contactDetails" class="btn btn-default">Hủy</button>
+                <button type="submit" ng-disabled="frmUpdateContactDetail.$invalid" class="btn btn-success pull-right">Lưu</button>
+            </div><!-- /.box-footer -->
+        </form>
+    </div><!-- /.box -->
+</section><!-- /.content -->

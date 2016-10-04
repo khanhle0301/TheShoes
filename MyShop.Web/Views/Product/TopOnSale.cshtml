@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MyShop.Web.Models.ProductViewModel>
+
+<div id="post-list-footer">
+    @foreach (var product in Model)
+    {
+        var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+        <div class="spost clearfix">
+            <div class="entry-image">
+                <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+            </div>
+            <div class="entry-c">
+                <div class="entry-title">
+                    <h4><a href="@url">@product.Name</a></h4>
+                </div>
+                <ul class="entry-meta">
+                    <li class="color">
+                        <ins> @product.PromotionPrice.Value.ToString("N0")₫</ins>
+                        <del> @product.Price.ToString("N0")₫</del>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>

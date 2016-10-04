@@ -1,0 +1,24 @@
+﻿@model MyShop.Web.Models.ContactDetailViewModel
+<div id="top-bar" class="">
+    <div class="container clearfix">
+        <div class="col_half nobottommargin hidden-xs top_contact">
+            <p class="nobottommargin">
+                <strong><i class='icon-phone3'></i></strong> <a href="tel:@(Model.Phone)">@Model.Phone</a> |
+                <strong><i class='icon-email3'></i></strong> <a href="mailto:@(Model.Email)">@Model.Email</a>
+            </p>
+        </div>
+        <div class="col_half col_last fright nobottommargin top_link_wrapper">
+            <!-- Top Links -->
+            <div class="top-links">
+                <ul>
+                    <li><a href="/trang/gioi-thieu.html">Giới thiệu</a></li>
+                    <li><a href="/san-pham/khuyen-mai.html">Khuyến mãi</a></li>
+                    <li><a href="/bai-viet.html">Bài viết</a></li>
+                    <li><a href="/trang/lien-he.html">Liên hệ</a></li>
+                    <li><a href="/tai-khoan.html">Tài khoản</a></li>
+                    <li><a href="/dang-nhap.html">Đăng nhập / Đăng ký</a></li>
+                </ul>
+            </div><!-- .top-links end -->
+        </div>
+    </div>
+</div>

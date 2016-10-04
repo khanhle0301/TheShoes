@@ -1,0 +1,9 @@
+﻿@model IEnumerable<MyShop.Web.Models.TagViewModel>
+
+<div class="tagcloud">
+    @foreach (var tag in Model)
+    {
+        <a href="/bai-viet/tag/@(tag.ID).html">@tag.Name</a>
+    }
+</div>
+

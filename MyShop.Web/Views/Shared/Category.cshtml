@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MyShop.Web.Models.ProductCategoryViewModel>
+
+<ul class='nav nav-pills nav-stacked'>
+    <li class='menu'><a class='menu' href="/san-pham.html"><img src='/Assets/client/hstatic.net/198/1000055198/1000144003/menu_icon_1a6f6.png?v=313' />Tất cả sản phẩm</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/hang-moi-ve.html"><img src='/Assets/client/hstatic.net/198/1000055198/1000144003/menu_icon_2a6f6.png?v=313' />Hàng mới về</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/khuyen-mai.html"><img src='/Assets/client/hstatic.net/198/1000055198/1000144003/menu_icon_3a6f6.png?v=313' />Sản phẩm khuyến mãi</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/noi-bat.html"><img src='/Assets/client/hstatic.net/198/1000055198/1000144003/menu_icon_4a6f6.png?v=313' />Sản phẩm nổi bật</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/ban-chay.html"><img src='/Assets/client/hstatic.net/198/1000055198/1000144003/menu_icon_5a6f6.png?v=313' />Bán chạy</a></li>
+    @foreach (var category in Model.Where(x => x.ParentID == null))
+    {
+        var url = "/san-pham/" + category.Alias + ".html";
+        <li class='menu'>
+            <a class='menu' href="@url"><img src="@category.Image" />@category.Name</a>
+        </li>
+    }
+</ul>

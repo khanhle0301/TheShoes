@@ -1,0 +1,781 @@
+﻿@model MyShop.Web.Models.HomeViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+@section footerJS{
+    <script src="~/Assets/client/js/addCartPopup.js"></script>
+    <script src="~/Assets/client/js/productPopup.js"></script>
+}
+
+@section left_menu{
+    <script>
+        $(window).load(function () {
+            var isScrolledIntoView = function (elem) {
+                var $elem = $(elem);
+                var $window = $(window);
+                var docViewTop = $window.scrollTop();
+                var docViewBottom = docViewTop + $window.height();
+                var elemTop = $elem.offset().top;
+                var elemBottom = elemTop + $elem.height();
+                return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+            }
+            $(this).scroll(function () {
+                var height = $(window).scrollTop();
+                if (height >= 200) {
+                    $('.left_menu').addClass('left_menu_sticker');
+                }
+                else {
+                    $('.left_menu').removeClass('left_menu_sticker');
+                }
+                $('.left_menu').toggle(!isScrolledIntoView('#footer'));
+            });
+        });
+    </script>
+}
+
+@section title{
+    <div class='container slide_wrapper' style='margin-top: 25px;'>
+        <div class="panel-group left_menu col-md-3 hidden-xs hidden-sm" id='left_menu'>
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <i class='icon-line-menu'></i> Menu
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    @{Html.RenderAction("Category", "Home");}
+                </div>
+            </div>
+        </div>
+        <section id="slider" class="slider-parallax revslider-wrap ohidden clearfix hidden-xs col-md-9 col-md-push-3">
+            <div class="tp-banner-container">
+                <div class="tp-banner">
+                    <ul>
+                        <!-- Slide  -->
+                        @foreach (var slide in Model.Slides)
+                        {
+                            <li data-transition="random" data-slotamount="7" data-link="@slide.Url" data-title="@slide.Name">
+                                <img src="@slide.Image">
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                jQuery(document).ready(function () {
+                    jQuery('.tp-banner').show().revolution(
+                    {
+                        dottedOverlay: "none",
+                        delay: 5000,
+                        startwidth: 1140,
+                        startheight: 500,
+                        hideThumbs: 200,
+                        thumbWidth: 100,
+                        thumbHeight: 50,
+                        thumbAmount: 5,
+                        lazyLoad: "on",
+                        navigationType: "none",
+                        navigationArrows: "solo",
+                        navigationStyle: "preview2",
+                        touchenabled: "on",
+                        onHoverStop: "on",
+                        swipe_velocity: 0.7,
+                        swipe_min_touches: 1,
+                        swipe_max_touches: 1,
+                        drag_block_vertical: false,
+                        parallax: "mouse",
+                        parallaxBgFreeze: "on",
+                        parallaxLevels: [7, 4, 3, 2, 5, 4, 3, 2, 1, 0],
+                        keyboardNavigation: "off",
+                        navigationHAlign: "center",
+                        navigationVAlign: "bottom",
+                        navigationHOffset: 0,
+                        navigationVOffset: 20,
+                        soloArrowLeftHalign: "left",
+                        soloArrowLeftValign: "center",
+                        soloArrowLeftHOffset: 20,
+                        soloArrowLeftVOffset: 0,
+                        soloArrowRightHalign: "right",
+                        soloArrowRightValign: "center",
+                        soloArrowRightHOffset: 20,
+                        soloArrowRightVOffset: 0,
+                        shadow: 0,
+                        fullWidth: "on",
+                        fullScreen: "off",
+                        spinner: "spinner4",
+                        stopLoop: "off",
+                        stopAfterLoops: -1,
+                        stopAtSlide: -1,
+                        shuffle: "off",
+                        autoHeight: "off",
+                        forceFullWidth: "off",
+                        hideThumbsOnMobile: "off",
+                        hideNavDelayOnMobile: 1500,
+                        hideBulletsOnMobile: "off",
+                        hideArrowsOnMobile: "off",
+                        hideThumbsUnderResolution: 0,
+                        hideSliderAtLimit: 0,
+                        hideCaptionAtLimit: 0,
+                        hideAllCaptionAtLilmit: 0,
+                        startWithSlide: 0,
+                        fullScreenOffsetContainer: ".header"
+                    });
+                });
+            </script>
+        </section>
+    </div>
+}
+
+<div class="content-wrap">
+    <div class="container clearfix">
+        <!-- banner -->
+        @foreach (var banner in Model.Banners)
+        {
+            <div class="col-md-4 noleftpadding banner-img bottom-margin">
+                <a class='banner-link' href="@banner.Url" target='_blank' data-animate="fadeInLeft">
+                    <div class='banner-content-wrapper'>
+                        @Html.Raw(banner.Content)
+                    </div>
+                    <img src="@banner.Image" alt="@banner.Name">
+                </a>
+            </div>
+        }
+        <div class="clear"></div>
+        <!-- end banner -->
+        <div class="clear"></div>
+        <!--product item-->
+        <div class="index_group_product tabs topmargin-lg clearfix hidden-xs" id="tab-3">
+            <ul class="tab-nav clearfix">
+                <li><a href="#tabs-9"><i class='icon-thumbs-up'></i><span> HÀNG MỚI VỀ</span></a></li>
+                <li><a href="#tabs-10"><i class='icon-trophy'></i><span> HÀNG BÁN CHẠY</span></a></li>
+                <li><a href="#tabs-11"><i class='icon-group'></i><span> KHUYẾN MÃI</span></a></li>
+            </ul>
+            <div class="tab-container">
+                <div class="tab-content clearfix index_group" id="tabs-9">
+                    <div id="shop" class="clearfix">
+                        @if (Model.LastestProducts.Count() > 0)
+                        {
+                            foreach (var product in Model.LastestProducts)
+                            {
+                                var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                                <div class="product col-lg-3 clearfix">
+                                    <div class="product-image">
+                                        <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                        <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                        @if (@product.PromotionPrice.HasValue)
+                                        {
+                                            <div class="sale-flash">Sale</div>
+                                        }
+                                        <div class="product-overlay">
+                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                        </div>
+                                    </div>
+                                    <div class="product-desc">
+                                        <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                        <div class="product-price">
+                                            @if (@product.PromotionPrice.HasValue)
+                                            {
+                                                <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
+                                                <del>@product.Price.ToString("N0")₫</del>
+                                            }
+                                            else
+                                            {
+                                                <ins>@product.Price.ToString("N0")₫ </ins>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có bản ghi nào được tìm thấy.</p>
+                        }
+                    </div>
+                </div>
+                <div class="tab-content clearfix index_group" id="tabs-10">
+                    <div id="shop" class="clearfix">
+                        @if (Model.HotSaleProducts.Count() > 0)
+                        {
+                            foreach (var product in Model.HotSaleProducts.Take(4))
+                            {
+                                var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                                <div class="product col-lg-3 clearfix">
+                                    <div class="product-image">
+                                        <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                        <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                        @if (@product.PromotionPrice.HasValue)
+                                        {
+                                            <div class="sale-flash">Sale</div>
+                                        }
+                                        <div class="product-overlay">
+                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                        </div>
+                                    </div>
+                                    <div class="product-desc">
+                                        <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                        <div class="product-price">
+                                            @if (@product.PromotionPrice.HasValue)
+                                            {
+                                                <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
+                                                <del>@product.Price.ToString("N0")₫</del>
+                                            }
+                                            else
+                                            {
+                                                <ins>@product.Price.ToString("N0")₫ </ins>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có bản ghi nào được tìm thấy.</p>
+                        }
+                    </div>
+                </div>
+                <div class="tab-content clearfix index_group" id="tabs-11">
+                    <div id="shop" class="clearfix">
+                        @if (Model.SaleProducts.Count() > 0)
+                        {
+                            foreach (var product in Model.SaleProducts)
+                            {
+                                var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                                <div class="product clearfix col-lg-3">
+                                    <div class="product-image">
+                                        <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                        <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                        <div class="sale-flash">Sale</div>
+                                        <div class="product-overlay">
+                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                        </div>
+                                    </div>
+                                    <div class="product-desc">
+                                        <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                        <div class="product-price">
+                                            <ins>@product.PromotionPrice.Value.ToString("N0")₫</ins>
+                                            <del>@product.Price.ToString("N0")₫</del>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có bản ghi nào được tìm thấy.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-group hidden-lg hidden-sm hidden-md" id="accordion" style='margin-top: 15px;'>
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style='width: 100%; display: block;'>
+                            <i class='icon-thumbs-up'></i><span> HÀNG MỚI VỀ</span>
+                            <i class='icon-angle-down arrow'></i>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <div class="tab-content clearfix index_group">
+                            <div id="shop" class="clearfix">
+                                @if (Model.LastestProducts.Count() > 0)
+                                {
+                                    foreach (var product in Model.LastestProducts)
+                                    {
+                                        var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                                        <div class="product col-lg-3 clearfix">
+                                            <div class="product-image">
+                                                <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                                <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                                @if (@product.PromotionPrice.HasValue)
+                                                {
+                                                    <div class="sale-flash">Sale</div>
+                                                }
+                                                <div class="product-overlay">
+                                                    <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                                    <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                                </div>
+                                            </div>
+                                            <div class="product-desc">
+                                                <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                                <div class="product-price">
+                                                    @if (@product.PromotionPrice.HasValue)
+                                                    {
+                                                        <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
+                                                        <del>@product.Price.ToString("N0")₫</del>
+                                                    }
+                                                    else
+                                                    {
+                                                        <ins>@product.Price.ToString("N0")₫ </ins>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Không có bản ghi nào được tìm thấy.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a style='width: 100%; display:block;' class="collapsed" data-toggle="collapse" href="#collapseTwo">
+                            <i class='icon-trophy'></i><span> HÀNG BÁN CHẠY</span>
+                            <i class='icon-angle-down arrow'></i>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <div class="tab-content clearfix index_group">
+                            <div id="shop" class="clearfix">
+                                @if (Model.HotSaleProducts.Count() > 0)
+                                {
+                                    foreach (var product in Model.HotSaleProducts)
+                                    {
+                                        var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                                        <div class="product col-lg-3 clearfix">
+                                            <div class="product-image">
+                                                <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                                <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                                @if (@product.PromotionPrice.HasValue)
+                                                {
+                                                    <div class="sale-flash">Sale</div>
+                                                }
+                                                <div class="product-overlay">
+                                                    <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                                    <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                                </div>
+                                            </div>
+                                            <div class="product-desc">
+                                                <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                                <div class="product-price">
+                                                    @if (@product.PromotionPrice.HasValue)
+                                                    {
+                                                        <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
+                                                        <del>@product.Price.ToString("N0")₫</del>
+                                                    }
+                                                    else
+                                                    {
+                                                        <ins>@product.Price.ToString("N0")₫ </ins>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Không có bản ghi nào được tìm thấy.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading" id="headingThree">
+                    <h4 class="panel-title">
+                        <a style='width: 100%; display:block;' class="collapsed" data-toggle="collapse" href="#collapseThree">
+                            <i class='icon-group'></i><span> KHUYẾN MÃI</span>
+                            <i class='icon-angle-down arrow'></i>
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel">
+                    <div class="panel-body">
+                        <div class="tab-content clearfix index_group">
+                            <div id="shop" class="clearfix">
+                                @if (Model.SaleProducts.Count() > 0)
+                                {
+                                    foreach (var product in Model.SaleProducts)
+                                    {
+                                        var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                                        <div class="product clearfix col-lg-3">
+                                            <div class="product-image">
+                                                <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                                <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                                <div class="sale-flash">Sale</div>
+                                                <div class="product-overlay">
+                                                    <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                                    <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                                </div>
+                                            </div>
+                                            <div class="product-desc">
+                                                <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                                <div class="product-price">
+                                                    <ins>@product.PromotionPrice.Value.ToString("N0")₫</ins>
+                                                    <del>@product.Price.ToString("N0")₫</del>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <p>Không có bản ghi nào được tìm thấy.</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="clear bottommargin-sm"></div>
+        <div class="clear bottommargin-sm"></div>
+        <div class='fancy-title title-border'>
+            <h3>
+                Sản phẩm bán chạy
+            </h3>
+        </div>
+        <div id='best_seller' class='best_seller'>
+            <div class='col-md-12 best_seller_left'>
+                <div class='product_wrapper'>
+                    @if (Model.HotSaleProducts.Count() > 0)
+                    {
+                        foreach (var product in Model.HotSaleProducts)
+                        {
+                            var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                            <div class='col-md-3 col-sm-6 best_seller_product'>
+                                <!--product one-->
+                                <div class="product clearfix">
+                                    <div class="product-image">
+                                        <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                        <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                        @if (@product.PromotionPrice.HasValue)
+                                        {
+                                            <div class="sale-flash">Sale</div>
+                                        }
+                                        <div class="product-overlay">
+                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                        </div>
+                                    </div>
+                                    <div class="product-desc center">
+                                        <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                        <div class="product-price">
+                                            @if (@product.PromotionPrice.HasValue)
+                                            {
+                                                <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
+                                                <del>@product.Price.ToString("N0")₫</del>
+                                            }
+                                            else
+                                            {
+                                                <ins>@product.Price.ToString("N0")₫ </ins>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Không có bản ghi nào được tìm thấy.</p>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+        <div class="clear bottommargin-sm"></div>
+        <div class="clear bottommargin-sm"></div>
+        <div class='fancy-title title-border hot_product_title'>
+            <h3>
+                Sản phẩm đang hot
+            </h3>
+        </div>
+
+        <div id='hot_product' class="owl-carousel image-carousel hot_product">
+            @if (Model.HotProducts.Count() > 0)
+            {
+                foreach (var product in Model.HotProducts)
+                {
+                    var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                    <div class="product clearfix">
+                        <div class="product-image">
+                            <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                            <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                            @if (@product.PromotionPrice.HasValue)
+                            {
+                                <div class="sale-flash">Sale</div>
+                            }
+                            <div class="product-overlay">
+                                <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                            </div>
+                        </div>
+                        <div class="product-desc center">
+                            <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                            <div class="product-price">
+                                @if (@product.PromotionPrice.HasValue)
+                                {
+                                    <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
+                                    <del>@product.Price.ToString("N0")₫</del>
+                                }
+                                else
+                                {
+                                    <ins>@product.Price.ToString("N0")₫ </ins>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>Không có bản ghi nào được tìm thấy.</p>
+            }
+        </div>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+                var ocClients = $("#hot_product");
+                ocClients.owlCarousel({
+                    items: 6,
+                    margin: 0,
+                    loop: true,
+                    nav: true,
+                    navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
+                    autoplay: true,
+                    dots: false,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 2 },
+                        480: { items: 2 },
+                        768: { items: 2 },
+                        992: { items: 4 },
+                        1200: { items: 6 }
+                    }
+                });
+
+            });
+        </script>
+
+        <div class="clear bottommargin-sm"></div>
+        <div class="clear bottommargin-sm"></div>
+        <div class="col_one_third get_in_touch">
+            <div class="fancy-title title-border">
+                <h4><a style='color:#444' href='pages/about-us.html'>Giới thiệu</a></h4>
+            </div>
+            <p>Trang giới thiệu giúp khách hàng hiểu rõ hơn về cửa hàng của bạn. Hãy cung cấp thông tin cụ thể về việc kinh doanh, về cửa hàng, thông tin liên hệ. Điều này sẽ giúp khách hàng cảm thấy tin tưởng khi mua hàng trên website của bạn.Một vài gợi ý cho nội dung trang Giới thiệu:Bạn là aiGiá...</p>
+        </div>
+        <div class="col_one_third get_in_touch">
+            <div class="fancy-title title-border">
+                <h4>Đăng kí email</h4>
+            </div>
+            <p>Để nhận ngay voucher 100.000đ</p>
+
+            <div id="widget-subscribe-form-result2" data-notify-type="success" data-notify-msg=""></div>
+            <form accept-charset="UTF-8" id="widget-subscribe-form2" action="https://the-shoes.myharavan.com/account/contact" role="form" method="post" class="nobottommargin">
+                <div class="input-group divcenter">
+                    <span class="input-group-addon"><i class="icon-email2"></i></span>
+                    <input name="form_type" type="hidden" value="customer">
+                    <input name="utf8" type="hidden" value="✓">
+                    <input type="hidden" id="contact_tags" name="contact[tags]" value="khách hàng tiềm năng,Bản tin">
+                    <input type="hidden" id="newsletter-first-name" name="contact[first_name]" value="(Người đăng ký)">
+                    <input type="hidden" id="newsletter-last-name" name="contact[last_name]" value="Bản tin">
+                    <input type="email" name="contact[email]" id='newsletter-email-1' class="form-control required email" placeholder="Nhập email của bạn">
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btnSignup-1" type="submit">Đăng ký</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="col_one_third col_last get_in_touch">
+            <div class="fancy-title title-border">
+                <h4>Theo dõi chúng tôi trên Facebook</h4>
+            </div>
+            <div class="fb-like-box small--hide" data-href="https://www.facebook.com/EGAnyCom/" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
+
+            <!--Facebook-->
+        </div>
+        <div class="clear"></div>
+        <div class="fancy-title title-border title-center topmargin-sm" data-animate="fadeInUp">
+            <h4>Thương hiệu nổi tiếng</h4>
+        </div>
+        <div id="oc-clients-full" class="owl-carousel image-carousel">
+            <!--<div class="oc-item" ><a href="http://www.michaelkors.com/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_1.png?v=313" alt=""></a></div>-->
+            <a href="http://www.michaelkors.com/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_1.png?v=313" alt=""></a>
+            <!--<div class="oc-item" ><a href="http://www.dior.com/couture/en_int/womens-fashion"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_2.png?v=313" alt=""></a></div>-->
+            <a href="http://www.dior.com/couture/en_int/womens-fashion" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_2.png?v=313" alt=""></a>
+            <!--<div class="oc-item" ><a href="http://www.zara.com/us/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_3.png?v=313" alt=""></a></div>-->
+            <a href="http://www.zara.com/us/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_3.png?v=313" alt=""></a>
+            <!--<div class="oc-item" ><a href="http://www.gucci.com/us/en/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_4.png?v=313" alt=""></a></div>-->
+            <a href="http://www.gucci.com/us/en/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_4.png?v=313" alt=""></a>
+            <!--<div class="oc-item" ><a href="http://www.chanel.com/en_US/fragrance-beauty/Fragrance-88106"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_5.png?v=313" alt=""></a></div>-->
+            <a href="http://www.chanel.com/en_US/fragrance-beauty/Fragrance-88106" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_5.png?v=313" alt=""></a>
+            <!--<div class="oc-item" ><a href="http://usa.hermes.com/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_6.png?v=313" alt=""></a></div>-->
+            <a href="http://usa.hermes.com/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_6.png?v=313" alt=""></a>
+            <!--<div class="oc-item" ><a href="http://store.dolcegabbana.com/vn"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_7.png?v=313" alt=""></a></div>-->
+            <a href="http://store.dolcegabbana.com/vn" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_7.png?v=313" alt=""></a>
+        </div>
+        <script type="text/javascript">
+            jQuery(document).ready(function ($) {
+                var ocClients = $("#oc-clients-full");
+                ocClients.owlCarousel({
+                    items: 6,
+                    margin: 30,
+                    loop: true,
+                    nav: true,
+                    navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
+                    autoplay: true,
+                    dots: false,
+                    autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 2 },
+                        480: { items: 3 },
+                        768: { items: 4 },
+                        992: { items: 5 },
+                        1200: { items: 6 }
+                    }
+                });
+
+            });
+        </script>
+
+    </div>
+    <div class="section nobottommargin get_in_touch" data-animate="fadeInUp">
+        <div class="container clearfix">
+            <div class="col_one_fourth nobottommargin">
+                <div class="feature-box fbox-plain fbox-dark fbox-small">
+                    <div class="icon_title_policies" align="center">
+                        <div class="fbox-icon">
+                            <i class="icon-truck2"></i>
+                        </div>
+                        <h3>Free</h3>
+                    </div>
+                    <p class="notopmargin">Nhận hàng trong vòng 3 ngày & hoàn toàn miễn phí vận chuyển</p>
+                </div>
+            </div>
+            <div class="col_one_fourth nobottommargin">
+                <div class="feature-box fbox-plain fbox-dark fbox-small">
+                    <div class="icon_title_policies">
+                        <div class="fbox-icon">
+                            <i class="icon-gift"></i>
+                        </div>
+                        <h3>Quà tặng</h3>
+                    </div>
+                    <p class="notopmargin">Nhiều quà tặng và ưu đãi hấp dẫn khi mua hàng từ 1.000.000đ trở lên.</p>
+                </div>
+            </div>
+            <div class="col_one_fourth nobottommargin">
+                <div class="feature-box fbox-plain fbox-dark fbox-small">
+                    <div class="icon_title_policies">
+                        <div class="fbox-icon">
+                            <i class="icon-undo"></i>
+                        </div>
+                        <h3>Đổi trả hàng</h3>
+                    </div>
+                    <p class="notopmargin">Hoàn tiền trong 30 ngày nếu không hài lòng</p>
+                </div>
+            </div>
+            <div class="col_one_fourth nobottommargin col_last">
+                <div class="feature-box fbox-plain fbox-dark fbox-small">
+                    <div class="icon_title_policies">
+                        <div class="fbox-icon">
+                            <i class="icon-phone3"></i>
+                        </div>
+                        <h3>HOTLINE: 08 7300 5757</h3>
+                    </div>
+                    <p class="notopmargin">Dịch vụ chăm sóc khách hàng sẵn sàng hỗ trợ bạn 24/7</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section notopborder nobottomborder nomargin nopadding nobg footer-stick advertisement" data-animate="fadeInUp">
+        <div class="container clearfix">
+            <div class="col_half nobottommargin topmargin">
+                <a href='http://chefashion.net/collections/all' target='_blank'><img src="/Assets/client/hstatic.net/198/1000055198/1000144003/main_imga6f6.png?v=313" alt="Image" class="nobottommargin"></a>
+            </div>
+            <div class="col_half nobottommargin col_last">
+                <div class="heading-block topmargin-lg" style='margin-top:60px!important;'>
+                    <h3><strong>TƯNG BỪNG KHUYẾN MÃI</strong></h3>
+                    <span>Cho mùa mua sắm cuối năm</span>
+                </div>
+                <p> Còn suy nghĩ thêm gì nữa, đừng bỏ lỡ cơ hội mua hàng giá rẻ với những ưu đãi đi kèm không ở đâu có trong năm nay của THE SHOES ! Với tiêu chí khách hàng là thượng đế, CHẾ FASHION luôn cam kết đem đến cho khách hàng thân yêu những sản phẩm tốt nhất, chất lượng tuyệt vời và giá cả hợp lý. Hãy ghé  THE SHOES và chọn cho mình những sản phẩm ưng ý   cho mùa lễ hội sắp tới.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="tpl-product-size" type="x-tmpl-mustache">
+    <option value="{{ProductSize}}">{{ProductSize}}</option>
+</script>
+
+<div id="productManange" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="productName"></h4>
+            </div>
+            <div class="modal-body" style="height:auto">
+                <div class="product-page-options">
+                    <div class="sizePicker">
+                        <label class="control-label options-title">Kích thước</label>
+                        <div class="options-selection">
+                            <select id="product-size" class="form-control input-sm size"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="ProductDetailsForm" class="nobottommargin clearfix">
+                    <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
+                        <input type="button" value="-" class="minus">
+                        <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Qty" size="4">
+                        <input type="button" value="+" class="plus">
+                    </div>
+                    <button type="submit" id="addcart" class="btnAddToCart button nomargin col-xs-6">Thêm vào giỏ</button>
+                    <button type="submit" class="abc buy_btn button col-xs-12" id="buynow">Mua ngay </button>
+                    <input type="hidden" id="hidProductID" value="0" />
+                </form>
+
+                <script>
+                    var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
+                    $('#ProductDetailsForm .minus').click(function () {
+                        if (quantity > 0) {
+                            if (quantity == 1) {
+                                $('#addcart').attr('disabled', 'disabled');
+                            }
+                            quantity -= 1;
+                        }
+                        else {
+                            quantity = 0;
+                        }
+                        $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
+                    });
+                    $('#ProductDetailsForm  .plus').click(function () {
+                        $('#addcart').removeAttr('disabled');
+                        if (quantity < 100) {
+                            quantity += 1;
+                        }
+                        else {
+                            quantity = 100;
+                        }
+                        $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>

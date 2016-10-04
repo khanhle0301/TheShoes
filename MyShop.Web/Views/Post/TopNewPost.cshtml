@@ -1,0 +1,21 @@
+﻿@model IEnumerable<MyShop.Web.Models.PostViewModel>
+
+<div class="tab-container">
+    @foreach (var post in Model)
+    {
+        var url = "/bai-viet/" + post.PostCategory.Alias + "/" + post.Alias + "-" + post.ID + ".html";
+        <div class="spost clearfix">
+            <div class="entry-image">
+                <a href="@url" class="nobg a-circle"><img class="img-circle-custom" src="@post.Image" alt="@post.Name"></a>
+            </div>
+            <div class="entry-c">
+                <div class="entry-title">
+                    <h4><a href="@url">@post.Name</a></h4>
+                </div>
+                <ul class="entry-meta">
+                    <li><a href="#"><i class="icon-comments-alt"></i> 0 bình luận</a></li>
+                </ul>
+            </div>
+        </div>
+    }
+</div>

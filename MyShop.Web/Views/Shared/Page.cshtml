@@ -1,0 +1,7 @@
+﻿@model IEnumerable<MyShop.Web.Models.PageViewModel>
+
+@foreach (var page in Model)
+{
+    <li><a href="/trang/@(page.Alias).html">@page.Name</a></li>
+}
+<li><a href="/trang/lien-he.html">Liên hệ</a></li>

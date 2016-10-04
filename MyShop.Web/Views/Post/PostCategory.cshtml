@@ -1,0 +1,9 @@
+﻿@model IEnumerable<MyShop.Web.Models.PostCategoryViewModel>
+
+<ul>
+    @foreach (var cate in Model)
+    {
+        var url = "/bai-viet/" + cate.Alias + ".html";
+        <li><a href="@url">@cate.Name</a></li>
+    }
+</ul>

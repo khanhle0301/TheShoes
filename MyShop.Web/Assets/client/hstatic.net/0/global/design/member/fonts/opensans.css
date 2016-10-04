@@ -1,0 +1,62 @@
+/********************  Open Sans font *********************/
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'), url(OpanSans_woff/DXI1ORHCpsQm3Vp6mXoaTXwUvq1pQaUIDqPgpae5ItU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(OpanSans_woff/59ZRklaO5bWGqF5A9baEET8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans Semibold'), local('OpenSans-Semibold'), url(OpanSans_woff/MTP_ySUJH_bn48VBG8sNSnwUvq1pQaUIDqPgpae5ItU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url(OpanSans_woff/k3k702ZOKiLJc3WVjuplzHwUvq1pQaUIDqPgpae5ItU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Open Sans Extrabold'), local('OpenSans-Extrabold'), url(OpanSans_woff/EInbV5DfGHOiMmvb1Xr-hnwUvq1pQaUIDqPgpae5ItU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Open Sans Light Italic'), local('OpenSansLight-Italic'), url(OpanSans_woff/PRmiXeptR36kaC0GEAetxsJIfR0j-Hc3mXsqdoe9vx8.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Open Sans Italic'), local('OpenSans-Italic'), url(OpanSans_woff/xjAJXh38I15wypJXxuGMBkbnXQ06sCSpaytluCdpFnY.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: local('Open Sans Semibold Italic'), local('OpenSans-SemiboldItalic'), url(OpanSans_woff/PRmiXeptR36kaC0GEAetxrkV11xRSeRSsXvODowCrgc.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url(OpanSans_woff/PRmiXeptR36kaC0GEAetxttxB2icnUq6NyCcJOfFtRI.woff) format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 800;
+  src: local('Open Sans Extrabold Italic'), local('OpenSans-ExtraboldItalic'), url(OpanSans_woff/PRmiXeptR36kaC0GEAetxq6EGkuGQVtC-K3yp5dayWY.woff) format('woff');
+}
+

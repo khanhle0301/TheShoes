@@ -1,0 +1,174 @@
+﻿@model MyShop.Web.Models.PostViewModel
+@using MyShop.Common;
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+@helper Truncate(string input, int length)
+{
+if (input.Length <= length)
+{
+        @input
+}
+else
+{
+        @input.Substring(0, length)<text>...</text>
+}
+}
+
+@section left_menu{
+    <div class="panel-group left_menu col-md-3 hidden-xs hidden-sm" id='left_menu'>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class='icon-line-menu'></i> Menu
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                @{Html.RenderAction("Category", "Home");}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+    <script>
+        $(window).load(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+}
+
+@section title{
+    <section id="page-title">
+        <div class="container clearfix">
+            <h1 class="col-md-6 col-sm-6"> @ViewBag.Category.Name</h1><br>
+            <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
+                <li><a href="/"> Trang chủ</a></li>
+                <li><a href="/bai-viet.html"> Bài viết</a></li>
+                <li><a href="/bai-viet/@(ViewBag.Category.Alias).html"> @ViewBag.Category.Name</a></li>
+                <li class="active">@Model.Name</li>
+            </ol>
+        </div>
+    </section>
+}
+
+<div class="content-wrap">
+    <div class="container clearfix">
+        <div class="postcontent nobottommargin clearfix">
+            <div class="single-post nobottommargin">
+                <div class="entry clearfix">
+                    <div class="entry-title">
+                        <h2>@Model.Name</h2>
+                    </div>
+                    <ul class="entry-meta clearfix">
+                        <li><i class="icon-calendar3"></i> @Model.CreatedDate</li>
+                        <li><a href="/"><i class="icon-user"></i> The Shoes</a></li>
+                        <li>
+                            @if (!string.IsNullOrEmpty(Model.Tags))
+                            {
+                                <i class="icon-folder-open"></i>
+                                string[] tags = Model.Tags.Split(',');
+                                for (var i = 0; i < tags.Length; i++)
+                                {
+                                    var tagId = StringHelper.ToUnsignString(tags[i]);
+                                    var urlTag = "bai-viet/tag/" + tagId + ".html";
+                                    <a href="@urlTag"> @tags[i],</a>
+                                }
+                            }
+                        </li>
+                        <li><a href="#"><i class="icon-comments"></i> 0 Bình luận</a></li>
+                    </ul>
+                    <div class="entry-content notopmargin">
+                        <div>@Html.Raw(Model.Content)</div>
+                        <div class="tagcloud clearfix bottommargin">
+                            @foreach (var tag in (IEnumerable<MyShop.Web.Models.TagViewModel>)ViewBag.Tags)
+                            {
+                                <a href="/bai-viet/tag/@(tag.ID).html">@tag.Name</a>
+                            }
+                        </div>
+                        <div class="clear"></div>
+                        <!-- facebook tweet -->
+                        <div class="si-share noborder clearfix">
+                            <span>Chia sẻ:</span>
+                            <div class='socical-wrapper'>
+                                <ul class="social-icons"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- related post -->
+                <h4>Bài viêt cùng danh mục:</h4>
+                <div class="related-posts clearfix">
+                    <div class="col_half nobottommargin">
+                        @foreach (var post in (IEnumerable<MyShop.Web.Models.PostViewModel>)ViewBag.RelatedPosts)
+                        {
+                            <div class="mpost clearfix">
+                                <div class="entry-image related-posts-img">
+                                    <a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html"><img src="@post.Image" alt="@post.Name"></a>
+                                </div>
+                                <div class="entry-c">
+                                    <div class="entry-title">
+                                        <h4><a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html">@post.Name</a></h4>
+                                    </div>
+                                    <ul class="entry-meta clearfix">
+                                        <li><i class="icon-calendar3"></i> @post.CreatedDate</li>
+                                        <li><a href="#"><i class="icon-comments"></i> 0</a></li>
+                                    </ul>
+                                    <div class="entry-content">@Truncate(post.Description, 80)</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="col_half nobottommargin col_last">
+                        @foreach (var post in (IEnumerable<MyShop.Web.Models.PostViewModel>)ViewBag.RelatedTakePosts)
+                        {
+                            <div class="mpost clearfix">
+                                <div class="entry-image related-posts-img">
+                                    <a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html"><img src="@post.Image" alt="@post.Name"></a>
+                                </div>
+                                <div class="entry-c">
+                                    <div class="entry-title">
+                                        <h4><a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html">@post.Name</a></h4>
+                                    </div>
+                                    <ul class="entry-meta clearfix">
+                                        <li><i class="icon-calendar3"></i> @post.CreatedDate</li>
+                                        <li><a href="#"><i class="icon-comments"></i> 0</a></li>
+                                    </ul>
+                                    <div class="entry-content">@Truncate(post.Description, 80)</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sidebar nobottommargin col_last clearfix">
+            <div class="sidebar-widgets-wrap">
+                <!-- categories -->
+                <div class="widget widget_links clearfix">
+                    <h4>Danh mục</h4>
+                    @{Html.RenderAction("PostCategory", "Post");}
+                </div>
+                <!-- new post -->
+                <div class="widget clearfix">
+                    <h4 style='margin-bottom:10px;'>Bài viết mới nhất</h4>
+                    @{Html.RenderAction("TopNewPost", "Post");}
+                </div>
+                <!--fackbook-->
+                <div class="widget clearfix" style='overflow:hidden;'>
+                    <h4>Facebook</h4>
+                </div>
+                <!-- categories -->
+                <div class="widget clearfix">
+                    <h4>Tags</h4>
+                    @{Html.RenderAction("PostTag", "Post");}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+﻿@model MyShop.Web.Infrastructure.Core.PaginationSet<MyShop.Web.Models.PostViewModel>
+@using MyShop.Common;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+@section left_menu{
+    <div class="panel-group left_menu col-md-3 hidden-xs hidden-sm" id='left_menu'>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class='icon-line-menu'></i> Menu
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                @{Html.RenderAction("Category", "Home");}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+    <script>
+        $(window).load(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+}
+
+@section title{
+    <section id="page-title">
+        <div class="container clearfix">
+            <h1 class="col-md-6 col-sm-6">Bài viết</h1>
+            <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
+                <li><a href="/">Trang chủ</a></li>
+                <li class="active">Bài viết</li>
+            </ol>
+        </div>
+    </section>
+}
+
+<div class="content-wrap">
+    <div class="container clearfix">
+        <div class="postcontent nobottommargin clearfix">
+            <div id="posts" class="small-thumbs">
+                @foreach (var post in Model.Items)
+                {
+                    var url = "/bai-viet/" + post.PostCategory.Alias + "/" + post.Alias + "-" + post.ID + ".html";
+                    <div class="entry clearfix">
+                        <div class="entry-image">
+                            <a href="@post.Image" data-lightbox="image"><img class="image_fade" src="@post.Image" alt="@post.Name"></a>
+                        </div>
+                        <div class="entry-c">
+                            <div class="entry-title">
+                                <h2><a href="@url">@post.Name</a></h2>
+                            </div>
+                            <ul class="entry-meta clearfix">
+                                <li><i class="icon-calendar3"></i> @post.CreatedDate</li>
+                                <li><i class="icon-user"></i> The Shoes</li>
+                                <li>
+                                    @if (!string.IsNullOrEmpty(post.Tags))
+                                    {
+                                        <i class="icon-folder-open"></i>
+                                        string[] tags = post.Tags.Split(',');
+                                        for (var i = 0; i < tags.Length; i++)
+                                        {
+                                            var tagId = StringHelper.ToUnsignString(tags[i]);
+                                            var urlTag = "/bai-viet/tag/" + tagId + ".html";
+                                            <a href="@urlTag"> @tags[i],</a>
+                                        }
+                                    }
+                                </li>
+                                <li><a href="#"><i class="icon-comments"></i> 0 Bình luận</a></li>
+                            </ul>
+                            <div class="entry-content">
+                                <p>@post.Description</p>
+                                <a href="@url" class="more-link">Xem tiếp</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            @if (Model.TotalPages > 1)
+            {
+                var startPageIndex = Math.Max(1, Model.Page - Model.MaxPage / 2);
+                var endPageIndex = Math.Min(Model.TotalPages, Model.Page + Model.MaxPage / 2);
+                <ul class="pager nomargin">
+                    @if (Model.Page > 1)
+                    {
+                        <li class="next"><a href="?page=@(Model.Page-1)">Bài viết mới hơn →</a></li>
+                    }
+                    @if (Model.Page < Model.TotalPages)
+                    {
+                        <li class="previous"><a href="?page=@(Model.Page+1)">&larr; Bài viết cũ hơn</a></li>
+                    }
+                </ul>
+            }
+        </div>
+        <div class="sidebar nobottommargin col_last clearfix">
+            <div class="sidebar-widgets-wrap">
+                <!-- categories -->
+                <div class="widget widget_links clearfix">
+                    <h4>Danh mục</h4>
+                    @{Html.RenderAction("PostCategory", "Post");}
+                </div>
+                <!-- new post -->
+                <div class="widget clearfix">
+                    <h4 style="margin-bottom:10px;">
+                        <a href="/bai-viet.html">Bài viết mới nhất</a>
+                    </h4>
+                    @{Html.RenderAction("TopNewPost", "Post");}
+                </div>
+                <!--fackbook-->
+                <div class="widget clearfix" style='overflow:hidden;'>
+                    <h4>Facebook</h4>
+                </div>
+                <!-- tags -->
+                <div class="widget clearfix">
+                    <h4>Tags</h4>
+                    @{Html.RenderAction("PostTag", "Post");}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

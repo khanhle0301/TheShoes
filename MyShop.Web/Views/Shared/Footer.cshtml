@@ -1,0 +1,91 @@
+﻿@model MyShop.Web.Models.FooterViewModel
+
+<footer id="footer">
+    <div class="container">
+        <div class="footer-widgets-wrap clearfix">
+            <div class="col_two_third">
+                <div class="col_one_third prefooter_one">
+                    <div class="widget clearfix">
+                        <h4>ĐỊA CHỈ LIÊN HỆ</h4>
+                        @Html.Raw(Model.Content)
+                    </div>
+                </div>
+                <div class="col_one_third prefooter_one">
+                    <div class="widget widget_links clearfix">
+                        <h4>Thông tin cần biết</h4>
+                        <ul>
+                            @{Html.RenderAction("Page", "Home");}
+                        </ul>
+                    </div>
+                    <div class='marginbottom hidden-lg hidden-md hidden-sm'>
+                    </div>
+                </div>
+                <div class="col_one_third col_last prefooter_one">
+                    <div class="widget clearfix">
+                        <h4>Bài viết mới nhất</h4>
+                        <div id="post-list-footer">
+                            @{Html.RenderAction("PostNew", "Home");}
+                        </div>
+                    </div>
+                    <div class='marginbottom hidden-lg hidden-md hidden-sm'>
+                    </div>
+                </div>
+            </div>
+            <div class="col_one_third col_last">
+                <div class="widget clearfix" style="margin-bottom: -20px;">
+                    <div class="row">
+                        <div class="col-md-6 bottommargin-sm">
+                            <div class="counter counter-small"><span data-from="80" data-to="45678043" data-refresh-interval="80" data-speed="3000" data-comma="true"></span></div>
+                            <!--<div class="counter counter-small">45678043</div>-->
+                            <h5 class="nobottommargin" style='font-weight:bold;'>Sản phẩm</h5>
+                        </div>
+                        <div class="col-md-6 bottommargin-sm">
+                            <div class="counter counter-small"><span data-from="100" data-to="83544" data-refresh-interval="50" data-speed="2000" data-comma="true"></span></div>
+                            <!--<div class="counter counter-small">83544</div>-->
+                            <h5 class="nobottommargin" style='font-weight:bold;'>Khách hàng</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget subscribe-widget clearfix">
+                    <h5 style='font-weight:bold; font-size:15px;'>Đăng kí nhận ưu đãi 100.000đ</h5>
+                    <div id="widget-subscribe-form-result" data-notify-type="success" data-notify-msg=""></div>
+                    <form accept-charset="UTF-8" id="widget-subscribe-form" action="https://the-shoes.myharavan.com/account/contact" role="form" method="post" class="nobottommargin">
+                        <div class="input-group divcenter">
+                            <span class="input-group-addon"><i class="icon-email2"></i></span>
+                            <input name="form_type" type="hidden" value="customer">
+                            <input name="utf8" type="hidden" value="✓">
+                            <input type="hidden" id="contact_tags" name="contact[tags]" value="khách hàng tiềm năng,Bản tin">
+                            <input type="hidden" id="newsletter-first-name" name="contact[first_name]" value="(Người đăng ký)">
+                            <input type="hidden" id="newsletter-last-name" name="contact[last_name]" value="Bản tin">
+                            <input type="email" id='newsletter-email-3' name="contact[email]" class="form-control required email" placeholder="Nhập email của bạn">
+                            <!--<input type="text" id="newsletter-email" name="contact[email]" placeholder="nhập email của bạn.." class="form-control">-->
+                            <span class="input-group-btn">
+                                <button class="btn btn-success btnSignup-3" type="submit">Đăng ký</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="widget clearfix" style="margin-bottom: -20px; margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-md-6 clearfix bottommargin-sm prefooter-socials col-xs-6">
+                            <a href="https://web.facebook.com/EGAnyCom" class="social-icon si-dark si-colored nobottommargin" style="margin-right: 10px;">
+                                <i class="icon-facebook"></i>
+                                <i class="icon-facebook"></i>
+                            </a>
+                            <a href="https://web.facebook.com/EGAnyCom"><small style="display: block; margin-top: 3px;"><strong>The Shoes Fashion</strong></small></a><!--<strong>Like us</strong><br>on Facebook</small></a>-->
+                        </div>
+                        <div class="col-md-6 clearfix prefooter-socials col-xs-6">
+                            <a href="#" class="social-icon si-dark si-colored nobottommargin" style="margin-right: 10px;">
+                                <i class="icon-vimeo"></i>
+                                <i class="icon-vimeo"></i>
+                            </a>
+                            <a href="#"><small style="display: block; margin-top: 3px;"><strong>The Shoes Vimeo</strong></small></a><!--<strong>Subscribe</strong><br>to RSS Feeds</small></a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,65 @@
+﻿  <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Thêm mới feedback
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+        <li><a href="#">Feedback</a></li>
+        <li><a ui-sref="feedbacks">Danh sách</a></li>
+        <li class="active">Thêm mới</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Horizontal Form -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Thêm mới</h3>
+        </div><!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" novalidate name="frmAddFeedback" role="form" ng-submit="AddFeedback()">
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Tên</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" required name="name" ng-model="feedback.Name">
+                        <span ng-show="frmAddFeedback.name.$invalid" class="has-error">Phải nhập tên danh mục</span>
+                        <span ng-show="frmAddFeedback.name.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+
+                    </div>
+                </div>               
+                              
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" required name="email" ng-model="feedback.Email">
+                        <span ng-show="frmAddFeedback.email.$invalid" class="has-error">Phải nhập email</span>
+                        <span ng-show="frmAddFeedback.email.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+
+                    </div>
+                </div>  
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Mô tả tin tức</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" name="message" ckeditor="ckeditorOptions" ng-model="feedback.Message"></textarea>
+                    </div>
+                </div>               
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="status" ng-model="feedback.Status" ng-checked="feedback.Status"> Kích hoạt
+                            </label>
+                        </div>                      
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            <div class="box-footer">
+                <button ui-sref="feedbacks" class="btn btn-default">Hủy</button>
+                <button type="submit" ng-disabled="frmAddFeedback.$invalid" class="btn btn-success pull-right">Lưu</button>
+            </div><!-- /.box-footer -->
+        </form>
+    </div><!-- /.box -->
+</section><!-- /.content -->

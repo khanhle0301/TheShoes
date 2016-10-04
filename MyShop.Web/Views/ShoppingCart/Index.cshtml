@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+@section footerJS{
+    <script src="~/Assets/client/js/shoppingCart.js"></script>
+}
+
+@section left_menu{
+    <div class="panel-group left_menu col-md-3 hidden-xs hidden-sm" id='left_menu'>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class='icon-line-menu'></i> Menu
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                @{Html.RenderAction("Category", "Home");}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+    <script>
+        $(window).load(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+}
+
+@section title{
+    <section id="page-title">
+        <div class="container clearfix">
+            <h1 class="col-md-6 col-sm-6"> Giỏ hàng</h1><br>
+            <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
+                <li><a href="/"> Trang chủ</a></li>
+                <li class="active">Giỏ hàng</li>
+            </ol>
+        </div>
+    </section>
+}
+
+
+@*<div class="content-wrap">
+
+    <div class="container clearfix">
+        <form action="/cart" method="post" id="cartformpage">
+            <div class="table-responsive">
+                <table class="table cart">
+                    <thead>
+                        <tr>
+                            <th class="cart-product-thumbnail hidden-xs">&nbsp;</th>
+                            <th class="cart-product-name hidden-xs">Sản phẩm</th>
+                            <th class="cart-product-name hidden-lg hidden-md hidden-sm" colspan="2">Sản phẩm</th>
+                            <th class="cart-product-price">Đơn giá</th>
+                            <th class="cart-product-quantity">Số lượng</th>
+                            <th class="cart-product-subtotal">Thành tiền</th>
+                            <th class="cart-product-remove">Xoá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="cart_item">
+                            <td class="cart-product-thumbnail">
+                                <a href="/products/tai-nghe-nhet-tai-gaudy"><img src="//hstatic.net/589/1000057589/1/2016/8-4/ed9b1d2a5c76494fbc9be653d4509e46_small.jpeg" alt="Tai nghe nhét tai Gaudy"></a>
+                            </td>
+
+                            <td class="cart-product-name">
+                                <a href="/products/tai-nghe-nhet-tai-gaudy">Tai nghe nhét tai Gaudy</a>
+                                <p>Đen</p>
+                            </td>
+
+                            <td class="cart-product-price">
+                                <span class="amount">190,000₫</span>
+                            </td>
+
+                            <td class="cart-product-quantity">
+                                <div class="quantity clearfix">                                   
+                                    <input type="text" name="updates[]" value="1" class="qty" id="product-quantity2updates_1004726469">
+                                </div>
+                            </td>
+
+                            <td class="cart-product-subtotal">
+                                <span class="amount">190,000₫</span>
+                            </td>
+                            <td class="cart-product-remove">
+                                <a href="/cart/change?line=1&amp;quantity=0" class="remove" title="Remove this item"><i class="icon-trash2"></i></a>
+                            </td>
+
+                        </tr>
+
+                        <tr class="cart_bottom" style="text-align:center;">
+                            <td class="hidden-xs">&nbsp;</td>
+                            <td class="hidden-xs">&nbsp;</td>
+                            <td class="hidden-xs">&nbsp;</td>
+                            <td class="hidden-xs">&nbsp;</td>
+                            <td><h4 style="margin-bottom:0px;">Tổng tiền </h4></td>
+                            <td class="hidden-xs"><span class="amount color lead"><strong>190,000₫</strong></span></td>
+                            <td class="hidden-lg hidden-md hidden-sm" colspan="2"><span class="amount color"><strong>190,000₫</strong></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-6 col-sm-6 col-xs-12 nopadding" style="margin-top:-20px!important">
+                    <div class="checkout-buttons clearfix">
+                        <label for="note">Ghi chú </label>
+                        <textarea style="height:85px" id="note" class="sm-form-control" name="note" rows="8" cols="50">dsa</textarea>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12 topmargin nopadding">
+                    <button name="update" class="cart_update_btn button button-3d nomargin fright">Cập nhật giỏ hàng</button>
+                    <button name="checkout" class="cart_checkout_btn button button-3d notopmargin fright">Thanh toán</button>
+                </div>
+            </div>
+        </form>
+        <script type="text/javascript">
+				function minus_quantity(item_id) {
+				var quantity = parseInt($('#product-quantity2updates_'+item_id).val());
+				if (quantity > 0) {
+				quantity -= 1;
+				}
+				else {
+				quantity = 0;
+				}
+				$('#product-quantity2updates_'+item_id).val(quantity);
+				}
+				function plus_quantity(item_id) {
+				var quantity = parseInt($('#product-quantity2updates_'+item_id).val());
+				if (quantity < 100) {
+													 quantity += 1;
+													 }
+													 else {
+													 quantity = 100;
+													 }
+													 $('#product-quantity2updates_'+item_id).val(quantity);
+													 }
+        </script>
+    </div>
+
+</div>*@
+
+
+<div class="content-wrap">
+    <div class="container clearfix">
+        <div class="table-responsive" id="cartContent">
+            <table class="table cart">
+                <thead>
+                    <tr>
+                        <th class="cart-product-thumbnail hidden-xs">&nbsp;</th>
+                        <th class="cart-product-name hidden-xs">Sản phẩm</th>
+                        <th class="cart-product-name hidden-lg hidden-md hidden-sm" colspan="2">Sản phẩm</th>
+                        <th class="cart-product-price">Đơn giá</th>
+                        <th class="cart-product-quantity">Số lượng</th>
+                        <th class="cart-product-subtotal">Thành tiền</th>
+                        <th class="cart-product-remove">Xoá</th>
+                    </tr>
+                </thead>
+                <tbody id="cartBody">
+                    <tr id="cartTotal" class="cart_bottom" style="text-align:center;">
+                        <td class="hidden-xs">&nbsp;</td>
+                        <td class="hidden-xs">&nbsp;</td>
+                        <td class="hidden-xs">&nbsp;</td>
+                        <td class="hidden-xs">&nbsp;</td>
+                        <td><h4 style="margin-bottom:0px;">Tổng tiền </h4></td>
+                        <td class="hidden-xs"><span class="amount color lead"><strong id="lblTotalOrder">₫</strong></span></td>
+                        <td class="hidden-lg hidden-md hidden-sm" colspan="2"><span class="amount color"><strong id="lblTotalOrder">₫</strong></span></td>
+                    </tr>
+                </tbody>
+            </table>           
+        </div>
+        <div id="note" class="row clearfix">
+            <div class="col-md-6 col-sm-6 col-xs-12 nopadding" style="margin-top:-20px!important">
+                <div class="checkout-buttons clearfix">
+                    <label for="note">Ghi chú </label>
+                    <textarea style="height:85px" id="note" class="sm-form-control" name="note" rows="8" cols="50"></textarea>
+                </div>
+            </div>          
+            <div class="col-md-6 col-sm-6 col-xs-12 topmargin nopadding">
+                <button id="btnUpdate" class="cart_update_btn button button-3d nomargin fright">Cập nhật giỏ hàng</button>
+                <button class="cart_checkout_btn button button-3d notopmargin fright">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="tplCart" type="x-tmpl-mustache">
+    <tr class="cart_item">
+        <td class="cart-product-thumbnail">
+            <a href="/products/tai-nghe-nhet-tai-brazen"><img src="{{Image}}" alt="{{ProductName}}"></a>
+        </td>
+        <td class="cart-product-name">
+            <a href="/products/tai-nghe-nhet-tai-brazen">{{ProductName}}</a>
+            <p>Size: {{Size}}</p>
+        </td>
+        <td class="cart-product-price">
+            <span class="amount">{{PriceF}}₫</span>
+        </td>
+        <td class="cart-product-quantity">
+            <div class="quantity clearfix">               
+                <input type="number" data-size="{{Size}}" data-id="{{ProductId}}" data-price="{{Price}}" value="{{Quantity}}" class="qty txtQuantity" />
+            </div>
+        </td>
+        <td class="cart-product-subtotal">
+            <span id="amount_{{ProductId}}" class="amount">{{Amount}}₫</span>
+        </td>
+        <td class="cart-product-remove">
+            <a href="#" data-id="{{ProductId}}" data-size="{{Size}}" class="remove btnDeleteItem" title="Xóa"><i class="icon-trash2"></i></a>
+        </td>
+    </tr>
+
+</script>
+

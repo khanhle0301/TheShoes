@@ -1,0 +1,88 @@
+﻿  <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Thêm mới banner:{{banner.Name}}
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+        <li><a href="#">Banner</a></li>
+        <li><a ui-sref="banners">Banner</a></li>
+        <li class="active">Thêm mới</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Horizontal Form -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">{{banner.Name}}</h3>
+        </div><!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" novalidate name="frmUpdateBanner" role="form" ng-submit="UpdateBanner()">
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Tên</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-maxlength="256" required name="name" ng-model="banner.Name">
+                        <span ng-show="frmUpdateBanner.name.$invalid" class="has-error">Phải nhập tên danh mục</span>
+                        <span ng-show="frmUpdateBanner.name.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Mô tả ngắn</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="description" ng-maxlength="500" ng-model="banner.Description">
+                        <span ng-show="frmUpdateBanner.description.$error.maxlength" class="has-error">Mô tả chỉ được 500 ký tự</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Content</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" name="content" ng-maxlength="500" ng-model="banner.Content"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Thứ tự</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" name="displayOrder" required ng-model="banner.DisplayOrder">
+                        <span ng-show="frmUpdateBanner.displayOrder.$invalid" class="has-error">Phải nhập thứ tự</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Hình ảnh</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="image" ng-model="banner.Image">
+                        <span ng-show="frmUpdateBanner.image.$error.maxlength" class="has-error">Hình ảnh chỉ được 256 ký tự</span>
+                        <button class="btn btn-default" type="button" ng-click="ChooseImage()">Chọn ảnh</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Link</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="url" ng-maxlength="500" ng-model="banner.Url">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="status" ng-model="banner.Status" ng-checked="banner.Status"> Kích hoạt
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box-body -->
+            <div class="box-footer">
+                <button ui-sref="banners" class="btn btn-default">Hủy</button>
+                <button type="submit" ng-disabled="frmUpdateBanner.$invalid" class="btn btn-success pull-right">Lưu</button>
+            </div><!-- /.box-footer -->
+        </form>
+    </div><!-- /.box -->
+</section><!-- /.content -->

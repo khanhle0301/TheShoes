@@ -1,0 +1,719 @@
+﻿@model MyShop.Web.Infrastructure.Core.PaginationSet<MyShop.Web.Models.ProductViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+<script>
+    function priceClick(cb) {
+        if (!(cb.checked)) {
+            var chkId = '@ViewBag.Price';
+            var chkIdAr = chkId.split(",");
+            for (var i = 0; i < chkIdAr.length; i++) {
+                if ((cb.value).localeCompare(chkIdAr[i]) == 0) {
+                    delete chkIdAr[i];
+                }
+            }
+            var unique = chkIdAr.filter(function (elem, index, self) {
+                return index == self.indexOf(elem);
+            })
+            if (unique.length == 0) {
+                window.location = "?page=@(Model.Page)&sort=@(ViewBag.Sort)";
+            }
+            else {
+                window.location = "?page=@(Model.Page)&sort=@(ViewBag.Sort)&price=" + unique;
+            }
+        }
+        else {
+            var chkId = '';
+            if ("@ViewBag.Price" != "") {
+                chkId = "@ViewBag.Price" + "," + cb.value;
+            }
+            else {
+                chkId = cb.value;
+            }
+            var chkIdAr = chkId.split(",");
+            var unique = chkIdAr.filter(function (elem, index, self) {
+                return index == self.indexOf(elem);
+            })
+            if (unique.length == 0) {
+                if ("@ViewBag.Sort" == "") {
+                    window.location = "?page=@(Model.Page)";
+                }
+                else {
+                    window.location = "?page=@(Model.Page)sort=@(ViewBag.Sort)";
+                }
+            }
+            else {
+                if ("@ViewBag.Sort" == "") {
+                    window.location = "?page=@(Model.Page)&price=" + unique;
+                }
+                else {
+                    window.location = "?page=@(Model.Page)&sort=@(ViewBag.Sort)&price=" + unique;
+                }
+            }
+        }
+    };
+    setTimeout(function () {
+        var cars = "@ViewBag.Price".split(",");
+        for (i = 0; i < cars.length; i++) {
+            $(".prices li input").each(function () {
+                if ($(this).val() == cars[i]) {
+                    $(this).attr("checked", 'checked');
+                }
+            });
+        }
+    });
+</script>
+
+
+<script>
+    function handleClick(cb) {
+        if (!(cb.checked)) {
+            var chkId = '@ViewBag.Vendor';
+            var chkIdAr = chkId.split(",");
+            for (var i = 0; i < chkIdAr.length; i++) {
+                if ((cb.value).localeCompare(chkIdAr[i]) == 0) {
+                    delete chkIdAr[i];
+                }
+            }
+            var unique = chkIdAr.filter(function (elem, index, self) {
+                return index == self.indexOf(elem);
+            })
+            if (unique.length == 0) {
+                window.location = "?page=@(Model.Page)&sort=@(ViewBag.Sort)";
+            }
+            else {
+                window.location = "?page=@(Model.Page)&sort=@(ViewBag.Sort)&vendor=" + unique;
+            }
+        }
+        else {
+            var chkId = '';
+            if ("@ViewBag.Vendor" != "") {
+                chkId = "@ViewBag.Vendor" + "," + cb.value;
+            }
+            else {
+                chkId = cb.value;
+            }
+            var chkIdAr = chkId.split(",");
+            var unique = chkIdAr.filter(function (elem, index, self) {
+                return index == self.indexOf(elem);
+            })
+            if (unique.length == 0) {
+                if ("@ViewBag.Sort" == "") {
+                    window.location = "?page=@(Model.Page)";
+                }
+                else {
+                    window.location = "?page=@(Model.Page)&sort=@(ViewBag.Sort)";
+                }
+            }
+            else {
+                if ("@ViewBag.Sort" == "") {
+                    window.location = "?page=@(Model.Page)&vendor=" + unique;
+                }
+                else {
+                    window.location = "?page=@(Model.Page)&sort=@(ViewBag.Sort)&vendor=" + unique;
+                }
+            }
+        }
+    };
+    setTimeout(function () {
+        var cars = "@ViewBag.Vendor".split(",");
+        for (i = 0; i < cars.length; i++) {
+            $(".vendors li input").each(function () {
+                if ($(this).val() == cars[i]) {
+                    $(this).attr("checked", 'checked');
+                }
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    function handleSelect(elm) {
+        if ("@ViewBag.Vendor" == "") {
+            window.location = "?page=@(Model.Page)&sort=" + elm.value;
+        }
+        else {
+            window.location = "?page=@(Model.Page)&sort=" + elm.value + "&vendor=@(ViewBag.Vendor)";
+        }
+    };
+    setTimeout(function () {
+        $("#sortControl").val("@ViewBag.Sort");
+        if ($("#sortControl").val() == null) {
+            $("#sortControl").val("updated_desc");
+        }
+    });
+</script>
+
+@section left_menu{
+    <div class="panel-group left_menu col-md-3 hidden-xs hidden-sm" id='left_menu'>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class='icon-line-menu'></i> Menu
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                @{Html.RenderAction("Category", "Home");}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+
+    <script>
+        $(window).load(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+}
+
+@section title{
+    <section id="page-title">
+        <div class="container clearfix">
+            <h1 class="col-md-6 col-sm-6">@ViewBag.Category.Name</h1><br class="hidden-xs">
+            <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/collections/all">Danh mục</a></li>
+                <li class="active">@ViewBag.Category.Name</li>
+            </ol>
+        </div>
+    </section>
+}
+
+<div class="content-wrap">
+    <div class="container clearfix">
+        <!-- Post Content
+        ============================================= -->
+        <div class="postcontent nobottommargin col_last">
+            <div class="panel-group hidden-lg hidden-md filter_group filter_collection_sm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" href="#filter_group_sm">
+                            <h4 class="panel-title">
+                                Lọc sản phẩm<i class='icon-angle-down'></i>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="filter_group_sm" class="panel-collapse collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="widget widget_links vendors clearfix">
+                                    <a href='#filter_group_sm_1' data-toggle='collapse'><h4>THƯƠNG HIỆU<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_1' class='panel-collapse collapse'>
+                                        @foreach (var vendor in (IEnumerable<MyShop.Web.Models.VendorViewModel>)ViewBag.Vendors)
+                                        {
+                                            <li>
+                                                <label>
+                                                    <input class="vendor" type="checkbox" onclick='handleClick(this);' value="@vendor.Alias"> @vendor.Name
+                                                </label>
+                                            </li>
+                                        }                                                                               
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="widget widget_links clearfix">
+                                    <a href='#filter_group_sm_3' data-toggle='collapse'><h4>MÀU SẮC<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_3' class='panel-collapse collapse color_filter'>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #ff0000' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Đỏ)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #f7f7ca' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Kem)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #ffff05' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Vàng)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #3cfa08' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Xanh lá)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #5100ff' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Xanh dương)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #802c71' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Tím)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #cccaca' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Xám)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #753a3a' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Nâu)"></label>
+                                        </li>
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #000000' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Đen)"></label>
+                                        </li>
+
+                                        <li>
+                                            <label class='color_wrapper'><input style='background-color: #ffffff' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Trắng)"></label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="widget widget_links prices clearfix">
+                                    <a href='#filter_group_sm_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_4' class='panel-collapse collapse'>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" onclick='priceClick(this);' value="-100"> dưới 100,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" onclick='priceClick(this);' value="100-300"> 100,000₫ - 300,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" onclick='priceClick(this);' value="300-500"> 300,000₫ - 500,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" onclick='priceClick(this);' value="500-1000"> 500,000₫ - 1,000,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" onclick='priceClick(this);' value="1000"> trên 1,000,000₫
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="widget widget_links clearfix">
+                                    <a href='#filter_group_sm_5' data-toggle='collapse'><h4>LOẠI SẢN PHẨM<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_5' class='panel-collapse collapse'>
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giầy Boot)"> Giầy Boot</label>
+                                        </li>
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày cao 5cm)"> Giày cao 5cm</label>
+                                        </li>
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày cao 7cm)"> Giày cao 7cm</label>
+                                        </li>
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày cao 8cm)"> Giày cao 8cm</label>
+                                        </li>
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày đế xuồng)"> Giày đế xuồng</label>
+                                        </li>
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày gót trụ)"> Giày gót trụ</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày hở mũi)"> Giày hở mũi</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày mũi nhọn)"> Giày mũi nhọn</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Giầy Sandals)"> Giầy Sandals</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="loai" type="checkbox" value="(tag:product=loai_Gót trụ)"> Gót trụ</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="widget widget_links clearfix">
+                                    <a href='#filter_group_sm_6' data-toggle='collapse'><h4>CHẤT LIỆU<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_6' class='panel-collapse collapse'>
+
+                                        <li>
+                                            <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Da bóng ngọc trai)"> Da bóng ngọc trai</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Da cá sấu)"> Da cá sấu</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Da tổng hợp)"> Da tổng hợp</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Nhung cao cấp)"> Nhung cao cấp</label>
+                                        </li>
+
+                                        <li>
+                                            <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Sibong)"> Sibong</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Shop
+            ============================================= -->
+            <div id="shop" class="product-3 clearfix">
+                <div class='row sort-wrapper'>
+                    <div class="browse-tags col-xs-12 pull-right norightpadding" style='margin-bottom: 30px;'>
+                        <div class="col-md-4 col-sm-6">
+                            <p class="subtext nomargin">
+                                Có <span class='require_symbol'>@Model.TotalCount</span> sản phẩm.                                
+                            </p>
+                        </div>
+                        <div class='col-md-5 col-lg-6 col-xs-4 col-sm-3 text-right' style='line-height: 30px;'>
+                            <span>Sắp xếp theo:</span>
+                        </div>
+                        <div class='col-md-3 col-lg-2 col-xs-7 col-sm-3 norightpadding noleftpadding'>
+                            <span class="custom-dropdown custom-dropdown--white pull-right">
+                                <select id="sortControl" onchange="javascript:handleSelect(this)" class="sort-by custom-dropdown__select custom-dropdown__select--white form-control input-sm">
+                                    <option value="manual">Sản phẩm nổi bật</option>
+                                    <option value="price_asc">Giá: Tăng dần</option>
+                                    <option value="price_desc">Giá: Giảm dần</option>
+                                    <option value="name_asc">Tên: A-Z</option>
+                                    <option value="name_desc">Tên: Z-A</option>
+                                    <option value="updated_asc">Cũ nhất</option>
+                                    <option value="updated_desc">Mới nhất</option>
+                                    <option value="sold_quantity">Bán chạy nhất</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!--- aaaa -->
+
+                <div id='grid_pagination'>
+                    @if (Model.Count > 0)
+                    {
+                        <div class='product_wrapper'>
+                            product one
+                            @foreach (var product in Model.Items)
+                            {
+                                var url = "/san-pham/" + product.ProductCategory.Alias + "/" + product.Alias + "-" + product.ID + ".html";
+                                <div class="product clearfix">
+                                    <div class="product-image">
+                                        <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
+                                        <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
+                                        <div class="product-overlay">
+
+                                            <a href="@url" class='add-to-cart'><i class='icon-shopping-cart'> Lựa chọn</i></a>
+
+                                            <a href="#product-pop-up" class="item-quick-view fancybox-fast-view hidden-sm hidden-xs" product_url="/collections/giay-sandals/products/giay-sandals-9"><i class="icon-zoom-in2"></i> Xem nhanh</a>
+                                        </div>
+                                    </div>
+                                    <div class="product-desc center">
+                                        <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
+                                        <div class="product-price">
+                                            <ins> @product.Price₫ </ins>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="pagination_wrapper">
+                                @if (Model.TotalPages > 1)
+                                {
+                                    var startPageIndex = Math.Max(1, Model.Page - Model.MaxPage / 2);
+                                    var endPageIndex = Math.Min(Model.TotalPages, Model.Page + Model.MaxPage / 2);
+                                    <nav>
+                                        <ul class="pagination">
+                                            @if (Model.Page > 1)
+                                            {
+                                                <li>
+                                                    <a href="?page=1" aria-label="First">«</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?page=@(Model.Page-1)" aria-label="Previous">‹</a>
+                                                </li>
+                                            }
+
+                                            @for (int i = startPageIndex; i <= endPageIndex; i++)
+                                            {
+                                                if (Model.Page == i)
+                                                {
+                                                    <li class="active"><a href="?page=@i" title="Trang @i">@i</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li><a href="?page=@i" title="Trang @i">@i</a></li>
+                                                }
+                                            }
+                                            @if (Model.Page < Model.TotalPages)
+                                            {
+                                                <li>
+                                                    <a href="?page=@(Model.Page+1)" aria-label="Next">›</a>
+                                                </li>
+                                                <li>
+                                                    <a href="?page=@Model.TotalPages" aria-label="Last">»</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </nav>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <span class='col-sm-6 text-center'>Hiện không có sản phẩm nào</span>
+                    }
+                    <script>
+                        jQuery(document).ready(function () {
+                            if (typeof Layout != 'undefinded') {
+                                Layout.init();
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar nobottommargin  left-sidebar hidden-sm hidden-xs">
+            <div class="sidebar-widgets-wrap">
+                <!-- begin: filters -->
+                <div class="panel-group filter_group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a data-toggle="collapse" href="#filter_group">
+                                <h4 class="panel-title">
+                                    LỌC SẢN PHẨM<i class='icon-angle-down'></i>
+                                </h4>
+                            </a>
+                        </div>
+                        <div id="filter_group" class="panel-collapse collapse in">
+                            <!-- BEGIN: Vendor filter -->
+
+                            <div class="widget widget_links vendors clearfix">
+                                <a href='#filter_group_1' data-toggle='collapse'><h4>THƯƠNG HIỆU<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_1' class='panel-collapse collapse in'>
+                                    @foreach (var vendor in (IEnumerable<MyShop.Web.Models.VendorViewModel>)ViewBag.Vendors)
+                                    {
+                                        <li>
+                                            <label>
+                                                <input class="vendor" type="checkbox" onclick='handleClick(this);' value="@vendor.Alias"> @vendor.Name
+                                            </label>
+                                        </li>
+                                    }                                    
+                                </ul>
+                            </div>
+
+                            <!-- END: Vendor filter -->
+                            <!-- BEGIN: Type filter -->
+                            <!-- END: Type filter -->
+                            <!-- BEGIN: Color filter -->
+
+                            <div class="widget widget_links clearfix">
+                                <a href='#filter_group_3' data-toggle='collapse'><h4>MÀU SẮC<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_3' class='panel-collapse collapse in color_filter'>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Đỏ" style='background-color: #ff0000' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Đỏ)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Kem" style='background-color: #f7f7ca' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Kem)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Vàng" style='background-color: #ffff05' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Vàng)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Xanh lá" style='background-color: #3cfa08' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Xanh lá)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Xanh dương" style='background-color: #5100ff' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Xanh dương)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Tím" style='background-color: #802c71' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Tím)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Xám" style='background-color: #cccaca' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Xám)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Nâu" style='background-color: #753a3a' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Nâu)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Đen" style='background-color: #000000' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Đen)">
+                                        </label>
+                                    </li>
+
+                                    <li>
+                                        <label class='color_wrapper'>
+                                            <input data-toggle="tooltip" title="Trắng" style='background-color: #ffffff' class="mausac color_block" type="checkbox" value="(tag:product=mausac_Trắng)">
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- END: Color filter -->
+                            <!-- BEGIN: Price filter -->
+
+                            <div class="widget widget_links prices clearfix">
+                                <a href='#filter_group_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_4' class='panel-collapse collapse in'>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" onclick='priceClick(this);' value="-100"> dưới 100,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" onclick='priceClick(this);' value="100-300"> 100,000₫ - 300,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" onclick='priceClick(this);' value="300-500"> 300,000₫ - 500,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" onclick='priceClick(this);' value="500-1000"> 500,000₫ - 1,000,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" onclick='priceClick(this);' value="1000"> trên 1,000,000₫
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- END: Price filter -->
+                            <!--Vinh Edit / Update 20160727 -->
+                            <!-- BEGIN: Tag_Custom_1 filter -->
+
+                            <div class="widget widget_links clearfix">
+                                <a href='#filter_group_5' data-toggle='collapse'><h4>LOẠI SẢN PHẨM<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_5' class='panel-collapse collapse in'>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giầy Boot)"> Giầy Boot</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày cao 5cm)"> Giày cao 5cm</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày cao 7cm)"> Giày cao 7cm</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày cao 8cm)"> Giày cao 8cm</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày đế xuồng)"> Giày đế xuồng</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày gót trụ)"> Giày gót trụ</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày hở mũi)"> Giày hở mũi</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giày mũi nhọn)"> Giày mũi nhọn</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Giầy Sandals)"> Giầy Sandals</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="loai" type="checkbox" value="(tag:product=loai_Gót trụ)"> Gót trụ</label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="widget widget_links clearfix">
+                                <a href='#filter_group_6' data-toggle='collapse'><h4>CHẤT LIỆU<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_6' class='panel-collapse collapse in'>
+
+                                    <li>
+                                        <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Da bóng ngọc trai)"> Da bóng ngọc trai</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Da cá sấu)"> Da cá sấu</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Da tổng hợp)"> Da tổng hợp</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Nhung cao cấp)"> Nhung cao cấp</label>
+                                    </li>
+
+                                    <li>
+                                        <label><input class="chatlieu" type="checkbox" value="(tag:product=chatlieu_Sibong)"> Sibong</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- categories -->
+                <div class="widget widget_links clearfix">
+                    <h4>Danh mục sản phẩm</h4>
+                    @{Html.RenderAction("Category", "Product");}
+                </div>
+                <div class="widget clearfix">
+
+                    <h4><a href='#'>Được xem nhiều</a></h4>
+                    @{Html.RenderAction("PopularProduct", "Product");}
+                </div>
+
+                <!-- recent view -->
+                <div class="widget clearfix">
+                    <h4>Sản phẩm vừa xem</h4>
+                    @{Html.RenderAction("RecentProduct", "Product");}
+                </div>
+                <!-- end recent view -->
+                <div class="widget clearfix">
+                    <a href='../onsale.html' target='_blank'><img data-lazyload='//hstatic.net/198/1000055198/1000144003/left_sidebar_banner.png?v=313' style='max-width:240px; height:auto;' /></a>
+                </div>
+            </div>
+        </div>
+        <!-- .sidebar end -->
+    </div>
+
+</div>
