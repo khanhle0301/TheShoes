@@ -15,7 +15,7 @@ namespace MyShop.Web.Models
 
         public int CategoryID { set; get; }
 
-        public int VendorID { set; get; }
+        public int ProviderID { set; get; }
 
         public int? Quantity { set; get; }
 
@@ -62,6 +62,8 @@ namespace MyShop.Web.Models
         public string Sizes { set; get; }
 
         public string Colors { set; get; }
+
+        public string Materials { set; get; }
 
         public virtual ProductCategoryViewModel ProductCategory { set; get; }
     }

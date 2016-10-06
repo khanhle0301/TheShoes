@@ -62,13 +62,14 @@ namespace MyShop.Web.Controllers
         }
 
         public ActionResult ListByTag(string tagId, int page = 1)
-        {           
+        {
             ViewBag.Tags = _commonService.GetById(tagId);
             int pageSize = int.Parse(ConfigHelper.GetByKey("PageSizePost"));
             int totalRow = 0;
-            var postViewModel = _postService.GetAllByTagPaging(tagId, page, pageSize, out totalRow);         
+            var postModel = _postService.GetAllByTagPaging(tagId, page, pageSize, out totalRow);
+            var postViewModel = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(postModel);
             int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
-            var paginationSet = new PaginationSet<Common.ViewModel.PostViewModel>()
+            var paginationSet = new PaginationSet<PostViewModel>()
             {
                 Items = postViewModel,
                 MaxPage = int.Parse(ConfigHelper.GetByKey("MaxPage")),
@@ -78,7 +79,6 @@ namespace MyShop.Web.Controllers
             };
             return View(paginationSet);
         }
-
 
         [ChildActionOnly]
         public ActionResult TopNewPost()
@@ -104,8 +104,7 @@ namespace MyShop.Web.Controllers
         public ActionResult Detail(int id)
         {
             var post = _postService.GetById(id);
-            var postModel = _postService.GetById(id);
-            var viewModel = Mapper.Map<Post, PostViewModel>(postModel);
+            var viewModel = Mapper.Map<Post, PostViewModel>(post);
             ViewBag.Tags = Mapper.Map<IEnumerable<Tag>, IEnumerable<TagViewModel>>(_postService.GetListTagByPostId(id));
             ViewBag.Category = Mapper.Map<PostCategory, PostCategoryViewModel>(_postCategoryService.GetById(post.CategoryID));
             var relatedPost = _postService.GetReatedPosts(id, 2);

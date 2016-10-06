@@ -1,18 +1,18 @@
 ﻿(function (app) {
-    app.controller('vendorListController', vendorListController);
+    app.controller('providerListController', providerListController);
 
-    vendorListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
+    providerListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
 
-    function vendorListController($scope, apiService, notificationService, $ngBootbox, $filter) {
-        $scope.vendors = [];
+    function providerListController($scope, apiService, notificationService, $ngBootbox, $filter) {
+        $scope.providers = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
-        $scope.getVendors = getVendors;
+        $scope.getProviders = getProviders;
         $scope.keyword = '';
 
         $scope.search = search;
 
-        $scope.deleteVendor = deleteVendor;
+        $scope.deleteProvider = deleteProvider;
 
         $scope.selectAll = selectAll;
 
@@ -25,10 +25,10 @@
             });
             var config = {
                 params: {
-                    checkedVendors: JSON.stringify(listId)
+                    checkedProviders: JSON.stringify(listId)
                 }
             }
-            apiService.del('api/vendor/deletemulti', config, function (result) {
+            apiService.del('api/provider/deletemulti', config, function (result) {
                 notificationService.displaySuccess('Xóa thành công ' + result.data + ' bản ghi.');
                 search();
             }, function (error) {
@@ -39,19 +39,19 @@
         $scope.isAll = false;
         function selectAll() {
             if ($scope.isAll === false) {
-                angular.forEach($scope.vendors, function (item) {
+                angular.forEach($scope.providers, function (item) {
                     item.checked = true;
                 });
                 $scope.isAll = true;
             } else {
-                angular.forEach($scope.vendors, function (item) {
+                angular.forEach($scope.providers, function (item) {
                     item.checked = false;
                 });
                 $scope.isAll = false;
             }
         }
 
-        $scope.$watch("vendors", function (n, o) {
+        $scope.$watch("providers", function (n, o) {
             var checked = $filter("filter")(n, { checked: true });
             if (checked.length) {
                 $scope.selected = checked;
@@ -61,14 +61,14 @@
             }
         }, true);
 
-        function deleteVendor(id) {
+        function deleteProvider(id) {
             $ngBootbox.confirm('Bạn có chắc muốn xóa?').then(function () {
                 var config = {
                     params: {
                         id: id
                     }
                 }
-                apiService.del('api/vendor/delete', config, function () {
+                apiService.del('api/provider/delete', config, function () {
                     notificationService.displaySuccess('Xóa thành công');
                     search();
                 }, function () {
@@ -78,10 +78,10 @@
         }
 
         function search() {
-            getVendors();
+            getProviders();
         }
 
-        function getVendors(page) {
+        function getProviders(page) {
             page = page || 0;
             var config = {
                 params: {
@@ -90,19 +90,19 @@
                     pageSize: 20
                 }
             }
-            apiService.get('/api/vendor/getall', config, function (result) {
+            apiService.get('/api/provider/getall', config, function (result) {
                 if (result.data.TotalCount == 0) {
                     notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
                 }
-                $scope.vendors = result.data.Items;
+                $scope.providers = result.data.Items;
                 $scope.page = result.data.Page;
                 $scope.pagesCount = result.data.TotalPages;
                 $scope.totalCount = result.data.TotalCount;
             }, function () {
-                console.log('Load vendor failed.');
+                console.log('Load provider failed.');
             });
         }
 
-        $scope.getVendors();
+        $scope.getProviders();
     }
-})(angular.module('myshop.vendors'));
+})(angular.module('myshop.providers'));

@@ -23,7 +23,7 @@ namespace MyShop.Model.Models
         [Required]
         public int CategoryID { set; get; }
 
-        public int? VendorID { set; get; }
+        public int? ProviderID { set; get; }
 
         public int? Quantity { set; get; }
 
@@ -57,10 +57,12 @@ namespace MyShop.Model.Models
 
         public string Colors { set; get; }
 
+        public string Materials { set; get; }
+
         [ForeignKey("CategoryID")]
         public virtual ProductCategory ProductCategory { set; get; }
 
-        [ForeignKey("VendorID")]
-        public virtual Vendor Vendor { set; get; }
+        [ForeignKey("ProviderID")]
+        public virtual Provider Provider { set; get; }
     }
 }

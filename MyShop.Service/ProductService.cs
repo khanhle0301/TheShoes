@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using MyShop.Common;
+﻿using MyShop.Common;
 using MyShop.Data.Infrastructure;
 using MyShop.Data.Repositories;
 using MyShop.Model.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace MyShop.Service
 {
@@ -44,7 +44,13 @@ namespace MyShop.Service
 
         IEnumerable<Size> GetListSizeByProductId(int id);
 
+        IEnumerable<Color> GetListColorByProductId(int id);
+
         void IncreaseView(int id);
+
+
+        IEnumerable<Product> Demo(int categoryId, string sort, string price, string provider, string color,string chatlieu);
+
 
         void Save();
     }
@@ -54,17 +60,20 @@ namespace MyShop.Service
         private IProductRepository _productRepository;
         private ITagRepository _tagRepository;
         private IProductTagRepository _productTagRepository;
-        private ISizeRepository _sizeRepository;      
+        private ISizeRepository _sizeRepository;
         private IProductSizeRepository _productSizeRepository;
         private IColorRepository _colorRepository;
         private IProductColorRepository _productColorRepository;
+        private IMaterialRepository _materialRepository;
+        private IProductMaterialRepository _productMaterialRepository;
 
         private IUnitOfWork _unitOfWork;
 
         public ProductService(IProductRepository productRepository, IProductTagRepository productTagRepository,
                                 ITagRepository tagRepository, ISizeRepository sizeRepository,
                                 IColorRepository colorRepository, IProductSizeRepository productSizeRepository,
-                                IProductColorRepository productColorRepository, IUnitOfWork unitOfWork)
+                                IMaterialRepository materialRepository, IProductMaterialRepository productMaterialRepository,
+        IProductColorRepository productColorRepository, IUnitOfWork unitOfWork)
         {
             this._productRepository = productRepository;
             this._productTagRepository = productTagRepository;
@@ -73,6 +82,8 @@ namespace MyShop.Service
             this._productSizeRepository = productSizeRepository;
             this._productColorRepository = productColorRepository;
             this._sizeRepository = sizeRepository;
+            this._materialRepository = materialRepository;
+            this._productMaterialRepository = productMaterialRepository;
             this._unitOfWork = unitOfWork;
         }
 
@@ -80,6 +91,28 @@ namespace MyShop.Service
         {
             var product = _productRepository.Add(Product);
             _unitOfWork.Commit();
+
+            if (!string.IsNullOrEmpty(Product.Materials))
+            {
+                string[] materials = Product.Materials.Split(',');
+                for (var i = 0; i < materials.Length; i++)
+                {
+                    var materialId = StringHelper.ToUnsignString(materials[i]);
+                    if (_materialRepository.Count(x => x.ID == materialId) == 0)
+                    {
+                        Material material = new Material();
+                        material.ID = materialId;
+                        material.Name = materials[i];
+                        _materialRepository.Add(material);
+                    }
+
+                    ProductMaterial productMaterial = new ProductMaterial();
+                    productMaterial.ProductID = Product.ID;
+                    productMaterial.MaterialID = materialId;
+                    _productMaterialRepository.Add(productMaterial);
+                }
+            }
+
             if (!string.IsNullOrEmpty(Product.Tags))
             {
                 string[] tags = Product.Tags.Split(',');
@@ -122,7 +155,6 @@ namespace MyShop.Service
                     _productSizeRepository.Add(productSize);
                 }
             }
-
 
             if (!string.IsNullOrEmpty(Product.Colors))
             {
@@ -179,9 +211,31 @@ namespace MyShop.Service
 
         public void Update(Product Product)
         {
-            _productRepository.Update(Product);          
+            _productRepository.Update(Product);
+
+            if (!string.IsNullOrEmpty(Product.Materials))
+            {
+                string[] materials = Product.Materials.Split(',');
+                for (var i = 0; i < materials.Length; i++)
+                {
+                    var materialId = StringHelper.ToUnsignString(materials[i]);
+                    if (_materialRepository.Count(x => x.ID == materialId) == 0)
+                    {
+                        Material material = new Material();
+                        material.ID = materialId;
+                        material.Name = materials[i];
+                        _materialRepository.Add(material);
+                    }
+                    _productMaterialRepository.DeleteMulti(x => x.ProductID == Product.ID);
+                    ProductMaterial productMaterial = new ProductMaterial();
+                    productMaterial.ProductID = Product.ID;
+                    productMaterial.MaterialID = materialId;
+                    _productMaterialRepository.Add(productMaterial);
+                }
+            }
+
             if (!string.IsNullOrEmpty(Product.Tags))
-            {              
+            {
                 string[] tags = Product.Tags.Split(',');
                 for (var i = 0; i < tags.Length; i++)
                 {
@@ -201,10 +255,9 @@ namespace MyShop.Service
                     _productTagRepository.Add(productTag);
                 }
             }
-          
+
             if (!string.IsNullOrEmpty(Product.Sizes))
             {
-               
                 string[] sizes = Product.Sizes.Split(',');
                 for (var i = 0; i < sizes.Length; i++)
                 {
@@ -307,27 +360,35 @@ namespace MyShop.Service
                 case "manual":
                     result = result.OrderByDescending(x => x.HotFlag);
                     break;
+
                 case "price_asc":
                     result = result.OrderBy(x => x.Price);
                     break;
+
                 case "price_desc":
                     result = result.OrderByDescending(x => x.Price);
                     break;
+
                 case "name_asc":
                     result = result.OrderBy(x => x.Name);
                     break;
+
                 case "name_desc":
                     result = result.OrderByDescending(x => x.Name);
                     break;
+
                 case "updated_asc":
                     result = result.OrderBy(x => x.UpdatedDate);
                     break;
+
                 case "updated_desc":
                     result = result.OrderByDescending(x => x.UpdatedDate);
                     break;
+
                 case "sold_quantity":
                     result = result.OrderByDescending(x => x.QuantitySold);
                     break;
+
                 default:
                     result = result.OrderByDescending(x => x.UpdatedDate);
                     break;
@@ -379,6 +440,126 @@ namespace MyShop.Service
         {
             var product = _productRepository.GetSingleById(id);
             return _productRepository.GetMulti(x => x.Status && x.ID != id && x.CategoryID == product.CategoryID).OrderByDescending(x => x.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Color> GetListColorByProductId(int id)
+        {
+            return _productColorRepository.GetMulti(x => x.ProductID == id, new string[] { "Color" }).Select(y => y.Color);
+        }
+
+        public IEnumerable<Product> Demo(int categoryId, string sort, string price, string provider, string color,string chatlieu)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.CategoryID == categoryId, new string[] { "ProductCategory" });
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
         }
     }
 }

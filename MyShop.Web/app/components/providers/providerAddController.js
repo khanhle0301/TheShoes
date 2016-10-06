@@ -1,10 +1,10 @@
 ﻿(function (app) {
-    app.controller('vendorAddController', vendorAddController);
+    app.controller('providerAddController', providerAddController);
 
-    vendorAddController.$inject = ['apiService', '$scope', 'notificationService', '$state', 'commonService'];
+    providerAddController.$inject = ['apiService', '$scope', 'notificationService', '$state', 'commonService'];
 
-    function vendorAddController(apiService, $scope, notificationService, $state, commonService) {
-        $scope.vendor = {
+    function providerAddController(apiService, $scope, notificationService, $state, commonService) {
+        $scope.provider = {
             CreatedDate: new Date(),
             Status: true
         }
@@ -12,16 +12,16 @@
         $scope.GetSeoTitle = GetSeoTitle;
 
         function GetSeoTitle() {
-            $scope.vendor.Alias = commonService.getSeoTitle($scope.vendor.Name);
+            $scope.provider.Alias = commonService.getSeoTitle($scope.provider.Name);
         }
 
-        $scope.AddVendor = AddVendor;
+        $scope.AddProvider = AddProvider;
 
-        function AddVendor() {
-            apiService.post('api/vendor/create', $scope.vendor,
+        function AddProvider() {
+            apiService.post('api/provider/create', $scope.provider,
                 function (result) {
                     notificationService.displaySuccess(result.data.Name + ' đã được thêm mới.');
-                    $state.go('vendors');
+                    $state.go('providers');
                 }, function (error) {
                     notificationService.displayError('Thêm mới không thành công.');
                 });
@@ -31,11 +31,11 @@
             var finder = new CKFinder();
             finder.selectActionFunction = function (fileUrl) {
                 $scope.$apply(function () {
-                    $scope.vendor.Image = fileUrl;
+                    $scope.provider.Image = fileUrl;
                 })
             }
             finder.popup();
         }       
     }
 
-})(angular.module('myshop.vendors'));
+})(angular.module('myshop.providers'));

@@ -9,5 +9,6 @@ namespace MyShop.Web.Models
         public ProductViewModel Product { set; get; }
         public int Quantity { set; get; }
         public string Size { set; get; }
+        public string Color { set; get; }
     }
 }

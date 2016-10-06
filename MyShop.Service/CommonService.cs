@@ -17,6 +17,7 @@ namespace MyShop.Service
         IEnumerable<Slide> GetSlides();
         IEnumerable<Banner> GetBanners();
         IEnumerable<Tag> GetPostTags();
+        IEnumerable<Material> GetMaterial();
         Tag GetById(string id);
     }
     public class CommonService : ICommonService
@@ -26,12 +27,14 @@ namespace MyShop.Service
         ISlideRepository _slideRepository;
         IBannerRepository _bannerRepository;
         ITagRepository _tagRepository;
+        IMaterialRepository _materialRepository;
         IContactDetailRepository _contactDetailRepository;
         public CommonService(IFooterRepository footerRepository,IUnitOfWork unitOfWork,
             ISlideRepository slideRepository, 
-            IBannerRepository bannerRepository, ITagRepository tagRepository,
-            IContactDetailRepository contactDetailRepository)
+            IBannerRepository bannerRepository, ITagRepository tagRepository, IMaterialRepository materialRepository,
+        IContactDetailRepository contactDetailRepository)
         {
+            _materialRepository = materialRepository;
             _footerRepository = footerRepository;
             _unitOfWork = unitOfWork;          
             _slideRepository = slideRepository;
@@ -68,7 +71,11 @@ namespace MyShop.Service
         public ContactDetail GetContactDetail()
         {
             return _contactDetailRepository.GetSingleByCondition(x => x.ID == CommonConstants.DefaultContactDetailId);
+        }
 
+        public IEnumerable<Material> GetMaterial()
+        {
+            return _materialRepository.GetAll();
         }
     }
 }

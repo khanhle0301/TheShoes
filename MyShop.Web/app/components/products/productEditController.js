@@ -43,9 +43,9 @@
             });
         }
 
-        function loadVendor() {
-            apiService.get('api/vendor/getallparents', null, function (result) {
-                $scope.vendors = result.data;
+        function loadProvider() {
+            apiService.get('api/provider/getallparents', null, function (result) {
+                $scope.providers = result.data;
             }, function () {
                 console.log('Cannot get list parent');
             });
@@ -80,7 +80,7 @@
             }
             finder.popup();
         }
-        loadVendor();
+        loadProvider();
         loadProductCategory();
         loadProductDetail();       
     }

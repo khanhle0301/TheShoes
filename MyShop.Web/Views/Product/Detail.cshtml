@@ -5,7 +5,8 @@
 }
 
 @section footerJS{
-    <script src="~/Assets/client/js/addCartDetail.js"></script>
+    <script src="~/Assets/client/js/productPopup.js"></script>
+    <script src="~/Assets/client/js/addCart.js"></script>
 }
 
 @section left_menu{
@@ -93,7 +94,7 @@
                                         else
                                         {
                                             <ins>@Model.Price.ToString("N0")₫ </ins>
-                                        }                                       
+                                        }
                                     </ins>
                                 </div>
                                 <div class="clear"></div>
@@ -147,9 +148,21 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="sizePicker" id='option-0'>
+                                        <label class="control-label options-title">Màu sắc:</label>
+                                        <div class='options-selection'>
+                                            <select id="product-color" class="form-control input-sm">
+                                                @foreach (var color in (IEnumerable<MyShop.Web.Models.ColorViewModel>)ViewBag.Colors)
+                                                {
+                                                    <option data_size_code="@color.ID" data_color_code="@color.ID" class="" value="@color.Name">
+                                                        @color.Name
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- end variant -->
-                                <!-- <form class="cart nobottommargin clearfix" method="post" enctype='multipart/form-data'>-->
                                 <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
                                     <input type="button" value="-" class="minus">
                                     <input type="text" id='product_quantity' readonly step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4" />
@@ -185,6 +198,7 @@
                                 {
                                     <button type="submit" id="addcart" data-id="@Model.ID" class="add-to-cart col-xs-6 button nomargin btnAddToCart">Thêm vào giỏ</button>
                                     <button type="submit" class="button col-xs-12 nopadding">Mua ngay</button>
+                                    <input type="hidden" id="hidProductID" value="@Model.ID" />
                                 }
                                 else
                                 {
@@ -337,8 +351,9 @@
                                     <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
 
                                     <div class="product-overlay">
-                                        <a href="@url" class='add-to-cart'><i class='icon-shopping-cart'> Chi tiết</i></a>
-                                        <a href="#" class="hidden-sm hidden-xs item-quick-view fancybox-fast-view"><i class="icon-zoom-in2"></i> Đặt hàng</a>
+                                        <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                                        <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                                        <input type="hidden" id="hidProductID" value="@product.ID" />
                                     </div>
                                 </div>
                                 <div class="product-desc center">
@@ -349,7 +364,7 @@
                                 </div>
                             </div>
                         </div>
-                    }                    
+                    }
                 </div>
 
                 <script type="text/javascript">
@@ -378,7 +393,7 @@
                 <!-- categories -->
                 <div class="widget widget_links clearfix">
                     <h4>Danh mục</h4>
-                    @{Html.RenderAction("Category", "Product");}
+                    @{Html.RenderAction("ProductCategory", "Product");}
                 </div>
 
                 <!-- On Sale product -->
@@ -402,6 +417,80 @@
                 <!-- Facebook -->
                 <div class="widget clearfix" style='overflow:hidden'>
                     <h4>Facebook</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="tpl-product-size" type="x-tmpl-mustache">
+        <option value="{{ProductSize}}">{{ProductSize}}</option>
+    </script>
+
+    <script id="tpl-product-color" type="x-tmpl-mustache">
+        <option value="{{ProductColor}}">{{ProductColor}}</option>
+    </script>
+
+    <div id="productManange" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="productName"></h4>
+                </div>
+                <div class="modal-body" style="height:auto">
+                    <div class="product-page-options">
+                        <div class="sizePicker">
+                            <label class="control-label options-title">Kích thước</label>
+                            <div class="options-selection">
+                                <select id="product-size" class="form-control input-sm size"></select>
+                            </div>
+                        </div>
+
+                        <div class="sizePicker">
+                            <label class="control-label options-title">Màu sắc:</label>
+                            <div class="options-selection">
+                                <select id="product-color" class="form-control input-sm color" style="color:#555!important;"></select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <form id="ProductDetailsForm" class="nobottommargin clearfix">
+                        <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
+                            <input type="button" value="-" class="minus">
+                            <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Qty" size="4">
+                            <input type="button" value="+" class="plus">
+                        </div>
+                        <button type="submit" id="addcart" class="btnAddToCart button nomargin col-xs-6">Thêm vào giỏ</button>
+                        <button type="submit" class="abc buy_btn button col-xs-12" id="buynow">Mua ngay </button>
+                        <input type="hidden" id="hidProductID" value="0" />
+                    </form>
+
+                    <script>
+                        var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
+                        $('#ProductDetailsForm .minus').click(function () {
+                            if (quantity > 0) {
+                                if (quantity == 1) {
+                                    $('#addcart').attr('disabled', 'disabled');
+                                }
+                                quantity -= 1;
+                            }
+                            else {
+                                quantity = 0;
+                            }
+                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
+                        });
+                        $('#ProductDetailsForm  .plus').click(function () {
+                            $('#addcart').removeAttr('disabled');
+                            if (quantity < 100) {
+                                quantity += 1;
+                            }
+                            else {
+                                quantity = 100;
+                            }
+                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
+                        });
+                    </script>
                 </div>
             </div>
         </div>

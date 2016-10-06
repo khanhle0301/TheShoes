@@ -4,8 +4,6 @@ using MyShop.Data.Repositories;
 using MyShop.Model.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System;
-using MyShop.Common.ViewModel;
 
 namespace MyShop.Service
 {
@@ -27,8 +25,8 @@ namespace MyShop.Service
 
         Post GetById(int id);
 
-        IEnumerable<PostViewModel> GetAllByTagPaging(string tag, int page, int pageSize, out int totalRow);
-      
+        IEnumerable<Post> GetAllByTagPaging(string tag, int page, int pageSize, out int totalRow);
+
         IEnumerable<Post> GetHot(int top);
 
         IEnumerable<Tag> GetListTagByPostId(int id);
@@ -112,11 +110,11 @@ namespace MyShop.Service
             var model = _postRepository.GetMulti(x => x.Status && x.CategoryID == categoryId
                        , new string[] { "PostCategory" });
             totalRow = model.Count();
-            return model.OrderByDescending(x => x.CreatedDate).Skip((page - 1) * pageSize).Take(pageSize);           
+            return model.OrderByDescending(x => x.CreatedDate).Skip((page - 1) * pageSize).Take(pageSize);
         }
 
-        public IEnumerable<PostViewModel> GetAllByTagPaging(string tag, int page, int pageSize, out int totalRow)
-        {          
+        public IEnumerable<Post> GetAllByTagPaging(string tag, int page, int pageSize, out int totalRow)
+        {
             return _postRepository.GetAllByTag(tag, page, pageSize, out totalRow);
         }
 
@@ -140,7 +138,7 @@ namespace MyShop.Service
 
         public void Update(Post Post)
         {
-            _postRepository.Update(Post);        
+            _postRepository.Update(Post);
             if (!string.IsNullOrEmpty(Post.Tags))
             {
                 _postTagRepository.DeleteMulti(x => x.PostID == Post.ID);
@@ -178,7 +176,7 @@ namespace MyShop.Service
         {
             return _postRepository.GetSingleByCondition(x => x.Alias == alias);
         }
-      
+
         public void IncreaseView(int id)
         {
             var post = _postRepository.GetSingleById(id);

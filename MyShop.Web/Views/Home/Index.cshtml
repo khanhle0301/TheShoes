@@ -4,11 +4,6 @@
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
-@section footerJS{
-    <script src="~/Assets/client/js/addCartPopup.js"></script>
-    <script src="~/Assets/client/js/productPopup.js"></script>
-}
-
 @section left_menu{
     <script>
         $(window).load(function () {
@@ -721,6 +716,10 @@
     <option value="{{ProductSize}}">{{ProductSize}}</option>
 </script>
 
+<script id="tpl-product-color" type="x-tmpl-mustache">
+    <option value="{{ProductColor}}">{{ProductColor}}</option>
+</script>
+
 <div id="productManange" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -737,6 +736,14 @@
                             <select id="product-size" class="form-control input-sm size"></select>
                         </div>
                     </div>
+
+                    <div class="sizePicker">
+                        <label class="control-label options-title">Màu sắc:</label>
+                        <div class="options-selection">
+                            <select id="product-color" class="form-control input-sm color" style="color:#555!important;"></select>
+                        </div>
+                    </div>
+
                 </div>
 
                 <form id="ProductDetailsForm" class="nobottommargin clearfix">

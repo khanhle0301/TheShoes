@@ -1,4 +1,4 @@
-﻿@model MyShop.Web.Infrastructure.Core.PaginationSet<MyShop.Common.ViewModel.PostViewModel>
+﻿@model MyShop.Web.Infrastructure.Core.PaginationSet<MyShop.Web.Models.PostViewModel>
 @using MyShop.Common;
 @{
     ViewBag.Title = "ListByTag";
@@ -50,7 +50,7 @@
             <div id="posts" class="small-thumbs">
                 @foreach (var post in Model.Items)
                 {
-                    var url = "/bai-viet/" + post.CategoryAlias + "/" + post.Alias + "-" + post.ID + ".html";
+                    var url = "/bai-viet/" + post.PostCategory.Alias + "/" + post.Alias + "-" + post.ID + ".html";
                     <div class="entry clearfix">
                         <div class="entry-image">
                             <a href="@post.Image" data-lightbox="image"><img class="image_fade" src="@post.Image" alt="@post.Name"></a>

@@ -204,7 +204,7 @@
     <Compile Include="Api\ProductCategoryController.cs" />
     <Compile Include="Api\ProductController.cs" />
     <Compile Include="Api\SlideController.cs" />
-    <Compile Include="Api\VendorController.cs" />
+    <Compile Include="Api\ProviderController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -215,6 +215,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
@@ -233,6 +234,7 @@
     <Compile Include="Models\FeedbackViewModel.cs" />
     <Compile Include="Models\FooterViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
+    <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\OrderDetailViewModel.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\PageViewModel.cs" />
@@ -240,6 +242,7 @@
     <Compile Include="Models\PostTagViewModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\ProductCategoryViewModel.cs" />
+    <Compile Include="Models\ProductMaterialViewModel.cs" />
     <Compile Include="Models\ProductTagViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\RecentProductItem.cs" />
@@ -247,7 +250,7 @@
     <Compile Include="Models\SizeViewModel.cs" />
     <Compile Include="Models\SlideViewModel.cs" />
     <Compile Include="Models\TagViewModel.cs" />
-    <Compile Include="Models\VendorViewModel.cs" />
+    <Compile Include="Models\ProviderViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -303,13 +306,13 @@
     <Content Include="app\components\product_categories\productCategoryEditView.html" />
     <Content Include="app\components\product_categories\productCategoryListController.js" />
     <Content Include="app\components\product_categories\productCategoryListView.html" />
-    <Content Include="app\components\vendors\vendorAddView.html" />
-    <Content Include="app\components\vendors\vendorEditController.js" />
-    <Content Include="app\components\vendors\vendorAddController.js" />
-    <Content Include="app\components\vendors\vendorEditView.html" />
-    <Content Include="app\components\vendors\vendorListController.js" />
-    <Content Include="app\components\vendors\vendorListView.html" />
-    <Content Include="app\components\vendors\vendors.module.js" />
+    <Content Include="app\components\providers\providerAddView.html" />
+    <Content Include="app\components\providers\providerEditController.js" />
+    <Content Include="app\components\providers\providerAddController.js" />
+    <Content Include="app\components\providers\providerEditView.html" />
+    <Content Include="app\components\providers\providerListController.js" />
+    <Content Include="app\components\providers\providerListView.html" />
+    <Content Include="app\components\providers\providers.module.js" />
     <Content Include="app\shared\banners\bannerAddController.js" />
     <Content Include="app\shared\banners\bannerAddView.html" />
     <Content Include="app\shared\banners\bannerEditController.js" />
@@ -4813,8 +4816,7 @@
     <Content Include="Assets\client\hstatic.net\198\1000055198\images\preloader%402x.gif" />
     <Content Include="Assets\client\hstatic.net\198\1000055198\images\preloader-dark%402x.gif" />
     <Content Include="Assets\client\hstatic.net\198\1000055198\images\preloader-dark.gif" />
-    <Content Include="Assets\client\js\addCartPopup.js" />
-    <Content Include="Assets\client\js\addCartDetail.js" />
+    <Content Include="Assets\client\js\addCart.js" />
     <Content Include="Assets\client\js\contact.js" />
     <Content Include="Assets\client\js\controller\productController.js" />
     <Content Include="Assets\client\js\plugins\jquery.twbsPagination.min.js" />
@@ -5117,7 +5119,6 @@
     <Content Include="Views\Shared\Category.cshtml" />
     <Content Include="Views\Shared\Page.cshtml" />
     <Content Include="Views\Shared\PostNew.cshtml" />
-    <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Product\ViewAllProduct.cshtml" />
@@ -5136,10 +5137,15 @@
     <Content Include="Views\Product\RecentProduct.cshtml" />
     <Content Include="Views\Product\PopularProduct.cshtml" />
     <Content Include="Views\Product\TopOnSale.cshtml" />
-    <Content Include="Views\Product\Category.cshtml" />
+    <Content Include="Views\Product\ProductCategory.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\Shared\HeaderCart.cshtml" />
     <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\HttpError403.cshtml" />
+    <Content Include="Views\Error\HttpError404.cshtml" />
+    <Content Include="Views\Error\HttpError500.cshtml" />
+    <Content Include="Views\Product\Category.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyShop.Common\MyShop.Common.csproj">

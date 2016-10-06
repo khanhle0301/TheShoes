@@ -14,43 +14,21 @@ namespace MyShop.Web.Controllers
 {
     public class ProductController : Controller
     {
+        private ICommonService _commonService;
         private IProductService _productService;
-        private IVendorService _vendorService;
+        private IProviderService _providerService;
         private IProductCategoryService _productCategoryService;
+        private IColorService _colorService;
 
         public ProductController(IProductService productService, IProductCategoryService productCategoryService,
-                                    IVendorService vendorService)
+                                    IProviderService providerService, IColorService colorService, ICommonService commonService)
         {
-            this._vendorService = vendorService;
+            this._commonService = commonService;
+            this._providerService = providerService;
+            this._colorService = colorService;
             this._productService = productService;
             this._productCategoryService = productCategoryService;
         }
-
-        public ActionResult Index(string alias, int page = 1, string sort = "updated_desc", string vendor = "", string price = "")
-        {
-            var category = _productCategoryService.GetByAlias(alias);
-            ViewBag.Category = Mapper.Map<ProductCategory, ProductCategoryViewModel>(category);
-            ViewBag.Sort = sort;
-            ViewBag.Vendor = vendor;
-            ViewBag.Price = price;
-            ViewBag.Vendors = Mapper.Map<IEnumerable<Vendor>, IEnumerable<VendorViewModel>>(_vendorService.GetAll());
-            int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
-            int totalRow = 0;
-            var productModel = _productService.GetListProductByCategoryIdPaging(category.ID, page, pageSize, sort, price, out totalRow);
-            var productViewModel = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(productModel);
-            int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
-            var paginationSet = new PaginationSet<ProductViewModel>()
-            {
-                Items = productViewModel,
-                MaxPage = 5,
-                Page = page,
-                TotalCount = totalRow,
-                TotalPages = totalPage
-            };
-
-            return View(paginationSet);
-        }
-
 
         public ActionResult Detail(int id)
         {
@@ -60,6 +38,7 @@ namespace MyShop.Web.Controllers
             ViewBag.MoreImages = listImages;
             ViewBag.Tags = Mapper.Map<IEnumerable<Tag>, IEnumerable<TagViewModel>>(_productService.GetListTagByProductId(id));
             ViewBag.Sizes = Mapper.Map<IEnumerable<Size>, IEnumerable<SizeViewModel>>(_productService.GetListSizeByProductId(id));
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_productService.GetListColorByProductId(id));
             ViewBag.Related = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(_productService.GetReatedProducts(id, 12));
 
             _productService.IncreaseView(id);
@@ -92,6 +71,34 @@ namespace MyShop.Web.Controllers
 
             return View(viewModel);
         }
+
+        public ActionResult Category(string alias)
+        {
+            var category = _productCategoryService.GetByAlias(alias);
+            ViewBag.Category = Mapper.Map<ProductCategory, ProductCategoryViewModel>(category);
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
+            ViewBag.CategoryID = category.ID;
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadData(int id, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.Demo(id, sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
         public ActionResult ViewAllProduct()
         {
@@ -131,12 +138,11 @@ namespace MyShop.Web.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult Category()
+        public ActionResult ProductCategory()
         {
             var model = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(_productCategoryService.GetAll());
             return PartialView(model);
         }
-
 
         [ChildActionOnly]
         public ActionResult PopularProduct()
@@ -152,7 +158,6 @@ namespace MyShop.Web.Controllers
             return PartialView(model);
         }
 
-
         public JsonResult GetAll(int id)
         {
             var model = _productService.GetAllById(id);
@@ -166,6 +171,16 @@ namespace MyShop.Web.Controllers
         public JsonResult GetSize(int id)
         {
             var model = _productService.GetListSizeByProductId(id);
+            return Json(new
+            {
+                data = model,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetColor(int id)
+        {
+            var model = _productService.GetListColorByProductId(id);
             return Json(new
             {
                 data = model,

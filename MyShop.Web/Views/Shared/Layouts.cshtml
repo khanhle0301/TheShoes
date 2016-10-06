@@ -41,12 +41,6 @@
     
     <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/custom_stylea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
      
-     <!-- External JavaScripts
-    ============================================= -->
-    <!-- OWL CAROUSEL -->
-    <!--<link href='//hstatic.net/198/1000055198/1000144003/owl.carousel.css?v=313' rel='stylesheet' type='text/css'  media='all'  />
-    <script src='//hstatic.net/198/1000055198/1000144003/owl.carousel.min.js?v=313' type='text/javascript'></script>-->
-    <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.tools.mina6f6.js?v=313' type='text/javascript'></script>
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.revolution.mina6f6.js?v=313' type='text/javascript'></script>
     <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
@@ -221,117 +215,6 @@
     ============================================= -->
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/functionsa6f6.js?v=313' type='text/javascript'></script>
    
-    <div id="product-quick-add" style="display: none; width: 700px;">
-        <div class="product-page ">
-            <div class="row">
-                <form id="ProductDetailsForm_QuickAdd">
-                    <div class="hidden" style="">
-                        <select id="product-select-qa" name="id"></select>
-                        <input type="hidden" class="unit_price_not_formated"><!-- </input> -->
-                        <input type="hidden" class="product_url" value=""> <!--</input>-->
-                        <input type="hidden" class="product_title_hd" value=""> <!--</input>-->
-                        <input type="hidden" class="product_img_small" value=""> <!--</input>-->
-                    </div>
-                    <input id="product-quantity" name="quantity" type="text" value="1" readonly class="form-control input-sm quantity">
-                    <button id="addtocartQA" class="btn btn-primary" type="submit">Thêm vào giỏ</button>
-                </form>
-            </div>  <!-- END: row -->
-        </div>
-    </div>
-    <script>
-        var currentIMG = '';
-        jQuery(".product_quick_add").each(function () {
-            $(this).on('click', function (event) {
-                event.preventDefault();
-
-                // quick add
-                currentIMG = $(this).parents('.product').find('.product-image img');
-                quickAddProduct($(this).attr('href')); // make-up "#product-quick-add"
-
-            });
-        });
-
-        var callBackQuickAdd = function (variant, selector) {
-            // console.log('callBackQV  is functioning...');
-
-            var $tagPrice = '#product-quick-add .price strong';
-            var $tagPriceCompare = '#product-quick-add .price em span';
-            var $tagProductSection = '#ProductDetailsForm_QuickAdd';
-            update_variant(variant, $tagPrice, $tagPriceCompare, '#addtocartQA', $tagProductSection);
-        }
-        var quickAddProduct = function (purl) {
-
-            // if ($(window).width() < 680) { window.location = purl; return false; }
-            // modal = $('#quick-view-modal'); modal.modal('show');
-            $.ajax({
-                url: purl + '.js',
-                async: false,
-                success: function (product) {
-
-                    //make-up "#product-quick-add"
-                    // assign hidden values
-                    $('#product-quick-add .product_title_hd').val(product.title);
-                    $('#product-quick-add .product_url').val(product.url);
-                    $('#product-quick-add .product_img_small').val(product.featured_image);  // AAA!!!
-
-                    //render selections (NOT formatted yet)
-                    $('select#product-select-qa').html('');
-                    $('.selector-wrapper').remove(); // remove all selectors by  Haravan.OptionSelectors
-                    // var $arrSize = [];
-                    // var $arrColor = [];
-                    $.each(product.variants, function (i, v) {
-                        $('select#product-select-qa').append("<option value='" + v.id + "'>" + v.title + ' - ' + v.price + "</option>");
-                        // if($arrSize.indexOf(v.option1) <= -1 )
-                        // {
-                        // $('#product-quick-add select.size').append("<option >" + v.option1 + "</option>");
-                        // $arrSize.push(v.option1);
-                        // }
-
-                        // if($arrColor.indexOf(v.option2) <= -1 )
-                        // {
-                        // $('#product-quick-add select.color').append("<option >" + v.option2 + "</option>");
-                        // $arrColor.push(v.option2);
-                        // }
-                    });
-
-                    new Haravan.OptionSelectors("product-select-qa", { product: product, onVariantSelected: callBackQuickAdd });
-
-                    // select default variants
-                    var $size = $("#product-select-qa-option-0 option:first").attr('selected', 'selected');
-                    var $color = $("#product-select-qa-option-1 option:first").attr('selected', 'selected');
-                    var $material = $("#product-select-qa-option-2 option:first").attr('selected', 'selected');
-                    var $tagSelectOption0 = '#product-select-qa-option-0';
-                    var $tagSelectOption1 = '#product-select-qa-option-1';
-                    var $tagSelectOption2 = '#product-select-qa-option-2';
-                    refreshProductSelections($tagSelectOption0, $size, $tagSelectOption1, $color, $tagSelectOption2, $material);
-
-                    //auto add current variant...
-                    // $('#ProductDetailsForm_QuickAdd').submit();
-                    $("#addtocartQA").click();
-
-                }//end: success
-            });
-
-            //$('.modal-backdrop').css('opacity', '0');
-            return false;
-        }
-
-
-        jQuery(document).ready(function ($) {
-            //add to cart for QuickView
-            $("#addtocartQA").on('click', function (e) {  //.click(function(e){ //
-
-                e.preventDefault();
-                addItem('ProductDetailsForm_QuickAdd', currentIMG);
-
-            });
-        });
-        /*** end quick add cart ***/
-
-    </script>
-    <!-- end quick add cart -->
-    <!-- Hotline and Quick Contact -->
-    <!--scroll hotline-->
     <a class='mb_scroll_hotline hidden-lg hidden-md' href='tel:19000000'>
         <img style="height: 24px; width: auto; margin-right:10px" src="/Assets/client/hstatic.net/198/1000055198/1000144003/call_muahanga6f6.png?v=313">Hotline: 19000000
     </a>
@@ -352,7 +235,8 @@
     <script src="~/Assets/admin/libs/numeral/numeral.js"></script>
     <script src="~/Assets/client/js/plugins/jquery.twbsPagination.min.js"></script>
     <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.js"></script>   
+    <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.js"></script>  
+    
 
     @RenderSection("footerJS", required: false)
 </body>

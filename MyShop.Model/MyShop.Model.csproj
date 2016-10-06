@@ -94,6 +94,7 @@
     <Compile Include="Models\Error.cs" />
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\Footer.cs" />
+    <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\Page.cs" />
@@ -103,12 +104,13 @@
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
     <Compile Include="Models\ProductColor.cs" />
+    <Compile Include="Models\ProductMaterial.cs" />
     <Compile Include="Models\ProductSize.cs" />
     <Compile Include="Models\ProductTag.cs" />
     <Compile Include="Models\Size.cs" />
     <Compile Include="Models\Slide.cs" />
     <Compile Include="Models\Tag.cs" />
-    <Compile Include="Models\Vendor.cs" />
+    <Compile Include="Models\Provider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

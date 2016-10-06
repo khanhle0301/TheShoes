@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace MyShop.Common.ViewModel
+namespace MyShop.Web.Models
 {
-    public class PostViewModel
+    public class ProviderViewModel
     {
         public int ID { set; get; }
 
@@ -10,21 +11,15 @@ namespace MyShop.Common.ViewModel
 
         public string Alias { set; get; }
 
-        public int CategoryID { set; get; }
+        public string Description { set; get; }
 
-        public string CategoryAlias { set; get; }
+        public int? DisplayOrder { set; get; }
 
         public string Image { set; get; }
 
-        public string Description { set; get; }
-
-        public string Content { set; get; }
-
         public bool? HomeFlag { set; get; }
 
-        public bool? HotFlag { set; get; }
-
-        public int? ViewCount { set; get; }
+        public virtual IEnumerable<PostViewModel> Posts { set; get; }
 
         public DateTime? CreatedDate { set; get; }
 
@@ -39,7 +34,5 @@ namespace MyShop.Common.ViewModel
         public string MetaDescription { set; get; }
 
         public bool Status { set; get; }
-
-        public string Tags { set; get; }
     }
 }

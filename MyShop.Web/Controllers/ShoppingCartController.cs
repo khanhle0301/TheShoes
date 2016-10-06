@@ -1,33 +1,26 @@
 ﻿using AutoMapper;
-using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using MyShop.Common;
 using MyShop.Model.Models;
 using MyShop.Service;
-using MyShop.Web.App_Start;
-using MyShop.Web.Infrastructure.Extensions;
 using MyShop.Web.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace MyShop.Web.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        IProductService _productService;
-        IOrderService _orderService;
-        private ApplicationUserManager _userManager;
+        private IProductService _productService;
+        private IOrderService _orderService;
 
-        public ShoppingCartController(IOrderService orderService, IProductService productService, ApplicationUserManager userManager)
+        public ShoppingCartController(IOrderService orderService, IProductService productService)
         {
             this._productService = productService;
-            this._userManager = userManager;
             this._orderService = orderService;
         }
-    
+
         public ActionResult Index()
         {
             if (Session[CommonConstants.SessionCart] == null)
@@ -35,127 +28,6 @@ namespace MyShop.Web.Controllers
             return View();
         }
 
-        public ActionResult CheckOut()
-        {
-            if (Session[CommonConstants.SessionCart] == null)
-            {
-                return Redirect("/gio-hang.html");
-            }
-            return View();
-        }
-        public JsonResult GetUser()
-        {
-            if (Request.IsAuthenticated)
-            {
-                var userId = User.Identity.GetUserId();
-                var user = _userManager.FindById(userId);
-                return Json(new
-                {
-                    data = user,
-                    status = true
-                });
-            }
-            return Json(new
-            {
-                status = false
-            });
-        }
-        //public ActionResult CreateOrder(string orderViewModel)
-        //{
-        //    var order = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
-
-        //    var orderNew = new Order();
-
-        //    orderNew.UpdateOrder(order);
-
-        //    if (Request.IsAuthenticated)
-        //    {
-        //        orderNew.CustomerId = User.Identity.GetUserId();
-        //        orderNew.CreatedBy = User.Identity.GetUserName();
-        //    }
-
-        //    var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-        //    List<OrderDetail> orderDetails = new List<OrderDetail>();
-        //    bool isEnough = true;
-        //    foreach (var item in cart)
-        //    {
-        //        var detail = new OrderDetail();
-        //        detail.ProductID = item.ProductId;
-        //        detail.Quantity = item.Quantity;
-        //        detail.Price = item.Product.Price;
-        //        orderDetails.Add(detail);
-
-        //        isEnough = _productService.SellProduct(item.ProductId, item.Quantity);
-        //        break;
-        //    }
-        //    if (isEnough)
-        //    {
-        //        var orderReturn = _orderService.Create(ref orderNew, orderDetails);
-        //        _productService.Save();
-
-        //        if (order.PaymentMethod == "CASH")
-        //        {
-        //            return Json(new
-        //            {
-        //                status = true
-        //            });
-        //        }
-        //        else
-        //        {
-                  
-        //            var currentLink = ConfigHelper.GetByKey("CurrentLink");
-        //            RequestInfo info = new RequestInfo();
-        //            info.Merchant_id = merchantId;
-        //            info.Merchant_password = merchantPassword;
-        //            info.Receiver_email = merchantEmail;
-
-
-
-        //            info.cur_code = "vnd";
-        //            info.bank_code = order.BankCode;
-
-        //            info.Order_code = orderReturn.ID.ToString();
-        //            info.Total_amount = orderDetails.Sum(x => x.Quantity * x.Price).ToString();
-        //            info.fee_shipping = "0";
-        //            info.Discount_amount = "0";
-        //            info.order_description = "Thanh toán đơn hàng tại TeduShop";
-        //            info.return_url = currentLink + "xac-nhan-don-hang.html";
-        //            info.cancel_url = currentLink + "huy-don-hang.html";
-
-        //            info.Buyer_fullname = order.CustomerName;
-        //            info.Buyer_email = order.CustomerEmail;
-        //            info.Buyer_mobile = order.CustomerMobile;
-
-        //            APICheckoutV3 objNLChecout = new APICheckoutV3();
-        //            ResponseInfo result = objNLChecout.GetUrlCheckout(info, order.PaymentMethod);
-        //            if (result.Error_code == "00")
-        //            {
-        //                return Json(new
-        //                {
-        //                    status = true,
-        //                    urlCheckout = result.Checkout_url,
-        //                    message = result.Description
-        //                });
-        //            }
-        //            else
-        //                return Json(new
-        //                {
-        //                    status = false,
-        //                    message = result.Description
-        //                });
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        return Json(new
-        //        {
-        //            status = false,
-        //            message = "Không đủ hàng."
-        //        });
-        //    }
-
-        //}
         public JsonResult GetAll()
         {
             if (Session[CommonConstants.SessionCart] == null)
@@ -167,34 +39,85 @@ namespace MyShop.Web.Controllers
                 status = true
             }, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
-        public JsonResult Add(int productId,int quantity, string size)
+        public JsonResult Add(int productId, int quantity, string size, string color)
         {
             var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-            var product = _productService.GetById(productId);
+            var product = _productService.GetAllById(productId);
             if (cart == null)
             {
                 cart = new List<ShoppingCartViewModel>();
             }
-            if (product.Quantity == 0)
+            if (quantity > product.Quantity)
             {
                 return Json(new
                 {
                     status = false,
-                    message = "Sản phẩm này hiện đang hết hàng"
+                    message = "Số lượng không đủ"
                 });
             }
 
-            if (cart.Any(x => x.ProductId == productId && x.Size == size))
+            if (cart.Any(x => x.ProductId == productId && x.Color == color && x.Size == size))
             {
                 foreach (var item in cart)
                 {
-                    if (item.ProductId == productId && item.Size == size)
+                    if (item.ProductId == productId && item.Color == color && item.Size == size)
                     {
                         item.Quantity += quantity;
                     }
                 }
-            }           
+            }
+            else if (cart.Any(x => x.ProductId == productId && x.Color == color))
+            {
+                bool add = false;
+                foreach (var item in cart)
+                {
+                    if (item.ProductId == productId && item.Color == color && item.Size == size)
+                    {
+                        item.Quantity += quantity;
+                    }
+                    else
+                    {
+                        add = true;
+                    }
+                }
+                if (add)
+                {
+                    ShoppingCartViewModel newItem = new ShoppingCartViewModel();
+                    newItem.ProductId = productId;
+                    newItem.Product = Mapper.Map<Product, ProductViewModel>(product);
+                    newItem.Quantity = quantity;
+                    newItem.Size = size;
+                    newItem.Color = color;
+                    cart.Add(newItem);
+                }
+            }
+            else if (cart.Any(x => x.ProductId == productId && x.Size == size))
+            {
+                bool add = false;
+                foreach (var item in cart)
+                {
+                    if (item.ProductId == productId && item.Size == size && item.Color == color)
+                    {
+                        item.Quantity += quantity;
+                    }
+                    else
+                    {
+                        add = true;
+                    }
+                }
+                if (add)
+                {
+                    ShoppingCartViewModel newItem = new ShoppingCartViewModel();
+                    newItem.ProductId = productId;
+                    newItem.Product = Mapper.Map<Product, ProductViewModel>(product);
+                    newItem.Quantity = quantity;
+                    newItem.Size = size;
+                    newItem.Color = color;
+                    cart.Add(newItem);
+                }
+            }
             else
             {
                 ShoppingCartViewModel newItem = new ShoppingCartViewModel();
@@ -202,6 +125,7 @@ namespace MyShop.Web.Controllers
                 newItem.Product = Mapper.Map<Product, ProductViewModel>(product);
                 newItem.Quantity = quantity;
                 newItem.Size = size;
+                newItem.Color = color;
                 cart.Add(newItem);
             }
 
@@ -213,12 +137,12 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteItem(int productId, string Size)
+        public JsonResult DeleteItem(int productId, string size, string color)
         {
             var cartSession = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
             if (cartSession != null)
             {
-                cartSession.RemoveAll(x => x.ProductId == productId && x.Size == Size);
+                cartSession.RemoveAll(x => x.ProductId == productId && x.Size == size && x.Color == color);
                 Session[CommonConstants.SessionCart] = cartSession;
                 return Json(new
                 {
@@ -237,63 +161,24 @@ namespace MyShop.Web.Controllers
             var cartViewModel = new JavaScriptSerializer().Deserialize<List<ShoppingCartViewModel>>(cartData);
 
             var cartSession = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-           
+
             foreach (var item in cartSession)
             {
                 foreach (var jitem in cartViewModel)
                 {
-                    if (item.ProductId == jitem.ProductId && item.Size == jitem.Size)
+                    if (item.ProductId == jitem.ProductId && item.Size == jitem.Size && item.Color == jitem.Color)
                     {
                         item.Quantity = jitem.Quantity;
                         item.Size = jitem.Size;
                     }
                 }
-            }           
+            }
 
             Session[CommonConstants.SessionCart] = cartSession;
             return Json(new
             {
                 status = true
             });
-        }
-
-        [HttpPost]
-        public JsonResult DeleteAll()
-        {
-            Session[CommonConstants.SessionCart] = new List<ShoppingCartViewModel>();
-            return Json(new
-            {
-                status = true
-            });
-        }
-
-        //public ActionResult ConfirmOrder()
-        //{
-        //    string token = Request["token"];
-        //    RequestCheckOrder info = new RequestCheckOrder();
-        //    info.Merchant_id = merchantId;
-        //    info.Merchant_password = merchantPassword;
-        //    info.Token = token;
-        //    APICheckoutV3 objNLChecout = new APICheckoutV3();
-        //    ResponseCheckOrder result = objNLChecout.GetTransactionDetail(info);
-        //    if (result.errorCode == "00")
-        //    {
-        //        //update status order
-        //        _orderService.UpdateStatus(int.Parse(result.order_code));
-        //        _orderService.Save();
-        //        ViewBag.IsSuccess = true;
-        //        ViewBag.Result = "Thanh toán thành công. Chúng tôi sẽ liên hệ lại sớm nhất.";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.IsSuccess = true;
-        //        ViewBag.Result = "Có lỗi xảy ra. Vui lòng liên hệ admin.";
-        //    }
-        //    return View();
-        //}
-        public ActionResult CancelOrder()
-        {
-            return View();
         }
     }
 }

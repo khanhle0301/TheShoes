@@ -152,6 +152,22 @@
     <Compile Include="Migrations\201609300727355_Create-Color.Designer.cs">
       <DependentUpon>201609300727355_Create-Color.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610041108571_Add_Provider.cs" />
+    <Compile Include="Migrations\201610041108571_Add_Provider.Designer.cs">
+      <DependentUpon>201610041108571_Add_Provider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610041128090_Provider-Product.cs" />
+    <Compile Include="Migrations\201610041128090_Provider-Product.Designer.cs">
+      <DependentUpon>201610041128090_Provider-Product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610051355323_Material-Create.cs" />
+    <Compile Include="Migrations\201610051355323_Material-Create.Designer.cs">
+      <DependentUpon>201610051355323_Material-Create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610051412318_Material-Create2.cs" />
+    <Compile Include="Migrations\201610051412318_Material-Create2.Designer.cs">
+      <DependentUpon>201610051412318_Material-Create2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyShopDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,6 +177,7 @@
     <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\FeedbackRepository.cs" />
     <Compile Include="Repositories\FooterRepository.cs" />
+    <Compile Include="Repositories\MaterialRepository.cs" />
     <Compile Include="Repositories\OrderDetailRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PageRepository.cs" />
@@ -169,13 +186,14 @@
     <Compile Include="Repositories\PostTagRepository.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Repositories\ProductColorRepository.cs" />
+    <Compile Include="Repositories\ProductMaterialRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\ProductSizeRepository.cs" />
     <Compile Include="Repositories\ProductTagRepository.cs" />
     <Compile Include="Repositories\SizeRepository.cs" />
     <Compile Include="Repositories\SlideRepository.cs" />
     <Compile Include="Repositories\TagRepository.cs" />
-    <Compile Include="Repositories\VendorRepository.cs" />
+    <Compile Include="Repositories\ProviderRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -236,6 +254,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609300727355_Create-Color.resx">
       <DependentUpon>201609300727355_Create-Color.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610041108571_Add_Provider.resx">
+      <DependentUpon>201610041108571_Add_Provider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610041128090_Provider-Product.resx">
+      <DependentUpon>201610041128090_Provider-Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610051355323_Material-Create.resx">
+      <DependentUpon>201610051355323_Material-Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610051412318_Material-Create2.resx">
+      <DependentUpon>201610051412318_Material-Create2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

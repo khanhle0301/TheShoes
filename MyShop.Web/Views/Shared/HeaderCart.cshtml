@@ -27,10 +27,10 @@
             {
                 <div class="top-cart-item clearfix">                  
                     <div class="top-cart-item-image">
-                        <a href="/products/giay-boot-01"><img src="@cart.Product.Image" alt="@cart.Product.Name"></a>
+                        <a href="/san-pham/@(cart.Product.ProductCategory.Alias)/@(cart.Product.Alias)-@(cart.Product.ID).html"><img src="@cart.Product.Image" alt="@cart.Product.Name"></a>
                     </div>
                     <div class="top-cart-item-desc">
-                        <a href="/products/giay-boot-01">@cart.Product.Name</a><span class="top-cart-item-price">@cart.Product.Price.ToString("N0")đ</span>
+                        <a href="/san-pham/@(cart.Product.ProductCategory.Alias)/@(cart.Product.Alias)-@(cart.Product.ID).html">@cart.Product.Name</a><span class="top-cart-item-price">@cart.Product.Price.ToString("N0")đ</span>
                         <span class="top-cart-item-quantity">x @cart.Quantity</span>
                     </div>
                 </div>

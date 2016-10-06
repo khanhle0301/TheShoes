@@ -102,22 +102,22 @@ namespace MyShop.Web
               url: "bai-viet/{catealias}/{alias}-{id}.html",
               defaults: new { controller = "Post", action = "Detail", id = UrlParameter.Optional },
                 namespaces: new string[] { "MyShop.Web.Controllers" }
-          );          
+          );
 
             routes.MapRoute(
-                 name: "Product Category",
-                 url: "san-pham/{alias}.html",
-                 defaults: new { controller = "Product", action = "Index", alias = UrlParameter.Optional },
-                   namespaces: new string[] { "MyShop.Web.Controllers" }
-             );
+             name: "Product Category",
+             url: "san-pham/{alias}.html",
+             defaults: new { controller = "Product", action = "Category", alias = UrlParameter.Optional },
+               namespaces: new string[] { "MyShop.Web.Controllers" }
+         );
 
             routes.MapRoute(
-                name: "Product Detail",
-                url: "san-pham/{cateAlias}/{alias}-{id}.html",
-                defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
-                  namespaces: new string[] { "MyShop.Web.Controllers" }
-            );
-
+             name: "Product Detail",
+             url: "san-pham/{cateAlias}/{alias}-{id}.html",
+             defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
+               namespaces: new string[] { "MyShop.Web.Controllers" }
+         );
+       
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

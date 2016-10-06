@@ -9,12 +9,14 @@
             var productId = parseInt($('#hidProductID').val());
             var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
             var size = document.getElementById("product-size").value;
+            var color = document.getElementById("product-color").value;
             $.ajax({
                 url: '/ShoppingCart/Add',
                 data: {
                     productId: productId,
                     quantity: quantity,
-                    size: size
+                    size: size,
+                    color: color
                 },
                 type: 'POST',
                 dataType: 'json',

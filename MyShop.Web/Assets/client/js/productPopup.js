@@ -1,5 +1,5 @@
 ﻿var popup = {
-    init: function () {       
+    init: function () {
         popup.registerEvent();
     },
     registerEvent: function () {
@@ -9,12 +9,13 @@
             $('#productManange').modal('show');
             $('#hidProductID').val($(this).data('id'));
             var productId = parseInt($(this).data('id'));
-            popup.loadData(productId);
+            popup.loadColor(productId);
             popup.loadSize(productId);
-           
+            popup.loadData(productId);               
         });
 
     },
+ 
     loadSize: function (id) {
         $.ajax({
             url: '/Product/GetSize',
@@ -33,9 +34,32 @@
                             ProductSize: item.ID,
                         });
                     });
+                    $('#product-size').html(html);                   
+                }
+            }
+        })
+    },
 
-                    $('#product-size').html(html);
-                    popup.registerEvent();
+    loadColor: function (id) {
+        $.ajax({
+            url: '/Product/GetColor',
+            data: {
+                id: id
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (res) {
+                if (res.status) {
+                    var template = $('#tpl-product-color').html();
+                    var html = '';
+                    var data = res.data;
+                    $.each(data, function (i, item) {
+                        html += Mustache.render(template, {
+                            ProductColor: item.Name,
+                        });
+                    });
+
+                    $('#product-color').html(html);                 
                 }
             }
         })
@@ -50,10 +74,9 @@
             type: 'GET',
             dataType: 'json',
             success: function (res) {
-                if (res.status) {                   
-                    var productName = res.data.Name;                    
-                    $('#productName').html(productName);
-                    popup.registerEvent();
+                if (res.status) {
+                    var productName = res.data.Name;
+                    $('#productName').html(productName);                    
                 }
             }
         })

@@ -37,7 +37,8 @@
                 cartList.push({
                     ProductId: $(item).data('id'),
                     Quantity: $(item).val(),
-                    Size: $(item).data('size')
+                    Size: $(item).data('size'),
+                    Color: $(item).data('color')
                 });
             });
             $.ajax({
@@ -48,7 +49,7 @@
                 },
                 dataType: 'json',
                 success: function (response) {
-                    if (response.status) {                       
+                    if (response.status) {
                         window.location.href = "/gio-hang.html";
                     }
                 }
@@ -58,10 +59,11 @@
         $('.btnDeleteItem').off('click').on('click', function (e) {
             e.preventDefault();
             var productId = parseInt($(this).data('id'));
-            var Size = $(this).data('size');
-            cart.deleteItem(productId, Size);
+            var size = $(this).data('size');
+            var color = $(this).data('color');
+            cart.deleteItem(productId, size, color);
         });
- 
+
         $('#btnContinue').off('click').on('click', function (e) {
             e.preventDefault();
             window.location.href = "/";
@@ -123,12 +125,13 @@
             }
         });
     },
-    deleteItem: function (productId, Size) {
+    deleteItem: function (productId, size, color) {
         $.ajax({
             url: '/ShoppingCart/DeleteItem',
             data: {
                 productId: productId,
-                Size: Size
+                size: size,
+                color: color
             },
             type: 'POST',
             dataType: 'json',
@@ -214,11 +217,14 @@
                     var data = res.data;
                     $.each(data, function (i, item) {
                         html += Mustache.render(template, {
+                            ProductCategoryAlias: item.Product.ProductCategory.Alias,
+                            ProductAlias: item.Product.Alias,
                             ProductId: item.ProductId,
                             ProductName: item.Product.Name,
                             Image: item.Product.Image,
                             Price: item.Product.Price,
                             Size: item.Size,
+                            Color: item.Color,
                             PriceF: numeral(item.Product.Price).format('0,0'),
                             Quantity: item.Quantity,
                             Amount: numeral(item.Quantity * item.Product.Price).format('0,0')
@@ -231,7 +237,7 @@
                         $('#cartContent').html('<p>Không có sản phẩm nào trong giỏ hàng</p><a href="collections/all.html"><i class="icon-line2-action-undo"></i> Tiếp tục mua hàng</a>');
                         $('#note').hide();
                     }
-                    $('#lblTotalOrder').text(numeral(cart.getTotalOrder()).format('0,0')+'₫');
+                    $('#lblTotalOrder').text(numeral(cart.getTotalOrder()).format('0,0') + '₫');
                     cart.registerEvent();
                 }
             }

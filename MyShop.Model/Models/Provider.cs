@@ -5,8 +5,8 @@ using MyShop.Model.Abstract;
 
 namespace MyShop.Model.Models
 {
-    [Table("Vendors")]
-    public class Vendor : Auditable
+    [Table("Providers")]
+    public class Provider : Auditable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

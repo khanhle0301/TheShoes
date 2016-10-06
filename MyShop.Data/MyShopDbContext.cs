@@ -29,9 +29,11 @@ namespace MyShop.Data
         public DbSet<Banner> Banners { set; get; }
         public DbSet<Size> Sizes { set; get; }
         public DbSet<ProductSize> ProductSizes { set; get; }
-        public DbSet<Vendor> Vendors { set; get; }
+        public DbSet<Provider> Providers { set; get; }
         public DbSet<Color> Colors { set; get; }
         public DbSet<ProductColor> ProductColors { set; get; }
+        public DbSet<Material> Materials { set; get; }
+        public DbSet<ProductMaterial> ProductMaterials { set; get; }
 
         public static MyShopDbContext Create()
         {

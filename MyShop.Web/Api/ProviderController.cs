@@ -14,16 +14,16 @@ using System.Web.Script.Serialization;
 
 namespace MyShop.Web.Api
 {
-    [RoutePrefix("api/vendor")]
-    public class VendorController : ApiControllerBase
+    [RoutePrefix("api/provider")]
+    public class ProviderController : ApiControllerBase
     {
         #region Initialize
-        private IVendorService _vendorService;
+        private IProviderService _providerService;
 
-        public VendorController(IErrorService errorService, IVendorService vendorService)
+        public ProviderController(IErrorService errorService, IProviderService providerService)
             : base(errorService)
         {
-            this._vendorService = vendorService;
+            this._providerService = providerService;
         }
 
         #endregion
@@ -34,9 +34,9 @@ namespace MyShop.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-                var model = _vendorService.GetAll();
+                var model = _providerService.GetAll();
 
-                var responseData = Mapper.Map<IEnumerable<Vendor>, IEnumerable<VendorViewModel>>(model);
+                var responseData = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(model);
 
                 var response = request.CreateResponse(HttpStatusCode.OK, responseData);
                 return response;
@@ -49,9 +49,9 @@ namespace MyShop.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-                var model = _vendorService.GetById(id);
+                var model = _providerService.GetById(id);
 
-                var responseData = Mapper.Map<Vendor, VendorViewModel>(model);
+                var responseData = Mapper.Map<Provider, ProviderViewModel>(model);
 
                 var response = request.CreateResponse(HttpStatusCode.OK, responseData);
 
@@ -66,14 +66,14 @@ namespace MyShop.Web.Api
             return CreateHttpResponse(request, () =>
             {
                 int totalRow = 0;
-                var model = _vendorService.GetAll(keyword);
+                var model = _providerService.GetAll(keyword);
 
                 totalRow = model.Count();
                 var query = model.OrderByDescending(x => x.ID).Skip(page * pageSize).Take(pageSize);
 
-                var responseData = Mapper.Map<IEnumerable<Vendor>, IEnumerable<VendorViewModel>>(query);
+                var responseData = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(query);
 
-                var paginationSet = new PaginationSet<VendorViewModel>()
+                var paginationSet = new PaginationSet<ProviderViewModel>()
                 {
                     Items = responseData,
                     Page = page,
@@ -89,7 +89,7 @@ namespace MyShop.Web.Api
         [Route("create")]
         [HttpPost]
         [AllowAnonymous]
-        public HttpResponseMessage Create(HttpRequestMessage request, VendorViewModel vendorVm)
+        public HttpResponseMessage Create(HttpRequestMessage request, ProviderViewModel providerVm)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -100,12 +100,12 @@ namespace MyShop.Web.Api
                 }
                 else
                 {
-                    var newVendor = new Vendor();
-                    newVendor.UpdateVendor(vendorVm);
-                    _vendorService.Add(newVendor);
-                    _vendorService.Save();
+                    var newProvider = new Provider();
+                    newProvider.UpdateProvider(providerVm);
+                    _providerService.Add(newProvider);
+                    _providerService.Save();
 
-                    var responseData = Mapper.Map<Vendor, VendorViewModel>(newVendor);
+                    var responseData = Mapper.Map<Provider, ProviderViewModel>(newProvider);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
@@ -116,7 +116,7 @@ namespace MyShop.Web.Api
         [Route("update")]
         [HttpPut]
         [AllowAnonymous]
-        public HttpResponseMessage Update(HttpRequestMessage request, VendorViewModel vendorVm)
+        public HttpResponseMessage Update(HttpRequestMessage request, ProviderViewModel providerVm)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -127,12 +127,12 @@ namespace MyShop.Web.Api
                 }
                 else
                 {
-                    var dbVendor = _vendorService.GetById(vendorVm.ID);
-                    dbVendor.UpdateVendor(vendorVm);
-                    _vendorService.Update(dbVendor);
-                    _vendorService.Save();
+                    var dbProvider = _providerService.GetById(providerVm.ID);
+                    dbProvider.UpdateProvider(providerVm);
+                    _providerService.Update(dbProvider);
+                    _providerService.Save();
 
-                    var responseData = Mapper.Map<Vendor, VendorViewModel>(dbVendor);
+                    var responseData = Mapper.Map<Provider, ProviderViewModel>(dbProvider);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
@@ -154,10 +154,10 @@ namespace MyShop.Web.Api
                 }
                 else
                 {
-                    var oldVendor = _vendorService.Delete(id);
-                    _vendorService.Save();
+                    var oldProvider = _providerService.Delete(id);
+                    _providerService.Save();
 
-                    var responseData = Mapper.Map<Vendor, VendorViewModel>(oldVendor);
+                    var responseData = Mapper.Map<Provider, ProviderViewModel>(oldProvider);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
@@ -167,7 +167,7 @@ namespace MyShop.Web.Api
         [Route("deletemulti")]
         [HttpDelete]
         [AllowAnonymous]
-        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedVendors)
+        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedProviders)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -178,15 +178,15 @@ namespace MyShop.Web.Api
                 }
                 else
                 {
-                    var listVendor = new JavaScriptSerializer().Deserialize<List<int>>(checkedVendors);
-                    foreach (var item in listVendor)
+                    var listProvider = new JavaScriptSerializer().Deserialize<List<int>>(checkedProviders);
+                    foreach (var item in listProvider)
                     {
-                        _vendorService.Delete(item);
+                        _providerService.Delete(item);
                     }
 
-                    _vendorService.Save();
+                    _providerService.Save();
 
-                    response = request.CreateResponse(HttpStatusCode.OK, listVendor.Count);
+                    response = request.CreateResponse(HttpStatusCode.OK, listProvider.Count);
                 }
 
                 return response;

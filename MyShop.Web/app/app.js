@@ -14,7 +14,7 @@
          'myshop.orders',
          'myshop.order_details',
          'myshop.banners',
-         'myshop.vendors',
+         'myshop.providers',
          'myshop.common'])
         .config(config);
 

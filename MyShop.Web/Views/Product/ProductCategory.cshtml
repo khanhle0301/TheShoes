@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MyShop.Web.Models.ProductCategoryViewModel>
+
+<ul>
+    <li class='menu'><a class='menu' href="/san-pham.html">Tất cả sản phẩm</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/hang-moi-ve.html">Hàng mới về</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/khuyen-mai.html">Sản phẩm khuyến mãi</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/noi-bat.html">Sản phẩm nổi bật</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/ban-chay.html">Bán chạy</a></li>
+    @foreach (var category in Model.Where(x => x.ParentID == null))
+    {
+        var url = "/san-pham/" + category.Alias + ".html";
+        <li class='menu'>
+            <a class='menu' href="@url">@category.Name</a>
+        </li>
+    }
+</ul>
+

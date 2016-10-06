@@ -72,7 +72,7 @@ namespace MyShop.Web.Infrastructure.Extensions
             product.Description = productVm.Description;
             product.Alias = productVm.Alias;
             product.CategoryID = productVm.CategoryID;
-            product.VendorID = productVm.VendorID;
+            product.ProviderID = productVm.ProviderID;
             product.Content = productVm.Content;
             product.Quantity = productVm.Quantity;
             product.QuantitySold = productVm.QuantitySold;
@@ -95,6 +95,7 @@ namespace MyShop.Web.Infrastructure.Extensions
             product.Tags = productVm.Tags;
             product.Sizes = productVm.Sizes;
             product.Colors = productVm.Colors;
+            product.Materials = productVm.Materials;
         }
 
         public static void UpdateSlide(this Slide slide, SlideViewModel slideVm)
@@ -189,22 +190,22 @@ namespace MyShop.Web.Infrastructure.Extensions
             orderDetail.Quantitty = orderDetailVm.Quantitty;
         }
 
-        public static void UpdateVendor(this Vendor vendor, VendorViewModel vendorVm)
+        public static void UpdateProvider(this Provider provider, ProviderViewModel providerVm)
         {
-            vendor.ID = vendorVm.ID;
-            vendor.Name = vendorVm.Name;
-            vendor.Description = vendorVm.Description;
-            vendor.Alias = vendorVm.Alias;            
-            vendor.DisplayOrder = vendorVm.DisplayOrder;
-            vendor.Image = vendorVm.Image;
-            vendor.HomeFlag = vendorVm.HomeFlag;
-            vendor.CreatedDate = vendorVm.CreatedDate;
-            vendor.CreatedBy = vendorVm.CreatedBy;
-            vendor.UpdatedDate = vendorVm.UpdatedDate;
-            vendor.UpdatedBy = vendorVm.UpdatedBy;
-            vendor.MetaKeyword = vendorVm.MetaKeyword;
-            vendor.MetaDescription = vendorVm.MetaDescription;
-            vendor.Status = vendorVm.Status;
+            provider.ID = providerVm.ID;
+            provider.Name = providerVm.Name;
+            provider.Description = providerVm.Description;
+            provider.Alias = providerVm.Alias;            
+            provider.DisplayOrder = providerVm.DisplayOrder;
+            provider.Image = providerVm.Image;
+            provider.HomeFlag = providerVm.HomeFlag;
+            provider.CreatedDate = providerVm.CreatedDate;
+            provider.CreatedBy = providerVm.CreatedBy;
+            provider.UpdatedDate = providerVm.UpdatedDate;
+            provider.UpdatedBy = providerVm.UpdatedBy;
+            provider.MetaKeyword = providerVm.MetaKeyword;
+            provider.MetaDescription = providerVm.MetaDescription;
+            provider.Status = providerVm.Status;
         }
 
         public static void UpdateColor(this Color color, ColorViewModel colorVm)
