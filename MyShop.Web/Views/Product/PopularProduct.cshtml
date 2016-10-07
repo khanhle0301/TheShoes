@@ -17,8 +17,12 @@
                         @if (product.PromotionPrice.HasValue)
                         {
                             <ins> @product.PromotionPrice.Value.ToString("N0")₫</ins>
+                            <del> @product.Price.ToString("N0")₫</del>
                         }
-                        <del> @product.Price.ToString("N0")₫</del>
+                        else
+                        {
+                            <ins> @product.Price.ToString("N0")₫</ins>
+                        }
                     </li>
                 </ul>
             </div>

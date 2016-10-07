@@ -27,7 +27,7 @@ namespace MyShop.Service
 
         IEnumerable<Post> GetAllByTagPaging(string tag, int page, int pageSize, out int totalRow);
 
-        IEnumerable<Post> GetHot(int top);
+        IEnumerable<Post> GetNewPost(int top);
 
         IEnumerable<Tag> GetListTagByPostId(int id);
 
@@ -162,9 +162,9 @@ namespace MyShop.Service
             }
         }
 
-        public IEnumerable<Post> GetHot(int top)
+        public IEnumerable<Post> GetNewPost(int top)
         {
-            return _postRepository.GetMulti(x => x.Status && x.HotFlag == true, new string[] { "PostCategory" }).OrderByDescending(x => x.CreatedDate).Take(top);
+            return _postRepository.GetMulti(x => x.Status, new string[] { "PostCategory" }).OrderByDescending(x => x.UpdatedDate).Take(top);
         }
 
         public IEnumerable<Tag> GetListTagByPostId(int id)

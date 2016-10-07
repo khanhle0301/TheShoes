@@ -49,8 +49,8 @@ else
             <h1 class="col-md-6 col-sm-6"> @ViewBag.Category.Name</h1><br>
             <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
                 <li><a href="/"> Trang chủ</a></li>
-                <li><a href="/bai-viet.html"> Bài viết</a></li>
-                <li><a href="/bai-viet/@(ViewBag.Category.Alias).html"> @ViewBag.Category.Name</a></li>
+                <li><a href="/bai-viet/news/"> Bài viết</a></li>
+                <li><a href="/bai-viet/@(ViewBag.Category.Alias)/"> @ViewBag.Category.Name</a></li>
                 <li class="active">@Model.Name</li>
             </ol>
         </div>
@@ -76,7 +76,7 @@ else
                                 for (var i = 0; i < tags.Length; i++)
                                 {
                                     var tagId = StringHelper.ToUnsignString(tags[i]);
-                                    var urlTag = "/bai-viet/tag/" + tagId + ".html";
+                                    var urlTag = "/bai-viet/tag/" + tagId + "/";
                                     <a href="@urlTag"> @tags[i],</a>
                                 }
                             }
@@ -156,7 +156,9 @@ else
                 </div>
                 <!-- new post -->
                 <div class="widget clearfix">
-                    <h4 style='margin-bottom:10px;'>Bài viết mới nhất</h4>
+                    <h4 style="margin-bottom:10px;">
+                        <a href="/bai-viet/news/">Bài viết mới nhất</a>
+                    </h4>
                     @{Html.RenderAction("TopNewPost", "Post");}
                 </div>
                 <!--fackbook-->

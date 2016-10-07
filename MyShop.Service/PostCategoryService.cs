@@ -24,6 +24,8 @@ namespace MyShop.Service
 
         PostCategory GetByAlias(string alias);
 
+        IEnumerable<PostCategory> GetPostCategory();
+
         void Save();
     }
 
@@ -74,6 +76,11 @@ namespace MyShop.Service
         public PostCategory GetById(int id)
         {
             return _postCategoryRepository.GetSingleById(id);
+        }
+
+        public IEnumerable<PostCategory> GetPostCategory()
+        {
+            return _postCategoryRepository.GetMulti(x => x.Status);
         }
 
         public void Save()

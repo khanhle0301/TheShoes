@@ -68,7 +68,7 @@
                                         for (var i = 0; i < tags.Length; i++)
                                         {
                                             var tagId = StringHelper.ToUnsignString(tags[i]);
-                                            var urlTag = "/bai-viet/tag/" + tagId + ".html";
+                                            var urlTag = "/bai-viet/tag/" + tagId + "/";
                                             <a href="@urlTag"> @tags[i],</a>
                                         }
                                     }
@@ -109,7 +109,7 @@
                 <!-- new post -->
                 <div class="widget clearfix">
                     <h4 style="margin-bottom:10px;">
-                        <a href="/bai-viet.html">Bài viết mới nhất</a>
+                        <a href="/bai-viet/news/">Bài viết mới nhất</a>
                     </h4>
                     @{Html.RenderAction("TopNewPost", "Post");}
                 </div>

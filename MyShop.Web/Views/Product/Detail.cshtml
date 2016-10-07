@@ -5,8 +5,9 @@
 }
 
 @section footerJS{
-    <script src="~/Assets/client/js/productPopup.js"></script>
-    <script src="~/Assets/client/js/addCart.js"></script>
+    <script src="~/Assets/client/js/controller/productDetail/productPopup.js"></script>
+    <script src="~/Assets/client/js/controller/productDetail/addtocartPopup.js"></script>
+    <script src="~/Assets/client/js/controller/productDetail/addtocartDetail.js"></script>
 }
 
 @section left_menu{
@@ -53,7 +54,7 @@
         <div class="postcontent nobotto<mmargin clearfix col_last">
             <div class='product-page'>
                 <div class="single-product">
-                    <form method="post" id="ProductDetailsForm" action="http://the-shoes.myharavan.com/???" crossorigin="anonymous">
+                    <form method="post" id="ProductDetailsForm" crossorigin="anonymous">
                         <div class="product">
                             <div class="col_half">
                                 <div class="product-image product-main-image">
@@ -100,41 +101,8 @@
                                 <div class="clear"></div>
                                 <div class="line"></div>
 
-                                <input type="hidden" class='unit_price_not_formated' value="250000000" />
-                                <input type="hidden" class="product_url" value="/products/giay-boot-01" />
-                                <input type="hidden" class="product_title_hd" value="Giầy Boot 01" />
-                                <input type="hidden" class="product_img_small" value="/Assets/client/hstatic.net/198/1000055198/1/2015/12-2/4542652_master.jpg" />
-
-                                <div class="hidden" style="">
-                                    <select id="product-select" name="id">
-
-                                        <option value="1004612584" class="">36 - 2,100,000₫</option>
-
-                                        <option value="1004612585" class="">37 - 2,200,000₫</option>
-
-                                        <option value="1004612588" class="">35 - 2,400,000₫</option>
-                                    </select>
-                                </div>
-                                <script>
-                                    var selectCallback = function (variant, selector) {
-                                        var $tagPrice = '#ProductDetailsForm div.product-price ins';
-                                        var $tagPriceCompare = '#ProductDetailsForm div.product-price del';
-                                        var $tagProductSection = '#ProductDetailsForm';
-                                        update_variant(variant, $tagPrice, $tagPriceCompare, '#addtocart', $tagProductSection);
-                                        if (variant != null && variant.featured_image != null) {
-                                            $(".flex-control-nav li img[src='" + Haravan.resizeImage(variant.featured_image.src, 'master') + "']").click();
-                                        };
-                                    };
-                                    jQuery(document).ready(function ($) {
-
-                                        new Haravan.OptionSelectors("product-select", { product: { "available": true, "compare_at_price_max": 0.0, "compare_at_price_min": 0.0, "compare_at_price_varies": false, "compare_at_price": 0.0, "content": null, "description": "<div>Bảo hành 6 tháng bằng hóa đơn mua hàng</div><div style=\"padding-left: 30px;\" data-mce-style=\"padding-left: 30px;\"><ul><li>Thiết kế tinh tế<br></li><li>Kiểu dáng trẻ trung hiện đại<br></li><li>Màu sắc bắt mắt<br></li><li>Chất liệu cao cấp<br></li><li>Độ bền cao<br></li></ul></div><div><strong>THÔNG TIN SẢN PHẨM</strong></div><div><strong></strong><br></div><div>Hướng đến đối tượng là những bạn trẻ yêu thích vẻ đẹp năng động, tươi tắn, thương hiệu The Shoese Fashion đã cho ra mắt bộ sưu tập giày với những thiết kế vừa hiện đại, vừa hợp xu hướng. Được làm từ chất liệu da cao cấp với phần đế chắc chắn, đảm bảo an toàn cho từng bước đi. Sở hữu kiểu dáng trẻ trung, giày thích hợp phối cùng nhiều trang phục khác nhau. Bên cạnh đó, màu sắc bắt mắt cũng là một ưu điểm, giúp bạn trở nên nổi bật hơn trong mắt mọi người.</div><div><br></div><div><strong>ĐẶC ĐIỂM NỔI BẬT</strong></div><div style=\"padding-left: 30px;\" data-mce-style=\"padding-left: 30px;\"><ul><li>Thiết kế tinh tế, phù hợp với các bạn gái trẻ trung, hiện đại<br></li><li>Trẻ trung, năng động cùng màu sắc bắt mắt là những ưu điểm của những đôi giày này.<br></li></ul></div><div><strong>Thông tin sản phẩm</strong></div><div><br></div><div>Bộ sản phẩm bao gồm: 1 x sản phẩm</div><div><br></div><div><strong><strong>Đặc điểm chính:<br></strong></strong><strong><br></strong></div><table border=\"0\" cellpadding=\"1\" cellspacing=\"1\" height=\"auto\" width=\"100%\" class=\"mce-item-table\" data-mce-selected=\"1\"><tbody><tr><td>Thương Hiệu</td><td>EGANY</td></tr><tr><td>Danh Mục</td><td>Giày nữ</td></tr><tr><td>Chất liệu</td><td>Da tổng hợp cao cấp<br></td></tr><tr><td>Kích thước</td><td>sản phẩm (D x R x C cm)<span class=\"Apple-tab-span\" style=\"white-space: pre;\" data-mce-style=\"white-space: pre;\">\t</span>25x10x7<br></td></tr><tr><td>Thời gian giao hàng&nbsp;</td><td>1-3 ngày làm việc</td></tr><tr><td>Chính Sách Bảo Hành</td><td>Bảo hành chính hãng</td></tr><tr><td>Showroom</td><td>61/2 Quang Trung, P.10 ,&nbsp;Q. Gò Vấp, TP. HCM</td></tr><tr><td>Hotline</td><td>0909 000 000</td></tr></tbody></table><div id=\"mceResizeHandlen\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: n-resize; margin: 0px; padding: 0px; left: 392.5px; top: 334.5px;\"></div><div id=\"mceResizeHandlee\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: e-resize; margin: 0px; padding: 0px; left: 780.5px; top: 408px;\"></div><div id=\"mceResizeHandles\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: s-resize; margin: 0px; padding: 0px; left: 392.5px; top: 481.5px;\"></div><div id=\"mceResizeHandlew\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: w-resize; margin: 0px; padding: 0px; left: 4.5px; top: 408px;\"></div><div id=\"mceResizeHandlenw\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: nw-resize; margin: 0px; padding: 0px; left: 4.5px; top: 334.5px;\"></div><div id=\"mceResizeHandlene\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: ne-resize; margin: 0px; padding: 0px; left: 780.5px; top: 334.5px;\"></div><div id=\"mceResizeHandlese\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: se-resize; margin: 0px; padding: 0px; left: 780.5px; top: 481.5px;\"></div><div id=\"mceResizeHandlesw\" data-mce-bogus=\"all\" class=\"mce-resizehandle\" unselectable=\"true\" style=\"cursor: sw-resize; margin: 0px; padding: 0px; left: 4.5px; top: 481.5px;\"></div>", "featured_image": "http://hstatic.net/198/1000055198/1/2015/12-2/4542652.jpg", "handle": "giay-boot-01", "id": 1001274873, "images": ["http://hstatic.net/198/1000055198/1/2015/12-2/4542652.jpg", "/Assets/client/hstatic.net/198/1000055198/1/2015/12-2/4542652-2.jpg", "http://hstatic.net/198/1000055198/1/2015/12-2/4542652-1.jpg"], "options": ["Kích thước"], "price": 250000000.0, "price_max": 250000000.0, "price_min": 250000000.0, "price_varies": false, "tags": ["loai_Giầy Boot", "chatlieu_Nhung cao cấp", "mausac_Đen"], "template_suffix": null, "title": "Giầy Boot 01", "type": "Giầy Boot", "url": "/products/giay-boot-01", "pagetitle": "Giầy Boot 01", "metadescription": null, "variants": [{ "id": 1004612584, "barcode": null, "available": true, "price": 250000000.0, "sku": "42H80GT5-1", "option1": "36", "option2": "", "option3": "", "options": ["36"], "inventory_quantity": 1, "old_inventory_quantity": 1, "title": "36", "weight": 400.0, "compare_at_price": 0.0, "inventory_management": null, "inventory_policy": "deny", "selected": false, "url": null, "featured_image": null }, { "id": 1004612585, "barcode": null, "available": true, "price": 250000000.0, "sku": "42H80GT5-2", "option1": "37", "option2": "", "option3": "", "options": ["37"], "inventory_quantity": 1, "old_inventory_quantity": 1, "title": "37", "weight": 400.0, "compare_at_price": 0.0, "inventory_management": null, "inventory_policy": "deny", "selected": false, "url": null, "featured_image": null }, { "id": 1004612588, "barcode": null, "available": true, "price": 250000000.0, "sku": "42H80GT5-5", "option1": "35", "option2": "", "option3": "", "options": ["35"], "inventory_quantity": 1, "old_inventory_quantity": 1, "title": "35", "weight": 400.0, "compare_at_price": 0.0, "inventory_management": null, "inventory_policy": "deny", "selected": false, "url": null, "featured_image": null }], "vendor": "Isabel Marant", "published_at": "2015-11-28T11:00:05.933Z", "created_at": "2015-12-02T17:47:38.27Z" }, onVariantSelected: selectCallback });
-
-                                    });
-                                </script>
-
                                 <!-- variants -->
                                 <div class="product-page-options ">
-
                                     <div class="sizePicker" id='option-0'>
                                         <label class="control-label options-title">Kích thước:</label>
                                         <div class='options-selection'>
@@ -148,7 +116,6 @@
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="sizePicker" id='option-0'>
                                         <label class="control-label options-title">Màu sắc:</label>
                                         <div class='options-selection'>
@@ -165,16 +132,15 @@
                                 </div>
                                 <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
                                     <input type="button" value="-" class="minus">
-                                    <input type="text" id='product_quantity' readonly step="1" min="1" name="quantity" value="1" title="Qty" class="qty" size="4" />
+                                    <input type="text" id='product_quantity' readonly step="1" min="1" name="quantity" value="1" title="Số lượng" class="qty" size="4" />
                                     <input type="button" value="+" class="plus">
                                 </div>
                                 <script>
                                     var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
-
                                     $('#ProductDetailsForm .minus').click(function () {
                                         if (quantity > 0) {
                                             if (quantity == 1) {
-                                                $('#addcart').attr('disabled', 'disabled');
+                                                $('#addcartDetail').attr('disabled', 'disabled');
                                             }
                                             quantity -= 1;
                                         }
@@ -184,7 +150,7 @@
                                         $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
                                     });
                                     $('#ProductDetailsForm  .plus').click(function () {
-                                        $('#addcart').removeAttr('disabled');
+                                        $('#addcartDetail').removeAttr('disabled');
                                         if (quantity < 100) {
                                             quantity += 1;
                                         }
@@ -196,7 +162,7 @@
                                 </script>
                                 @if (Model.Quantity.HasValue && Model.Quantity > 0)
                                 {
-                                    <button type="submit" id="addcart" data-id="@Model.ID" class="add-to-cart col-xs-6 button nomargin btnAddToCart">Thêm vào giỏ</button>
+                                    <button type="submit" id="addcartDetail" data-id="@Model.ID" class="btnAddToCart col-xs-6 button nomargin">Thêm vào giỏ</button>
                                     <button type="submit" class="button col-xs-12 nopadding">Mua ngay</button>
                                     <input type="hidden" id="hidProductID" value="@Model.ID" />
                                 }
@@ -204,17 +170,10 @@
                                 {
                                     <button type="button" class="add-to-cart button nomargin">Hết hàng</button>
                                 }
-
-                                <!--</form>--><!-- Product Single - Quantity & Cart Button End -->
                                 <div class="clear"></div>
                                 <div class="line"></div>
 
-                                <!-- Product Single - Short Description
-                                ============================================= -->
                                 <p>@Model.Description</p>
-                                <!-- Product Single - Short Description End -->
-                                <!-- Product Single - Meta
-                                ============================================= -->
 
                                 <div class="panel panel-default product-meta">
                                     <div class="panel-body">
@@ -222,7 +181,7 @@
                                             Tags:
                                             @foreach (var tag in (IEnumerable<MyShop.Web.Models.TagViewModel>)ViewBag.Tags)
                                             {
-                                                <a href="/collections/all/hot-products" rel="tag">@(tag.Name), </a>
+                                                <a href="/san-pham/tag/@tag.ID/" rel="tag">@(tag.Name), </a>
                                             }
                                         </span>
                                     </div>
@@ -239,9 +198,7 @@
                                 </div>
                             </div>
                             <div class="col_full nobottommargin">
-
                                 <div class="tabs clearfix nobottommargin hidden-xs" id="tab-1">
-
                                     <ul class="tab-nav clearfix">
                                         <li><a href="#tabs-1"><i class="icon-align-justify2"></i><span class="hidden-xs"> Mô tả</span></a></li>
                                         <li class=''><a href="#tabs-2"><i class="icon-info-sign"></i><span class="hidden-xs"> Bình luận</span></a></li>
@@ -282,8 +239,7 @@
                                         <!--facebook-->
                                         <div id="collapseTwo" class="panel-collapse collapse in " role="tabpanel">
                                             <div class="panel-body">
-                                                <div id="fb-root"></div>
-                                                <div class="fb-comments" data-href="http://the-shoes.myharavan.com/products/giay-boot-01" data-numposts="5" width="100%" data-colorscheme="light"></div>
+                                               
                                             </div>
                                         </div>
                                     </div>
@@ -349,11 +305,9 @@
                                 <div class="product-image">
                                     <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                     <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-
                                     <div class="product-overlay">
                                         <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                        <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                        <input type="hidden" id="hidProductID" value="@product.ID" />
+                                        <a href="#" class="btn-productPopup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
                                     </div>
                                 </div>
                                 <div class="product-desc center">
@@ -398,7 +352,7 @@
 
                 <!-- On Sale product -->
                 <div class="widget clearfix">
-                    <h4><a href="/san-pham/khuyen-mai.html">Sản phẩm khuyến mãi</a></h4>
+                    <h4><a href="/san-pham/onsale/">Sản phẩm khuyến mãi</a></h4>
                     @{Html.RenderAction("TopOnSale", "Product");}
                 </div>
 
@@ -410,7 +364,7 @@
 
                 <!-- most popular -->
                 <div class="widget clearfix">
-                    <h4><a href='#'>Sản phẩm được xem nhiều</a></h4>
+                    <h4><a href='/san-pham/viewcount/'>Sản phẩm được xem nhiều</a></h4>
                     @{Html.RenderAction("PopularProduct", "Product");}
                 </div>
 
@@ -421,77 +375,77 @@
             </div>
         </div>
     </div>
-    <script id="tpl-product-size" type="x-tmpl-mustache">
-        <option value="{{ProductSize}}">{{ProductSize}}</option>
-    </script>
+</div>
 
-    <script id="tpl-product-color" type="x-tmpl-mustache">
-        <option value="{{ProductColor}}">{{ProductColor}}</option>
-    </script>
+<script id="tpl-productPopup-size" type="x-tmpl-mustache">
+    <option value="{{ProductSize}}">{{ProductSize}}</option>
+</script>
 
-    <div id="productManange" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" id="productName"></h4>
-                </div>
-                <div class="modal-body" style="height:auto">
-                    <div class="product-page-options">
-                        <div class="sizePicker">
-                            <label class="control-label options-title">Kích thước</label>
-                            <div class="options-selection">
-                                <select id="product-size" class="form-control input-sm size"></select>
-                            </div>
+<script id="tpl-productPopup-color" type="x-tmpl-mustache">
+    <option value="{{ProductColor}}">{{ProductColor}}</option>
+</script>
+
+<div id="productPopupManange" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="productPopupName"></h4>
+            </div>
+            <div class="modal-body" style="height:auto">
+                <div class="product-page-options">
+                    <div class="sizePicker">
+                        <label class="control-label options-title">Kích thước</label>
+                        <div class="options-selection">
+                            <select id="productPopup-size" class="form-control input-sm size"></select>
                         </div>
-
-                        <div class="sizePicker">
-                            <label class="control-label options-title">Màu sắc:</label>
-                            <div class="options-selection">
-                                <select id="product-color" class="form-control input-sm color" style="color:#555!important;"></select>
-                            </div>
-                        </div>
-
                     </div>
 
-                    <form id="ProductDetailsForm" class="nobottommargin clearfix">
-                        <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
-                            <input type="button" value="-" class="minus">
-                            <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Qty" size="4">
-                            <input type="button" value="+" class="plus">
+                    <div class="sizePicker">
+                        <label class="control-label options-title">Màu sắc:</label>
+                        <div class="options-selection">
+                            <select id="productPopup-color" class="form-control input-sm color" style="color:#555!important;"></select>
                         </div>
-                        <button type="submit" id="addcart" class="btnAddToCart button nomargin col-xs-6">Thêm vào giỏ</button>
-                        <button type="submit" class="abc buy_btn button col-xs-12" id="buynow">Mua ngay </button>
-                        <input type="hidden" id="hidProductID" value="0" />
-                    </form>
-
-                    <script>
-                        var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
-                        $('#ProductDetailsForm .minus').click(function () {
-                            if (quantity > 0) {
-                                if (quantity == 1) {
-                                    $('#addcart').attr('disabled', 'disabled');
-                                }
-                                quantity -= 1;
-                            }
-                            else {
-                                quantity = 0;
-                            }
-                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
-                        });
-                        $('#ProductDetailsForm  .plus').click(function () {
-                            $('#addcart').removeAttr('disabled');
-                            if (quantity < 100) {
-                                quantity += 1;
-                            }
-                            else {
-                                quantity = 100;
-                            }
-                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
-                        });
-                    </script>
+                    </div>
                 </div>
+
+                <form id="ProductDetailsPopupForm" class="nobottommargin clearfix">
+                    <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
+                        <input type="button" value="-" class="minus">
+                        <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Số lượng" size="4">
+                        <input type="button" value="+" class="plus">
+                    </div>
+                    <button type="submit" id="addcart" class="btnAddToCartDetail button nomargin col-xs-6">Thêm vào giỏ</button>
+                    <button type="submit" class="buy_btn button col-xs-12" id="buynow">Mua ngay </button>
+                    <input type="hidden" id="hidProductIDPopup" value="0" />
+                </form>
+
+                <script>
+                    var quantity = parseInt($('#ProductDetailsPopupForm .product-quantity input.qty').val());
+                    $('#ProductDetailsPopupForm .minus').click(function () {
+                        if (quantity > 0) {
+                            if (quantity == 1) {
+                                $('#addcart').attr('disabled', 'disabled');
+                            }
+                            quantity -= 1;
+                        }
+                        else {
+                            quantity = 0;
+                        }
+                        $('#ProductDetailsPopupForm .product-quantity input.qty').val(quantity);
+                    });
+                    $('#ProductDetailsPopupForm  .plus').click(function () {
+                        $('#addcart').removeAttr('disabled');
+                        if (quantity < 100) {
+                            quantity += 1;
+                        }
+                        else {
+                            quantity = 100;
+                        }
+                        $('#ProductDetailsPopupForm .product-quantity input.qty').val(quantity)
+                    });
+                </script>
             </div>
         </div>
     </div>

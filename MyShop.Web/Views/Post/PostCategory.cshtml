@@ -3,7 +3,7 @@
 <ul>
     @foreach (var cate in Model)
     {
-        var url = "/bai-viet/" + cate.Alias + ".html";
+        var url = "/bai-viet/" + cate.Alias + "/";
         <li><a href="@url">@cate.Name</a></li>
     }
 </ul>

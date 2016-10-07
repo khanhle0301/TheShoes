@@ -4,6 +4,11 @@
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
+@section footerJS{
+    <script src="~/Assets/client/js/productPopup.js"></script>
+    <script src="~/Assets/client/js/addtocart.js"></script>
+}
+
 @section left_menu{
     <script>
         $(window).load(function () {
@@ -51,9 +56,9 @@
                         <!-- Slide  -->
                         @foreach (var slide in Model.Slides)
                         {
-                            <li data-transition="random" data-slotamount="7" data-link="@slide.Url" data-title="@slide.Name">
-                                <img src="@slide.Image">
-                            </li>
+                        <li data-transition="random" data-slotamount="7" data-link="@slide.Url" data-title="@slide.Name">
+                            <img src="@slide.Image">
+                        </li>
                         }
                     </ul>
                 </div>

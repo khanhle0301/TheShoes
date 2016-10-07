@@ -32,8 +32,6 @@ namespace MyShop.Service
 
         IEnumerable<Product> GetReatedProducts(int id, int top);
 
-        IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize, string sort, string price, out int totalRow);
-
         Product GetById(int id);
 
         Product GetAllById(int id);
@@ -48,9 +46,25 @@ namespace MyShop.Service
 
         void IncreaseView(int id);
 
+        IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, string sort, string price, string provider, string color, string chatlieu);
 
-        IEnumerable<Product> Demo(int categoryId, string sort, string price, string provider, string color,string chatlieu);
+        IEnumerable<Product> GetListProductAllPaging(string sort, string price, string provider, string color, string chatlieu);
 
+        IEnumerable<Product> GetListProductOnSalePaging(string sort, string price, string provider, string color, string chatlieu);
+
+        IEnumerable<Product> GetListProductHotPaging(string sort, string price, string provider, string color, string chatlieu);
+
+        IEnumerable<Product> GetListProductSaleHotPaging(string sort, string price, string provider, string color, string chatlieu);
+
+        IEnumerable<Product> GetListProductNewPaging(string sort, string price, string provider, string color, string chatlieu);
+
+        IEnumerable<Product> GetListProductViewCountPaging(string sort, string price, string provider, string color, string chatlieu);
+
+        IEnumerable<Product> GetAllByTagPaging(string tagid, string sort, string price, string provider, string color, string chatlieu);
+
+        IEnumerable<Product> GetAllBySearch(string keyword, string filter, string sort, string price, string provider, string color, string chatlieu);
+
+        IEnumerable<string> GetListProductByName(string name);
 
         void Save();
     }
@@ -66,6 +80,7 @@ namespace MyShop.Service
         private IProductColorRepository _productColorRepository;
         private IMaterialRepository _materialRepository;
         private IProductMaterialRepository _productMaterialRepository;
+        private IProductCategoryRepository _productCategoryRepository;
 
         private IUnitOfWork _unitOfWork;
 
@@ -73,8 +88,10 @@ namespace MyShop.Service
                                 ITagRepository tagRepository, ISizeRepository sizeRepository,
                                 IColorRepository colorRepository, IProductSizeRepository productSizeRepository,
                                 IMaterialRepository materialRepository, IProductMaterialRepository productMaterialRepository,
+                                IProductCategoryRepository productCategoryRepository,
         IProductColorRepository productColorRepository, IUnitOfWork unitOfWork)
         {
+            this._productCategoryRepository = productCategoryRepository;
             this._productRepository = productRepository;
             this._productTagRepository = productTagRepository;
             this._tagRepository = tagRepository;
@@ -328,77 +345,6 @@ namespace MyShop.Service
                                                 .OrderByDescending(x => x.CreatedDate);
         }
 
-        public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize, string sort, string price, out int totalRow)
-        {
-            var query = _productRepository.GetMulti(x => x.Status && x.CategoryID == categoryId);
-            IEnumerable<Product> result = Enumerable.Empty<Product>();
-
-            if (!string.IsNullOrEmpty(price))
-            {
-                var priceArr = price.Split(',');
-                for (int i = 0; i < priceArr.Length; i++)
-                {
-                    if (priceArr[i] == "-100")
-                        result = result.Concat(query.Where(x => x.Price < 100000));
-                    else if (priceArr[i] == "100-300")
-                        result = result.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
-                    else if (priceArr[i] == "300-500")
-                        result = result.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
-                    else if (priceArr[i] == "500-1000")
-                        result = result.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
-                    else if (priceArr[i] == "1000")
-                        result = result.Concat(query.Where(x => x.Price > 1000000));
-                }
-            }
-            else
-            {
-                result = result.Concat(query); ;
-            }
-
-            switch (sort)
-            {
-                case "manual":
-                    result = result.OrderByDescending(x => x.HotFlag);
-                    break;
-
-                case "price_asc":
-                    result = result.OrderBy(x => x.Price);
-                    break;
-
-                case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
-                    break;
-
-                case "name_asc":
-                    result = result.OrderBy(x => x.Name);
-                    break;
-
-                case "name_desc":
-                    result = result.OrderByDescending(x => x.Name);
-                    break;
-
-                case "updated_asc":
-                    result = result.OrderBy(x => x.UpdatedDate);
-                    break;
-
-                case "updated_desc":
-                    result = result.OrderByDescending(x => x.UpdatedDate);
-                    break;
-
-                case "sold_quantity":
-                    result = result.OrderByDescending(x => x.QuantitySold);
-                    break;
-
-                default:
-                    result = result.OrderByDescending(x => x.UpdatedDate);
-                    break;
-            }
-
-            totalRow = result.Count();
-
-            return result.Skip((page - 1) * pageSize).Take(pageSize);
-        }
-
         public Product GetByAlias(string alias)
         {
             return _productRepository.GetSingleByCondition(x => x.Alias == alias);
@@ -447,7 +393,7 @@ namespace MyShop.Service
             return _productColorRepository.GetMulti(x => x.ProductID == id, new string[] { "Color" }).Select(y => y.Color);
         }
 
-        public IEnumerable<Product> Demo(int categoryId, string sort, string price, string provider, string color,string chatlieu)
+        public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, string sort, string price, string provider, string color, string chatlieu)
         {
             var query = _productRepository.GetMulti(x => x.Status && x.CategoryID == categoryId, new string[] { "ProductCategory" });
 
@@ -523,6 +469,986 @@ namespace MyShop.Service
             var result = resultChatlieu.Distinct();
             switch (sort)
             {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<Product> GetListProductAllPaging(string sort, string price, string provider, string color, string chatlieu)
+        {
+
+            var query = _productRepository.GetMulti(x => x.Status, new string[] { "ProductCategory" });
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<Product> GetListProductOnSalePaging(string sort, string price, string provider, string color, string chatlieu)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.PromotionPrice.HasValue, new string[] { "ProductCategory" });
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<Product> GetListProductHotPaging(string sort, string price, string provider, string color, string chatlieu)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.HotFlag == true, new string[] { "ProductCategory" });
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<Product> GetListProductSaleHotPaging(string sort, string price, string provider, string color, string chatlieu)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.QuantitySold.HasValue, new string[] { "ProductCategory" });
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<Product> GetListProductNewPaging(string sort, string price, string provider, string color, string chatlieu)
+        {
+            var query = _productRepository.GetMulti(x => x.Status, new string[] { "ProductCategory" }).OrderByDescending(x => x.UpdatedDate).Take(12);
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<Product> GetListProductViewCountPaging(string sort, string price, string provider, string color, string chatlieu)
+        {
+            var query = _productRepository.GetMulti(x => x.Status, new string[] { "ProductCategory" }).OrderByDescending(x => x.ViewCount).Take(12);
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<Product> GetAllByTagPaging(string tagid, string sort, string price, string provider, string color, string chatlieu)
+        {
+            var query = _productRepository.GetAllByTag(tagid);
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "manual":
+                    result = result.OrderByDescending(x => x.HotFlag);
+                    break;
+
+                case "price_asc":
+                    result = result.OrderBy(x => x.Price);
+                    break;
+
+                case "price_desc":
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+
+                case "name_asc":
+                    result = result.OrderBy(x => x.Name);
+                    break;
+
+                case "name_desc":
+                    result = result.OrderByDescending(x => x.Name);
+                    break;
+
+                case "updated_asc":
+                    result = result.OrderBy(x => x.UpdatedDate);
+                    break;
+
+                case "updated_desc":
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+
+                case "sold_quantity":
+                    result = result.OrderByDescending(x => x.QuantitySold);
+                    break;
+
+                default:
+                    result = result.OrderByDescending(x => x.UpdatedDate);
+                    break;
+            }
+            return result;
+        }
+
+        public IEnumerable<string> GetListProductByName(string name)
+        {
+            return _productRepository.GetMulti(x => x.Status && x.Name.Contains(name)).Select(y => y.Name);            
+        }
+
+        public IEnumerable<Product> GetAllBySearch(string keyword, string filter, string sort, string price, string provider, string color, string chatlieu)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.Name.Contains(keyword), new string[] { "ProductCategory" });
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                switch (filter)
+                {
+                    case "onsale":
+                        query = query.Where(x => x.PromotionPrice.HasValue);
+                        break;
+                    case "hot":
+                        query = query.Where(x => x.HotFlag.HasValue);
+                        break;
+                    case "ban-chay":
+                        query = query.Where(x => x.QuantitySold.HasValue);
+                        break;
+                    case "news":
+                        query = query.OrderByDescending(x => x.UpdatedDate);
+                        break;
+                    default:
+                        var category = _productCategoryRepository.GetSingleByCondition(x => x.Alias == filter);
+                        query = query.Where(x => x.CategoryID == category.ID);
+                        break;
+                }
+            }
+            else
+            {
+                query = query.Concat(query);
+            }
+
+            IEnumerable<Product> priceResult = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(price))
+            {
+                var priceArr = price.Split(',');
+                for (int i = 0; i < priceArr.Length; i++)
+                {
+                    if (priceArr[i] == "-100")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price < 100000));
+                    else if (priceArr[i] == "100-300")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                    else if (priceArr[i] == "300-500")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                    else if (priceArr[i] == "500-1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                    else if (priceArr[i] == "1000")
+                        priceResult = priceResult.Concat(query.Where(x => x.Price > 1000000));
+                }
+            }
+            else
+            {
+                priceResult = priceResult.Concat(query);
+            }
+
+            IEnumerable<Product> resultProvider = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(provider))
+            {
+                var providerArr = provider.Split(',');
+                foreach (var item in providerArr)
+                {
+                    resultProvider = resultProvider.Concat(priceResult.Where(x => x.ProviderID == int.Parse(item.ToString())));
+                }
+            }
+            else
+            {
+                resultProvider = resultProvider.Concat(priceResult);
+            }
+
+            IEnumerable<Product> resultColor = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                var colorArr = color.Split(',');
+                foreach (var item in colorArr)
+                {
+                    resultColor = resultColor.Concat(resultProvider.Where(x => x.Colors != null && x.Colors.Contains(item)));
+                }
+            }
+            else
+            {
+                resultColor = resultColor.Concat(resultProvider);
+            }
+
+            IEnumerable<Product> resultChatlieu = Enumerable.Empty<Product>();
+
+            if (!string.IsNullOrEmpty(chatlieu))
+            {
+                var chatlieuArr = chatlieu.Split(',');
+                foreach (var item in chatlieuArr)
+                {
+                    resultChatlieu = resultChatlieu.Concat(resultColor.Where(x => x.Materials != null && x.Materials.Contains(item)));
+                }
+            }
+            else
+            {
+                resultChatlieu = resultChatlieu.Concat(resultColor);
+            }
+
+            var result = resultChatlieu.Distinct();
+            switch (sort)
+            {
+                case "viewcount":
+                    result = result.OrderByDescending(x => x.ViewCount);
+                    break;
                 case "manual":
                     result = result.OrderByDescending(x => x.HotFlag);
                     break;

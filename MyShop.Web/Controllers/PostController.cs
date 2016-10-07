@@ -83,7 +83,7 @@ namespace MyShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult TopNewPost()
         {
-            var model = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetHot(3));
+            var model = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetNewPost(3));
             return PartialView(model);
         }
 
@@ -97,7 +97,7 @@ namespace MyShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult PostCategory()
         {
-            var model = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetAll());
+            var model = Mapper.Map<IEnumerable<PostCategory>, IEnumerable<PostCategoryViewModel>>(_postCategoryService.GetPostCategory());
             return PartialView(model);
         }
 

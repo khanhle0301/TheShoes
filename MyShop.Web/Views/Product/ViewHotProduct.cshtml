@@ -1,8 +1,388 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "ViewHotProduct";
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
-<h2>ViewHotProduct</h2>
+@section footerJS{
+    <script src="~/Assets/client/js/controller/productHotController.js"></script>
+    <script src="~/Assets/client/js/addtocart.js"></script>
+}
 
+@section left_menu{
+    <div class="panel-group left_menu col-md-3 hidden-xs hidden-sm" id='left_menu'>
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <i class='icon-line-menu'></i> Menu
+            </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse in">
+            <div class="panel-body">
+                @{Html.RenderAction("Category", "Home");}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+
+    <script>
+        $(window).load(function () {
+            $('.left_menu').addClass('left_menu_sticker');
+        });
+    </script>
+}
+
+@section title{
+    <section id="page-title">
+        <div class="container clearfix">
+            <h1 class="col-md-6 col-sm-6">Sản phẩm nỗi bật</h1><br class="hidden-xs">
+            <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
+                <li><a href="/">Trang chủ</a></li>
+                <li class="active">Sản phẩm nỗi bật</li>
+            </ol>
+        </div>
+    </section>
+}
+<div class="content-wrap">
+    <div class="container clearfix">
+        <div class="postcontent nobottommargin col_last">
+            <div class="panel-group hidden-lg hidden-md filter_group filter_collection_sm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a data-toggle="collapse" href="#filter_group_sm">
+                            <h4 class="panel-title">
+                                Lọc sản phẩm<i class='icon-angle-down'></i>
+                            </h4>
+                        </a>
+                    </div>
+                    <div id="filter_group_sm" class="panel-collapse collapse">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="widget widget_links providers clearfix">
+                                    <a href='#filter_group_sm_1' data-toggle='collapse'><h4>THƯƠNG HIỆU<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_1' class='panel-collapse collapse'>
+                                        @foreach (var provider in (IEnumerable<MyShop.Web.Models.ProviderViewModel>)ViewBag.Providers)
+                                        {
+                                            <li>
+                                                <label>
+                                                    <input class="vendor" type="checkbox" value="@provider.ID"> @provider.Name
+                                                </label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="widget widget_links colors clearfix">
+                                    <a href='#filter_group_sm_3' data-toggle='collapse'><h4>MÀU SẮC<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_3' class='panel-collapse collapse color_filter'>
+                                        @foreach (var color in (IEnumerable<MyShop.Web.Models.ColorViewModel>)ViewBag.Colors)
+                                        {
+                                            <li>
+                                                <label class='color_wrapper'>
+                                                    <input style='background-color: @color.Background' class="mausac color_block" type="checkbox" value="@color.Name">
+                                                </label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="widget widget_links prices clearfix">
+                                    <a href='#filter_group_sm_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_4' class='panel-collapse collapse'>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" value="-100"> dưới 100,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" value="100-300"> 100,000₫ - 300,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" value="300-500"> 300,000₫ - 500,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" value="500-1000"> 500,000₫ - 1,000,000₫
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input class="price" type="checkbox" value="1000"> trên 1,000,000₫
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="widget widget_links chatlieus clearfix">
+                                    <a href='#filter_group_sm_6' data-toggle='collapse'><h4>CHẤT LIỆU<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_6' class='panel-collapse collapse'>
+                                        @foreach (var material in (IEnumerable<MyShop.Web.Models.MaterialViewModel>)ViewBag.Materials)
+                                        {
+                                            <li>
+                                                <label><input class="chatlieu" type="checkbox" value="@material.Name"> @material.Name</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="shop" class="product-3 clearfix">
+                <span id="notfound_product" class="col-sm-6 text-center">Hiện không có sản phẩm nào</span>
+                <div class='row sort-wrapper' id="product_top">
+                    <div class="browse-tags col-xs-12 pull-right norightpadding" style='margin-bottom: 30px;'>
+                        <div class="col-md-4 col-sm-6">
+                            <p class="subtext nomargin">
+                                Có <span class='require_symbol' id="productCount"></span> sản phẩm.
+                            </p>
+                        </div>
+                        <div class='col-md-5 col-lg-6 col-xs-4 col-sm-3 text-right' style='line-height: 30px;'>
+                            <span>Sắp xếp theo:</span>
+                        </div>
+                        <div class='col-md-3 col-lg-2 col-xs-7 col-sm-3 norightpadding noleftpadding'>
+                            <span class="custom-dropdown custom-dropdown--white pull-right">
+                                <select id="sortControl" class="sort-by custom-dropdown__select custom-dropdown__select--white form-control input-sm">
+                                    <option value="manual">Sản phẩm nổi bật</option>
+                                    <option value="price_asc">Giá: Tăng dần</option>
+                                    <option value="price_desc">Giá: Giảm dần</option>
+                                    <option value="name_asc">Tên: A-Z</option>
+                                    <option value="name_desc">Tên: Z-A</option>
+                                    <option value="updated_asc">Cũ nhất</option>
+                                    <option value="updated_desc">Mới nhất</option>
+                                    <option value="sold_quantity">Bán chạy nhất</option>
+                                    <option value="viewcount">Được xem nhiều</option>
+                                </select>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div id='grid_pagination'>
+                    <div class='product_wrapper' id="tblData">
+                    </div>
+                    <div class="pagination_wrapper">
+                        <div id="pagination" class="pagination">
+                        </div>
+                    </div>
+                    <script>
+                        jQuery(document).ready(function () {
+                            if (typeof Layout != 'undefinded') {
+                                Layout.init();
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar nobottommargin  left-sidebar hidden-sm hidden-xs">
+            <div class="sidebar-widgets-wrap">
+                <div class="panel-group filter_group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a data-toggle="collapse" href="#filter_group">
+                                <h4 class="panel-title">
+                                    LỌC SẢN PHẨM<i class='icon-angle-down'></i>
+                                </h4>
+                            </a>
+                        </div>
+                        <div id="filter_group" class="panel-collapse collapse in">
+                            <div class="widget widget_links providers clearfix">
+                                <a href='#filter_group_1' data-toggle='collapse'><h4>THƯƠNG HIỆU<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_1' class='panel-collapse collapse in'>
+                                    @foreach (var provider in (IEnumerable<MyShop.Web.Models.ProviderViewModel>)ViewBag.Providers)
+                                    {
+                                        <li>
+                                            <label>
+                                                <input class="vendor" type="checkbox" value="@provider.ID"> @provider.Name
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="widget widget_links colors clearfix">
+                                <a href='#filter_group_3' data-toggle='collapse'><h4>MÀU SẮC<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_3' class='panel-collapse collapse in color_filter'>
+                                    @foreach (var color in (IEnumerable<MyShop.Web.Models.ColorViewModel>)ViewBag.Colors)
+                                    {
+                                        <li>
+                                            <label class='color_wrapper'>
+                                                <input data-toggle="tooltip" title="@color.Name" style='background-color: @color.Background' class="mausac color_block" type="checkbox" value="@color.Name">
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="widget widget_links prices clearfix">
+                                <a href='#filter_group_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_4' class='panel-collapse collapse in'>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" value="-100"> dưới 100,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" value="100-300"> 100,000₫ - 300,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" value="300-500"> 300,000₫ - 500,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" value="500-1000"> 500,000₫ - 1,000,000₫
+                                        </label>
+                                    </li>
+                                    <li>
+                                        <label>
+                                            <input class="price" type="checkbox" value="1000"> trên 1,000,000₫
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="widget widget_links chatlieus clearfix">
+                                <a href='#filter_group_6' data-toggle='collapse'><h4>CHẤT LIỆU<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_6' class='panel-collapse collapse in'>
+                                    @foreach (var material in (IEnumerable<MyShop.Web.Models.MaterialViewModel>)ViewBag.Materials)
+                                    {
+                                        <li>
+                                            <label><input class="chatlieu" type="checkbox" value="@material.Name"> @material.Name</label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- categories -->
+                <div class="widget widget_links clearfix">
+                    <h4>Danh mục sản phẩm</h4>
+                    @{Html.RenderAction("ProductCategory", "Product");}
+                </div>
+                <div class="widget clearfix">
+                    <h4><a href='/san-pham/viewcount/'>Được xem nhiều</a></h4>
+                    @{Html.RenderAction("PopularProduct", "Product");}
+                </div>
+
+                <!-- recent view -->
+                <div class="widget clearfix">
+                    <h4>Sản phẩm vừa xem</h4>
+                    @{Html.RenderAction("RecentProduct", "Product");}
+                </div>              
+            </div>
+        </div>
+    </div>
+
+    <script id="data-template" type="x-tmpl-mustache">
+        <div class="product clearfix">
+            <div class="product-image">
+                <a href="{{url}}"><img src="{{ProductImage}}" alt="{{ProductName}}"></a>
+                <a href="{{url}}"><img src="{{ProductImage2}}" alt="{{ProductName}}"></a>             
+                <div class="product-overlay">
+                    <a href="{{url}}" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
+                    <a href="#" class="btn-popup" data-id="{{ProductID}}"><i class="icon-shopping-cart"></i> Đặt hàng</a>
+                    <input type="hidden" id="hidProductID" value="{{ProductID}}" />
+                </div>
+            </div>
+            <div class="product-desc center">
+                <div class="product-title"><h3><a href="{{url}}">{{ProductName}}</a></h3></div>
+                <div class="product-price">
+                    <ins>{{ProductPrice}}₫ </ins>                   
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id="tpl-product-size" type="x-tmpl-mustache">
+        <option value="{{ProductSize}}">{{ProductSize}}</option>
+    </script>
+
+    <script id="tpl-product-color" type="x-tmpl-mustache">
+        <option value="{{ProductColor}}">{{ProductColor}}</option>
+    </script>
+
+    <div id="productManange" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="productName"></h4>
+                </div>
+                <div class="modal-body" style="height:auto">
+                    <div class="product-page-options">
+                        <div class="sizePicker">
+                            <label class="control-label options-title">Kích thước</label>
+                            <div class="options-selection">
+                                <select id="product-size" class="form-control input-sm size"></select>
+                            </div>
+                        </div>
+
+                        <div class="sizePicker">
+                            <label class="control-label options-title">Màu sắc:</label>
+                            <div class="options-selection">
+                                <select id="product-color" class="form-control input-sm color" style="color:#555!important;"></select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <form id="ProductDetailsForm" class="nobottommargin clearfix">
+                        <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
+                            <input type="button" value="-" class="minus">
+                            <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Qty" size="4">
+                            <input type="button" value="+" class="plus">
+                        </div>
+                        <button type="submit" id="addcart" class="btnAddToCart button nomargin col-xs-6">Thêm vào giỏ</button>
+                        <button type="submit" class="abc buy_btn button col-xs-12" id="buynow">Mua ngay </button>
+                        <input type="hidden" id="hidProductID" value="0" />
+                    </form>
+
+                    <script>
+                        var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
+                        $('#ProductDetailsForm .minus').click(function () {
+                            if (quantity > 0) {
+                                if (quantity == 1) {
+                                    $('#addcart').attr('disabled', 'disabled');
+                                }
+                                quantity -= 1;
+                            }
+                            else {
+                                quantity = 0;
+                            }
+                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
+                        });
+                        $('#ProductDetailsForm  .plus').click(function () {
+                            $('#addcart').removeAttr('disabled');
+                            if (quantity < 100) {
+                                quantity += 1;
+                            }
+                            else {
+                                quantity = 100;
+                            }
+                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

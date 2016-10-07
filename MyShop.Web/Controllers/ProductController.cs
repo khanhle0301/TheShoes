@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using MyShop.Common;
 using MyShop.Model.Models;
 using MyShop.Service;
-using MyShop.Web.Infrastructure.Core;
 using MyShop.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -72,6 +70,30 @@ namespace MyShop.Web.Controllers
             return View(viewModel);
         }
 
+        public ActionResult ListByTag(string tagId)
+        {
+            ViewBag.Tags = _commonService.GetById(tagId);
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataByTag(string tagId, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetAllByTagPaging(tagId, sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Category(string alias)
         {
             var category = _productCategoryService.GetByAlias(alias);
@@ -86,7 +108,7 @@ namespace MyShop.Web.Controllers
         [HttpGet]
         public JsonResult LoadData(int id, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
         {
-            var model = _productService.Demo(id, sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductByCategoryIdPaging(id, sort, price, provider, color, chatlieu);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -98,31 +120,142 @@ namespace MyShop.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-
-
         public ActionResult ViewAllProduct()
         {
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataAllProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetListProductAllPaging(sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ViewNewProduct()
         {
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataNewProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetListProductNewPaging(sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ViewOnSaleProduct()
         {
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataOnSaleProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetListProductOnSalePaging(sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ViewHotProduct()
         {
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataHotProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetListProductHotPaging(sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ViewSaleHotProduct()
         {
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataSaleHotProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetListProductSaleHotPaging(sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ViewViewCountProduct()
+        {
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataViewCountProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetListProductViewCountPaging(sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [ChildActionOnly]
@@ -185,6 +318,40 @@ namespace MyShop.Web.Controllers
             {
                 data = model,
                 status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Search(string type, string keyword, string filter)
+        {
+            ViewBag.Keyword = keyword;
+            ViewBag.Filter = filter;
+            ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
+            ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
+            ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult LoadDataSearch(string keyword, string filter, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        {
+            var model = _productService.GetAllBySearch(keyword, filter, sort, price, provider, color, chatlieu);
+            int totalRow = model.Count();
+            model = model.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Json(new
+            {
+                data = model,
+                total = totalRow,
+                status = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult GetListProductByName(string keyword)
+        {
+            var model = _productService.GetListProductByName(keyword);
+            return Json(new
+            {
+                data = model
             }, JsonRequestBehavior.AllowGet);
         }
     }

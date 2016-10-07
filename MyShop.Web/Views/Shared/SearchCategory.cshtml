@@ -1,0 +1,11 @@
+﻿@model IEnumerable<MyShop.Web.Models.ProductCategoryViewModel>
+
+<option value='0'>Tất cả sản phẩm</option>
+<option value='onsale'>Sản phẩm khuyến mãi</option>
+<option value='hot'>Sản phẩm nổi bật</option>
+<option value='ban-chay'>Sản phẩm bán chạy</option>
+<option value='news'>Hàng mới về</option>
+@foreach (var category in Model.Where(x => x.ParentID == null))
+{
+    <option value='@category.Alias'>@category.Name</option>
+}

@@ -84,19 +84,35 @@ namespace MyShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult Page()
         {
-            var model = Mapper.Map<IEnumerable<Page>, IEnumerable<PageViewModel>>(_pageService.GetAllHome());
+            var model = Mapper.Map<IEnumerable<Page>, IEnumerable<PageViewModel>>(_pageService.GetListPages());
             return PartialView(model);
         }
 
         [ChildActionOnly]
         public ActionResult PostNew()
         {
-            var model = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetHot(3));
+            var model = Mapper.Map<IEnumerable<Post>, IEnumerable<PostViewModel>>(_postService.GetNewPost(3));
             return PartialView(model);
         }
 
         [ChildActionOnly]
         public ActionResult Category()
+        {
+            var model = _productCategoryService.GetAllHome(4);
+            var listProductCategoryViewModel = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
+            return PartialView(listProductCategoryViewModel);
+        }
+
+        [ChildActionOnly]
+        public ActionResult SearchCategory()
+        {
+            var model = _productCategoryService.GetAllHome(4);
+            var listProductCategoryViewModel = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
+            return PartialView(listProductCategoryViewModel);
+        }
+
+        [ChildActionOnly]
+        public ActionResult SearchCategoryMobile()
         {
             var model = _productCategoryService.GetAllHome(4);
             var listProductCategoryViewModel = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);

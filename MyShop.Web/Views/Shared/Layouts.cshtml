@@ -18,6 +18,9 @@
     <link rel="stylesheet" type="text/css" href="/Assets/client/hstatic.net/0/global/design/member/fonts/opensans.css">
     <!-- Haravan plugins BEGIN -->
     <script src='/Assets/client/hstatic.net/0/0/global/design/plugins/jquery/jquery-2.1.4.min.js' type='text/javascript'></script>
+    
+    <script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
+
     <script src='/Assets/client/hstatic.net/0/0/global/option_selection.js' type='text/javascript'></script>
     <script src='/Assets/client/hstatic.net/0/0/global/api.jquery.js' type='text/javascript'></script>
     <!-- Haravan plugins END -->
@@ -37,10 +40,11 @@
     <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/responsivea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pluginsa6f6.js?v=313' type='text/javascript'></script>
-    <!-- custom style -->
-    
+    <!-- custom style -->  
     <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/custom_stylea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-     
+    
+    @*<link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />*@    
+
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.tools.mina6f6.js?v=313' type='text/javascript'></script>
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.revolution.mina6f6.js?v=313' type='text/javascript'></script>
     <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
@@ -59,7 +63,7 @@
     <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/simple-sidebara6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
     <!-- end responsive menu -->
     <!-- pwg slider -->
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />      
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.js?v=313' type='text/javascript'></script>
     <style>
         .revo-slider-emphasis-text {
@@ -98,7 +102,7 @@
         Haravan.domain = 'the-shoes.myharavan.com';
         //]]>
     </script>
-
+    
 </head>
 <body class="stretched no-transition">
     <!-- Document Wrapper
@@ -111,21 +115,12 @@
                 <!-- Top Search
                 ============================================= -->
                 <div id="top-search-sm">
-                    <!--<a href="#" id="top-search-trigger"><i class="icon-search3"></i><i class="icon-line-cross"></i></a>-->
-                    <form action="https://the-shoes.myharavan.com/search">
+                    <form method="get" action="/tim-kiem.html">
                         <input type="hidden" name="type" value="product" />
-                        <input type="text" name="q" class="form-control" placeholder="Tìm kiếm..">
+                        <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm..">
                     </form>
-                </div><!-- #top-search end -->
-                <li class=''><a href="collections/all.html">Tất cả sản phẩm</a></li>
-                <li class=''><a href="collections/hang-moi-ve.html">Hàng mới về</a></li>
-                <li class=''><a href="collections/onsale.html">Sản phẩm khuyến mãi</a></li>
-                <li class=''><a href="collections/san-pham-noi-bat.html">Sản phẩm nổi bật</a></li>
-                <li class=''><a href="collections/san-pham-ban-chay.html">Bán chạy</a></li>
-                <li class=''><a href="collections/giay-cao-got.html">Giầy cao gót</a></li>
-                <li class=''><a href="collections/giay-boot.html">Giầy Boot</a></li>
-                <li class=''><a href="collections/giay-sandals.html">Giầy Sandals</a></li>
-                <li class=''><a href="collections/giay-de-xuong.html">Giầy đế xuồng</a></li>
+                </div><!-- #top-search end -->              
+                @{ Html.RenderAction("SearchCategoryMobile", "Home");}
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -158,20 +153,11 @@
                     <!-- Top Search
                     ============================================= -->
                     <div class='top_search col-md-9'>
-                        <form class='col-md-9 form-inline hidden-xs hidden-sm' method="get" action="/tim-kiem.html">
-                            <!--	<input type="hidden" name="type" value="product" />-->
+                        <form class='col-md-9 form-inline hidden-xs hidden-sm' method="get" action="/tim-kiem.html">                            
                             <div class='form-group col-md-12'>
                                 <input type="text" id="txtKeyword" name="keyword" class="form-control col-md-8 search_input" placeholder="Tìm kiếm..">
                                 <select class='collection col-md-3 search_collection'>
-                                    <option value='0'>Tất cả sản phẩm</option>
-                                    <option value='1000264254'>Sản phẩm khuyến mãi</option>
-                                    <option value='1000264252'>Giầy Boot</option>
-                                    <option value='1000264248'>Giầy đế xuồng</option>
-                                    <option value='1000264245'>Giầy cao gót</option>
-                                    <option value='1000264243'>Giầy Sandals</option>
-                                    <option value='1000259839'>Sản phẩm nổi bật</option>
-                                    <option value='1000259833'>Sản phẩm bán chạy</option>
-                                    <option value='1000259718'>Hàng mới về</option>
+                                    @{ Html.RenderAction("SearchCategory", "Home");}                                   
                                 </select>
                                 <a class='button col-md-1' href='#'><i class='icon-search3'></i></a>
                             </div>
@@ -231,13 +217,14 @@
         });
     </script>
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/footer_scriptsa6f6.js?v=313' type='text/javascript'></script>
+    <script src="~/Assets/client/js/search.js"></script>
+    <script src="~/Assets/client/js/productSearchController.js"></script>
     <script src="~/Assets/admin/libs/mustache/mustache.js"></script>
     <script src="~/Assets/admin/libs/numeral/numeral.js"></script>
     <script src="~/Assets/client/js/plugins/jquery.twbsPagination.min.js"></script>
     <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.js"></script>  
-    
-
+   
     @RenderSection("footerJS", required: false)
 </body>
 </html>

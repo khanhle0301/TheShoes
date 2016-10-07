@@ -17,7 +17,7 @@ namespace MyShop.Service
 
         IEnumerable<Page> GetAll();
 
-        IEnumerable<Page> GetAllHome();
+        IEnumerable<Page> GetListPages();
 
         IEnumerable<Page> GetAll(string keyword);
 
@@ -82,7 +82,7 @@ namespace MyShop.Service
             return _pageRepository.GetSingleByCondition(x => x.Alias == alias);
         }
 
-        public IEnumerable<Page> GetAllHome()
+        public IEnumerable<Page> GetListPages()
         {
             return _pageRepository.GetMulti(x => x.Status).OrderBy(x => x.DisplayOrder);
         }
