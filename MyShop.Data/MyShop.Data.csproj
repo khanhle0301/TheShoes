@@ -168,9 +168,17 @@
     <Compile Include="Migrations\201610051412318_Material-Create2.Designer.cs">
       <DependentUpon>201610051412318_Material-Create2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610121358379_ApplicationGroups.cs" />
+    <Compile Include="Migrations\201610121358379_ApplicationGroups.Designer.cs">
+      <DependentUpon>201610121358379_ApplicationGroups.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyShopDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ApplicationGroupRepository.cs" />
+    <Compile Include="Repositories\ApplicationRoleGroupRepository.cs" />
+    <Compile Include="Repositories\ApplicationRoleRepository.cs" />
+    <Compile Include="Repositories\ApplicationUserGroupRepository.cs" />
     <Compile Include="Repositories\BannerRepository.cs" />
     <Compile Include="Repositories\ColorRepository.cs" />
     <Compile Include="Repositories\ContactDetailRepository.cs" />
@@ -266,6 +274,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610051412318_Material-Create2.resx">
       <DependentUpon>201610051412318_Material-Create2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610121358379_ApplicationGroups.resx">
+      <DependentUpon>201610121358379_ApplicationGroups.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

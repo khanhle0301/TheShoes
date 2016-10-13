@@ -12,7 +12,7 @@ namespace MyShop.Data.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(MyShop.Data.MyShopDbContext context)

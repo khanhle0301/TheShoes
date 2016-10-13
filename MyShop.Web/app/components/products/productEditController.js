@@ -80,6 +80,12 @@
             }
             finder.popup();
         }
+
+
+        $scope.deleteItem = function (index) {
+            $scope.moreImages.splice(index, 1);
+        }
+
         loadProvider();
         loadProductCategory();
         loadProductDetail();       

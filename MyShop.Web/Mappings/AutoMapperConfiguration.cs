@@ -26,6 +26,10 @@ namespace MyShop.Web.Mappings
             Mapper.CreateMap<Provider, ProviderViewModel>();
             Mapper.CreateMap<Color, ColorViewModel>();
             Mapper.CreateMap<Material, MaterialViewModel>();
+
+            Mapper.CreateMap<ApplicationGroup, ApplicationGroupViewModel>();
+            Mapper.CreateMap<ApplicationRole, ApplicationRoleViewModel>();
+            Mapper.CreateMap<ApplicationUser, ApplicationUserViewModel>();
         }
     }
 }

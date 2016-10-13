@@ -15,6 +15,7 @@ using MyShop.Web.Models;
 namespace MyShop.Web.Api
 {
     [RoutePrefix("api/product")]
+    [Authorize]
     public class ProductController : ApiControllerBase
     {
         #region Initialize

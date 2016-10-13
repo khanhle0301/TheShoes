@@ -65,6 +65,17 @@ namespace MyShop.Web.Controllers
             return PartialView(footerViewModel);
         }
 
+        public JsonResult LoadCart()
+        {
+            if (Session[CommonConstants.SessionCart] == null)
+                Session[CommonConstants.SessionCart] = new List<ShoppingCartViewModel>();
+            var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
+            return Json(new
+            {
+                data = cart
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         [ChildActionOnly]
         public ActionResult HeaderCart()
         {

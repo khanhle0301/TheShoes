@@ -1,7 +1,7 @@
 ﻿using MyShop.Common;
 using System.Net.Mail;
 
-namespace TeduShop.Common
+namespace MyShop.Common
 {
     public class MailHelper
     {

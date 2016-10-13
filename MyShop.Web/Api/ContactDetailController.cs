@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 namespace MyShop.Web.Api
 {
     [RoutePrefix("api/contactdetail")]
+    [Authorize]
     public class ContactDetailController : ApiControllerBase
     {
         #region Initialize

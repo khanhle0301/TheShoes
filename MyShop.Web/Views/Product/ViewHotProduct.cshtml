@@ -141,12 +141,11 @@
                 </div>
             </div>
             <div id="shop" class="product-3 clearfix">
-                <span id="notfound_product" class="col-sm-6 text-center">Hiện không có sản phẩm nào</span>
+                <span id="notfound_product" class="col-sm-6 text-center" style="display: none">Hiện không có sản phẩm nào</span>
                 <div class='row sort-wrapper' id="product_top">
                     <div class="browse-tags col-xs-12 pull-right norightpadding" style='margin-bottom: 30px;'>
                         <div class="col-md-4 col-sm-6">
-                            <p class="subtext nomargin">
-                                Có <span class='require_symbol' id="productCount"></span> sản phẩm.
+                            <p class="subtext nomargin productCount">
                             </p>
                         </div>
                         <div class='col-md-5 col-lg-6 col-xs-4 col-sm-3 text-right' style='line-height: 30px;'>
@@ -296,17 +295,25 @@
         <div class="product clearfix">
             <div class="product-image">
                 <a href="{{url}}"><img src="{{ProductImage}}" alt="{{ProductName}}"></a>
-                <a href="{{url}}"><img src="{{ProductImage2}}" alt="{{ProductName}}"></a>             
+                <a href="{{url}}"><img src="{{ProductImage2}}" alt="{{ProductName}}"></a>        
+                {{#sale}}
+                <div class="sale-flash">Sale</div>
+                {{/sale}}     
                 <div class="product-overlay">
                     <a href="{{url}}" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                    <a href="#" class="btn-popup" data-id="{{ProductID}}"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                    <input type="hidden" id="hidProductID" value="{{ProductID}}" />
+                    <a href="#" class="btn-popup" data-id="{{ProductID}}"><i class="icon-shopping-cart"></i> Đặt hàng</a>                   
                 </div>
             </div>
             <div class="product-desc center">
                 <div class="product-title"><h3><a href="{{url}}">{{ProductName}}</a></h3></div>
                 <div class="product-price">
-                    <ins>{{ProductPrice}}₫ </ins>                   
+                    {{#sale}}
+                    <ins>{{PromotionPrice}}₫ </ins>
+                    <del>{{ProductPrice}}₫ </del>
+                    {{/sale}}
+                    {{^sale}}
+                    <ins>{{ProductPrice}}₫ </ins>
+                    {{/sale}}              
                 </div>
             </div>
         </div>

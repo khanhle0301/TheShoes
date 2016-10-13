@@ -22,8 +22,8 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response.status) {
-                        alert('Thêm sản phẩm thành công.');
-                        document.location.reload();
+                        alert('Thêm sản phẩm thành công.');                      
+                        document.location.reload();                      
                     }
                     else {
                         alert(response.message);

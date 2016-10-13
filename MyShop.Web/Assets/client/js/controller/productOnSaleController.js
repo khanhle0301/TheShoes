@@ -100,7 +100,7 @@ var productOnSaleController = {
                         $('#product_top').show();
                         $('#grid_pagination').show();
                         $('#tblData').html(html);
-                        $('#productCount').text(response.total);
+                        $('.productCount').html('Có <span class="require_symbol">' + response.total + '</span> sản phẩm.');
                         productOnSaleController.paging(response.total, function () {
                             productOnSaleController.loadData();
                         }, changePageSize);

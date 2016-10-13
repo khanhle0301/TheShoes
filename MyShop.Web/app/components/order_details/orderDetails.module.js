@@ -8,14 +8,17 @@
     function config($stateProvider, $urlRouterProvider) {
         $stateProvider.state('order_details', {
             url: "/order_details",
+            parent: 'base',
             templateUrl: "/app/components/order_details/orderDetailListView.html",
             controller: "orderDetailListController"
         }).state('add_order_detail', {
             url: "/add_order_detail",
+            parent: 'base',
             templateUrl: "/app/components/order_details/orderDetailAddView.html",
             controller: "orderDetailAddController"
         }).state('edit_order_detail', {
             url: "/edit_order_detail/:id",
+            parent: 'base',
             templateUrl: "/app/components/order_details/orderDetailEditView.html",
             controller: "orderDetailEditController"
         });

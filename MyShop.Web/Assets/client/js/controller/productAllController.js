@@ -58,7 +58,7 @@ var productAllController = {
             chatlieu += $(this).val() + ",";
         });
         chatlieu = chatlieu.slice(0, -1);
-       
+
         var sort = $('#sortControl').val();
         $.ajax({
             url: '/Product/LoadDataAllProduct',
@@ -80,11 +80,13 @@ var productAllController = {
                     var template = $('#data-template').html();
                     $.each(data, function (i, item) {
                         html += Mustache.render(template, {
+                            sale: (item.PromotionPrice != null) ? true : false,
                             ProductImage: item.Image,
                             ProductImage2: item.Image2,
                             ProductName: item.Name,
                             ProductID: item.ID,
-                            ProductPrice: item.Price,
+                            PromotionPrice: numeral(item.PromotionPrice).format('0,0'),
+                            ProductPrice: numeral(item.Price).format('0,0'),
                             url: '/san-pham/' + item.ProductCategory.Alias + '/' + item.Alias + '-' + item.ID + '.html'
                         });
 
@@ -99,7 +101,7 @@ var productAllController = {
                         $('#product_top').show();
                         $('#grid_pagination').show();
                         $('#tblData').html(html);
-                        $('#productCount').text(response.total);
+                        $('.productCount').html('Có <span class="require_symbol">' + response.total + '</span> sản phẩm.');
                         productAllController.paging(response.total, function () {
                             productAllController.loadData();
                         }, changePageSize);

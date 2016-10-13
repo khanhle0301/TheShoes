@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 namespace MyShop.Web.Api
 {
     [RoutePrefix("api/banner")]
+    [Authorize]
     public class BannerController : ApiControllerBase
     {
         #region Initialize

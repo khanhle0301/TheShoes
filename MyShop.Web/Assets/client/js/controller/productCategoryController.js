@@ -13,9 +13,9 @@ var productCategoryController = {
             $('#productManange').modal('show');
             $('#hidProductID').val($(this).data('id'));
             var productId = parseInt($(this).data('id'));
-            popup.loadColor(productId);
-            popup.loadSize(productId);
-            popup.loadData(productId);
+            productCategoryController.loadColor(productId);
+            productCategoryController.loadSize(productId);
+            productCategoryController.loadData(productId);
         });
 
         $('#sortControl').off('click').on('click', function () {
@@ -82,11 +82,13 @@ var productCategoryController = {
                     var template = $('#data-template').html();
                     $.each(data, function (i, item) {
                         html += Mustache.render(template, {
+                            sale: (item.PromotionPrice != null) ? true : false,
                             ProductImage: item.Image,
                             ProductImage2: item.Image2,
                             ProductName: item.Name,
                             ProductID: item.ID,
-                            ProductPrice: item.Price,
+                            PromotionPrice: numeral(item.PromotionPrice).format('0,0'),
+                            ProductPrice: numeral(item.Price).format('0,0'),
                             url: '/san-pham/' + item.ProductCategory.Alias + '/' + item.Alias + '-' + item.ID + '.html'
                         });
 
@@ -101,7 +103,7 @@ var productCategoryController = {
                         $('#product_top').show();
                         $('#grid_pagination').show();
                         $('#tblData').html(html);
-                        $('#productCount').text(response.total);
+                        $('.productCount').html('Có <span class="require_symbol">' + response.total + '</span> sản phẩm.');
                         productCategoryController.paging(response.total, function () {
                             productCategoryController.loadData();
                         }, changePageSize);

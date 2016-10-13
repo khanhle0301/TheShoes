@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using TeduShop.Common;
+using MyShop.Common;
 
 namespace MyShop.Web.Controllers
 {

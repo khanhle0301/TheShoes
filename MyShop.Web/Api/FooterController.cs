@@ -15,6 +15,7 @@ using System.Net;
 namespace MyShop.Web.Api
 {
     [RoutePrefix("api/footer")]
+    [Authorize]
     public class FooterController : ApiControllerBase
     {
         #region Initialize

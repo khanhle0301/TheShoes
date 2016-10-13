@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 namespace MyShop.Web.Api
 {
     [RoutePrefix("api/order")]
+    [Authorize]
     public class OrderController : ApiControllerBase
     {
         #region Initialize

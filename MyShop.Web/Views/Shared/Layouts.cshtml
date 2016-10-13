@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/Assets/client/hstatic.net/0/global/design/member/fonts/opensans.css">
     <!-- Haravan plugins BEGIN -->
     <script src='/Assets/client/hstatic.net/0/0/global/design/plugins/jquery/jquery-2.1.4.min.js' type='text/javascript'></script>
-    
+
     <script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
 
     <script src='/Assets/client/hstatic.net/0/0/global/option_selection.js' type='text/javascript'></script>
@@ -40,10 +40,10 @@
     <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/responsivea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pluginsa6f6.js?v=313' type='text/javascript'></script>
-    <!-- custom style -->  
+    <!-- custom style -->
     <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/custom_stylea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    
-    @*<link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />*@    
+
+    <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
 
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.tools.mina6f6.js?v=313' type='text/javascript'></script>
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.revolution.mina6f6.js?v=313' type='text/javascript'></script>
@@ -63,7 +63,7 @@
     <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/simple-sidebara6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
     <!-- end responsive menu -->
     <!-- pwg slider -->
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />      
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.js?v=313' type='text/javascript'></script>
     <style>
         .revo-slider-emphasis-text {
@@ -102,7 +102,7 @@
         Haravan.domain = 'the-shoes.myharavan.com';
         //]]>
     </script>
-    
+
 </head>
 <body class="stretched no-transition">
     <!-- Document Wrapper
@@ -119,7 +119,7 @@
                         <input type="hidden" name="type" value="product" />
                         <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm..">
                     </form>
-                </div><!-- #top-search end -->              
+                </div><!-- #top-search end -->
                 @{ Html.RenderAction("SearchCategoryMobile", "Home");}
             </ul>
         </div>
@@ -153,16 +153,16 @@
                     <!-- Top Search
                     ============================================= -->
                     <div class='top_search col-md-9'>
-                        <form class='col-md-9 form-inline hidden-xs hidden-sm' method="get" action="/tim-kiem.html">                            
+                        <form class='col-md-9 form-inline hidden-xs hidden-sm' method="get" action="/tim-kiem.html">
                             <div class='form-group col-md-12'>
                                 <input type="text" id="txtKeyword" name="keyword" class="form-control col-md-8 search_input" placeholder="Tìm kiếm..">
                                 <select class='collection col-md-3 search_collection'>
-                                    @{ Html.RenderAction("SearchCategory", "Home");}                                   
+                                    @{ Html.RenderAction("SearchCategory", "Home");}
                                 </select>
                                 <a class='button col-md-1' href='#'><i class='icon-search3'></i></a>
                             </div>
                         </form>
-                        <div id="top-cart" class='top-cart-block col-md-3'>
+                        <div id="top-cart" class='top-cart-block col-md-3'>                           
                             @{ Html.RenderAction("HeaderCart", "Home");}
                         </div>
                     </div>
@@ -200,7 +200,7 @@
     <!-- Footer Scripts
     ============================================= -->
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/functionsa6f6.js?v=313' type='text/javascript'></script>
-   
+
     <a class='mb_scroll_hotline hidden-lg hidden-md' href='tel:19000000'>
         <img style="height: 24px; width: auto; margin-right:10px" src="/Assets/client/hstatic.net/198/1000055198/1000144003/call_muahanga6f6.png?v=313">Hotline: 19000000
     </a>
@@ -216,6 +216,7 @@
             Layout.initNavScrolling();
         });
     </script>
+
     <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/footer_scriptsa6f6.js?v=313' type='text/javascript'></script>
     <script src="~/Assets/client/js/search.js"></script>
     <script src="~/Assets/client/js/productSearchController.js"></script>
@@ -224,7 +225,7 @@
     <script src="~/Assets/client/js/plugins/jquery.twbsPagination.min.js"></script>
     <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.js"></script>  
-   
+
     @RenderSection("footerJS", required: false)
 </body>
 </html>

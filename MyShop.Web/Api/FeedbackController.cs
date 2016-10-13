@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 namespace MyShop.Web.Api
 {
     [RoutePrefix("api/feedback")]
+    [Authorize]
     public class FeedbackController : ApiControllerBase
     {
         #region Initialize
