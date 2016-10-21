@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace MyShop.Web.Models
 {
@@ -59,12 +57,18 @@ namespace MyShop.Web.Models
 
         public string Tags { set; get; }
 
-        public string Sizes { set; get; }
-
-        public string Colors { set; get; }
-
-        public string Materials { set; get; }
-
         public virtual ProductCategoryViewModel ProductCategory { set; get; }
+
+        public IEnumerable<MaterialViewModel> Materials { set; get; }
+
+        public IEnumerable<ColorViewModel> Colors { set; get; }
+
+        public IEnumerable<SizeViewModel> Sizes { set; get; }
+
+        public IEnumerable<HeightViewModel> Heights { set; get; }
+
+        public IEnumerable<TypeViewModel> Types { set; get; }
+
+        public IEnumerable<HeelViewModel> Heels { set; get; }
     }
 }

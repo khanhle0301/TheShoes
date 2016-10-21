@@ -1,8 +1,8 @@
-﻿using MyShop.Data.Infrastructure;
+﻿using MyShop.Common.Exceptions;
+using MyShop.Data.Infrastructure;
 using MyShop.Data.Repositories;
 using MyShop.Model.Models;
 using System.Collections.Generic;
-using System;
 using System.Linq;
 
 namespace MyShop.Service
@@ -41,9 +41,11 @@ namespace MyShop.Service
             this._unitOfWork = unitOfWork;
         }
 
-        public ProductCategory Add(ProductCategory ProductCategory)
+        public ProductCategory Add(ProductCategory productCategory)
         {
-            return _productCategoryRepository.Add(ProductCategory);
+            if (_productCategoryRepository.CheckContains(x => x.Name == productCategory.Name))
+                throw new NameDuplicatedException("Tên danh mục không được trùng");
+            return _productCategoryRepository.Add(productCategory);
         }
 
         public ProductCategory Delete(int id)
@@ -89,9 +91,11 @@ namespace MyShop.Service
             _unitOfWork.Commit();
         }
 
-        public void Update(ProductCategory ProductCategory)
+        public void Update(ProductCategory productCategory)
         {
-            _productCategoryRepository.Update(ProductCategory);
+            if (_productCategoryRepository.CheckContains(x => x.Name == productCategory.Name && x.ID != productCategory.ID))
+                throw new NameDuplicatedException("Tên danh mục không được trùng");
+            _productCategoryRepository.Update(productCategory);
         }
     }
 }

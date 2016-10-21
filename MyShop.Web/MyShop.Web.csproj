@@ -200,10 +200,14 @@
     <Compile Include="Api\ApplicationRoleController.cs" />
     <Compile Include="Api\ApplicationUserController.cs" />
     <Compile Include="Api\BannerController.cs" />
+    <Compile Include="Api\ColorController.cs" />
     <Compile Include="Api\ContactDetailController.cs" />
     <Compile Include="Api\FeedbackController.cs" />
     <Compile Include="Api\FooterController.cs" />
+    <Compile Include="Api\HeelController.cs" />
+    <Compile Include="Api\HeightController.cs" />
     <Compile Include="Api\HomeController.cs" />
+    <Compile Include="Api\MaterialController.cs" />
     <Compile Include="Api\OrderController.cs" />
     <Compile Include="Api\OrderDetailController.cs" />
     <Compile Include="Api\PageController.cs" />
@@ -211,8 +215,10 @@
     <Compile Include="Api\PostController.cs" />
     <Compile Include="Api\ProductCategoryController.cs" />
     <Compile Include="Api\ProductController.cs" />
+    <Compile Include="Api\SizeController.cs" />
     <Compile Include="Api\SlideController.cs" />
     <Compile Include="Api\ProviderController.cs" />
+    <Compile Include="Api\TypeController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -245,6 +251,8 @@
     <Compile Include="Models\DistrictModel.cs" />
     <Compile Include="Models\FeedbackViewModel.cs" />
     <Compile Include="Models\FooterViewModel.cs" />
+    <Compile Include="Models\HeelViewModel.cs" />
+    <Compile Include="Models\HeightViewModel.cs" />
     <Compile Include="Models\HomeViewModel.cs" />
     <Compile Include="Models\MaterialViewModel.cs" />
     <Compile Include="Models\OrderDetailViewModel.cs" />
@@ -254,8 +262,11 @@
     <Compile Include="Models\PostTagViewModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\ProductCategoryViewModel.cs" />
+    <Compile Include="Models\ProductHeelViewModel.cs" />
+    <Compile Include="Models\ProductHeightViewModel.cs" />
     <Compile Include="Models\ProductMaterialViewModel.cs" />
     <Compile Include="Models\ProductTagViewModel.cs" />
+    <Compile Include="Models\ProductTypeViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\ProvinceModel.cs" />
     <Compile Include="Models\RecentProductItem.cs" />
@@ -265,6 +276,7 @@
     <Compile Include="Models\SlideViewModel.cs" />
     <Compile Include="Models\TagViewModel.cs" />
     <Compile Include="Models\ProviderViewModel.cs" />
+    <Compile Include="Models\TypeViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -5657,6 +5669,7 @@
     <Folder Include="app\components\users\" />
     <Folder Include="Assets\admin\libs\checklist-model\test\" />
     <Folder Include="UploadedFiles\files\" />
+    <Folder Include="Views\Size\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

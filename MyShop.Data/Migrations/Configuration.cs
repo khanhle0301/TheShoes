@@ -29,35 +29,35 @@ namespace MyShop.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            CreateUser(context);
+            //CreateUser(context);
         }
-        private void CreateUser(MyShopDbContext context)
-        {
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new MyShopDbContext()));
+        //private void CreateUser(MyShopDbContext context)
+        //{
+        //    var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new MyShopDbContext()));
 
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new MyShopDbContext()));
+        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new MyShopDbContext()));
 
-            var user = new ApplicationUser()
-            {
-                UserName = "tedu",
-                Email = "tedu.international@gmail.com",
-                EmailConfirmed = true,
-                BirthDay = DateTime.Now,
-                FullName = "Technology Education"
+        //    var user = new ApplicationUser()
+        //    {
+        //        UserName = "tedu",
+        //        Email = "tedu.international@gmail.com",
+        //        EmailConfirmed = true,
+        //        BirthDay = DateTime.Now,
+        //        FullName = "Technology Education"
 
-            };
+        //    };
 
-            manager.Create(user, "123654$");
+        //    manager.Create(user, "123654$");
 
-            if (!roleManager.Roles.Any())
-            {
-                roleManager.Create(new IdentityRole { Name = "Admin" });
-                roleManager.Create(new IdentityRole { Name = "User" });
-            }
+        //    if (!roleManager.Roles.Any())
+        //    {
+        //        roleManager.Create(new IdentityRole { Name = "Admin" });
+        //        roleManager.Create(new IdentityRole { Name = "User" });
+        //    }
 
-            var adminUser = manager.FindByEmail("tedu.international@gmail.com");
+        //    var adminUser = manager.FindByEmail("tedu.international@gmail.com");
 
-            manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
-        }
+        //    manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
+        //}
     }
 }

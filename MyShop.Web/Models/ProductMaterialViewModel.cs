@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace MyShop.Web.Models
+﻿namespace MyShop.Web.Models
 {
     public class ProductMaterialViewModel
     {
+        public int ProductID { set; get; }
+
+        public string MaterialID { set; get; }
     }
 }

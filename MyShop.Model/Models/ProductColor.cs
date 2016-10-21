@@ -11,9 +11,8 @@ namespace MyShop.Model.Models
         public int ProductID { set; get; }
 
         [Key]
-        [Column(TypeName = "varchar", Order = 2)]
-        [MaxLength(50)]
-        public string ColorID { set; get; }     
+        [Column(Order = 2)]
+        public int ColorID { set; get; }
 
         [ForeignKey("ProductID")]
         public virtual Product Product { set; get; }

@@ -66,16 +66,27 @@
     <Compile Include="ErrorService.cs" />
     <Compile Include="FeedbackService.cs" />
     <Compile Include="FooterService.cs" />
+    <Compile Include="HeelService.cs" />
+    <Compile Include="HeightService.cs" />
+    <Compile Include="MaterialService.cs" />
     <Compile Include="OrderDetailService.cs" />
     <Compile Include="OrderService.cs" />
     <Compile Include="PageService.cs" />
     <Compile Include="PostCategoryService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="ProductCategoryService.cs" />
+    <Compile Include="ProductColorService.cs" />
+    <Compile Include="ProductHeelService.cs" />
+    <Compile Include="ProductHeightService.cs" />
+    <Compile Include="ProductMaterialService.cs" />
     <Compile Include="ProductService.cs" />
+    <Compile Include="ProductSizeService.cs" />
+    <Compile Include="ProductTypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SizeService.cs" />
     <Compile Include="SlideService.cs" />
     <Compile Include="ProviderService.cs" />
+    <Compile Include="TypeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyShop.Common\MyShop.Common.csproj">

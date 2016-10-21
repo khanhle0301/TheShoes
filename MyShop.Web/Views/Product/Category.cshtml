@@ -48,7 +48,7 @@
 }
 <input type="hidden" id="CategoryID" value="@ViewBag.CategoryID" />
 <div class="content-wrap">
-    <div class="container clearfix">      
+    <div class="container clearfix">
         <div class="postcontent nobottommargin col_last">
             <div class="panel-group hidden-lg hidden-md filter_group filter_collection_sm">
                 <div class="panel panel-default">
@@ -62,14 +62,14 @@
                     <div id="filter_group_sm" class="panel-collapse collapse">
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <div class="widget widget_links providers clearfix">
+                                <div class="widget widget_links clearfix">
                                     <a href='#filter_group_sm_1' data-toggle='collapse'><h4>THƯƠNG HIỆU<i class='icon-angle-down'></i></h4></a>
                                     <ul id='filter_group_sm_1' class='panel-collapse collapse'>
                                         @foreach (var provider in (IEnumerable<MyShop.Web.Models.ProviderViewModel>)ViewBag.Providers)
                                         {
                                             <li>
-                                                <label>
-                                                    <input class="vendor" type="checkbox" value="@provider.ID"> @provider.Name
+                                                <label class="providers">
+                                                    <input class="provider" type="checkbox" value="@provider.ID"> @provider.Name
                                                 </label>
                                             </li>
                                         }
@@ -77,63 +77,89 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="widget widget_links colors clearfix">
+                                <div class="widget widget_links clearfix">
                                     <a href='#filter_group_sm_3' data-toggle='collapse'><h4>MÀU SẮC<i class='icon-angle-down'></i></h4></a>
                                     <ul id='filter_group_sm_3' class='panel-collapse collapse color_filter'>
                                         @foreach (var color in (IEnumerable<MyShop.Web.Models.ColorViewModel>)ViewBag.Colors)
                                         {
-                                        <li>
-                                            <label class='color_wrapper'>
-                                                <input style='background-color: @color.Background' class="mausac color_block" type="checkbox" value="@color.Name">
-                                            </label>
-                                        </li>
+                                            <li>
+                                                <label class='color_wrapper'>
+                                                    <input style='background-color: @color.Background' class="mausac color_block" type="checkbox" value="@color.ID">
+                                                </label>
+                                            </li>
                                         }
                                     </ul>
                                 </div>
                             </li>
 
                             <li class="list-group-item">
-                                <div class="widget widget_links prices clearfix">
+                                <div class="widget widget_links clearfix">
                                     <a href='#filter_group_sm_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
                                     <ul id='filter_group_sm_4' class='panel-collapse collapse'>
                                         <li>
-                                            <label>
+                                            <label class="prices">
                                                 <input class="price" type="checkbox" value="-100"> dưới 100,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label>
+                                            <label class="prices">
                                                 <input class="price" type="checkbox" value="100-300"> 100,000₫ - 300,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label>
+                                            <label class="prices">
                                                 <input class="price" type="checkbox" value="300-500"> 300,000₫ - 500,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label>
+                                            <label class="prices">
                                                 <input class="price" type="checkbox" value="500-1000"> 500,000₫ - 1,000,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label>
+                                            <label class="prices">
                                                 <input class="price" type="checkbox" value="1000"> trên 1,000,000₫
                                             </label>
                                         </li>
                                     </ul>
                                 </div>
-                            </li>                            
+                            </li>
 
                             <li class="list-group-item">
-                                <div class="widget widget_links chatlieus clearfix">
+                                <div class="widget widget_links clearfix">
+                                    <a href='#filter_group_sm_5' data-toggle='collapse'><h4>LOẠI SẢN PHẨM<i class='icon-angle-down'></i></h4></a>
+                                    <ul id='filter_group_sm_5' class='panel-collapse collapse'>
+                                        @foreach (var heel in (IEnumerable<MyShop.Web.Models.HeelViewModel>)ViewBag.Heels)
+                                        {
+                                            <li>
+                                                <label class="heels"><input class="heel" type="checkbox" value="@heel.ID"> @heel.Name</label>
+                                            </li>
+                                        }
+                                        @foreach (var height in (IEnumerable<MyShop.Web.Models.HeightViewModel>)ViewBag.Heights)
+                                        {
+                                            <li>
+                                                <label class="heights"><input class="height" type="checkbox" value="@height.ID"> @height.Name</label>
+                                            </li>
+                                        }
+                                        @foreach (var type in (IEnumerable<MyShop.Web.Models.TypeViewModel>)ViewBag.Types)
+                                        {
+                                            <li>
+                                                <label class="type-s"><input class="types" type="checkbox" value="@type.ID"> @type.Name</label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="widget widget_links clearfix">
                                     <a href='#filter_group_sm_6' data-toggle='collapse'><h4>CHẤT LIỆU<i class='icon-angle-down'></i></h4></a>
                                     <ul id='filter_group_sm_6' class='panel-collapse collapse'>
                                         @foreach (var material in (IEnumerable<MyShop.Web.Models.MaterialViewModel>)ViewBag.Materials)
                                         {
-                                        <li>
-                                            <label><input class="chatlieu" type="checkbox" value="@material.Name"> @material.Name</label>
-                                        </li>
+                                            <li>
+                                                <label class="chatlieus"><input class="chatlieu" type="checkbox" value="@material.ID"> @material.Name</label>
+                                            </li>
                                         }
                                     </ul>
                                 </div>
@@ -141,7 +167,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>      
+            </div>
             <div id="shop" class="product-3 clearfix">
                 <span id="notfound_product" class="col-sm-6 text-center" style="display: none">Hiện không có sản phẩm nào</span>
                 <div class='row sort-wrapper' id="product_top">
@@ -169,7 +195,7 @@
                             </span>
                         </div>
                     </div>
-                </div>             
+                </div>
                 <div id='grid_pagination'>
                     <div class='product_wrapper' id="tblData">
                     </div>
@@ -189,7 +215,7 @@
         </div>
 
         <div class="sidebar nobottommargin  left-sidebar hidden-sm hidden-xs">
-            <div class="sidebar-widgets-wrap">             
+            <div class="sidebar-widgets-wrap">
                 <div class="panel-group filter_group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -199,29 +225,29 @@
                                 </h4>
                             </a>
                         </div>
-                        <div id="filter_group" class="panel-collapse collapse in">                       
-                            <div class="widget widget_links providers clearfix">
+                        <div id="filter_group" class="panel-collapse collapse in">
+                            <div class="widget widget_links clearfix">
                                 <a href='#filter_group_1' data-toggle='collapse'><h4>THƯƠNG HIỆU<i class='icon-angle-down'></i></h4></a>
                                 <ul id='filter_group_1' class='panel-collapse collapse in'>
                                     @foreach (var provider in (IEnumerable<MyShop.Web.Models.ProviderViewModel>)ViewBag.Providers)
                                     {
                                         <li>
-                                            <label>
-                                                <input class="vendor" type="checkbox" value="@provider.ID"> @provider.Name
+                                            <label class="providers">
+                                                <input class="provider" type="checkbox" value="@provider.ID"> @provider.Name
                                             </label>
                                         </li>
                                     }
                                 </ul>
                             </div>
 
-                            <div class="widget widget_links colors clearfix">
+                            <div class="widget widget_links clearfix">
                                 <a href='#filter_group_3' data-toggle='collapse'><h4>MÀU SẮC<i class='icon-angle-down'></i></h4></a>
                                 <ul id='filter_group_3' class='panel-collapse collapse in color_filter'>
                                     @foreach (var color in (IEnumerable<MyShop.Web.Models.ColorViewModel>)ViewBag.Colors)
                                     {
                                         <li>
                                             <label class='color_wrapper'>
-                                                <input data-toggle="tooltip" title="@color.Name"  style='background-color: @color.Background' class="mausac color_block" type="checkbox" value="@color.Name">
+                                                <input data-toggle="tooltip" title="@color.Name" style='background-color: @color.Background' class="mausac color_block" type="checkbox" value="@color.ID">
                                             </label>
                                         </li>
                                     }
@@ -232,40 +258,64 @@
                                 <a href='#filter_group_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
                                 <ul id='filter_group_4' class='panel-collapse collapse in'>
                                     <li>
-                                        <label>
+                                        <label class="prices">
                                             <input class="price" type="checkbox" value="-100"> dưới 100,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label>
+                                        <label class="prices">
                                             <input class="price" type="checkbox" value="100-300"> 100,000₫ - 300,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label>
+                                        <label class="prices">
                                             <input class="price" type="checkbox" value="300-500"> 300,000₫ - 500,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label>
+                                        <label class="prices">
                                             <input class="price" type="checkbox" value="500-1000"> 500,000₫ - 1,000,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label>
+                                        <label class="prices">
                                             <input class="price" type="checkbox" value="1000"> trên 1,000,000₫
                                         </label>
                                     </li>
                                 </ul>
-                            </div>                      
+                            </div>
 
-                            <div class="widget widget_links chatlieus clearfix">
+                            <div class="widget widget_links clearfix">
+                                <a href='#filter_group_5' data-toggle='collapse'><h4>LOẠI SẢN PHẨM<i class='icon-angle-down'></i></h4></a>
+                                <ul id='filter_group_5' class='panel-collapse collapse in'>
+                                    @foreach (var heel in (IEnumerable<MyShop.Web.Models.HeelViewModel>)ViewBag.Heels)
+                                    {
+                                        <li>
+                                            <label class="heels"><input class="heel" type="checkbox" value="@heel.ID"> @heel.Name</label>
+                                        </li>
+                                    }
+                                    @foreach (var height in (IEnumerable<MyShop.Web.Models.HeightViewModel>)ViewBag.Heights)
+                                    {
+                                        <li>
+                                            <label class="heights"><input class="height" type="checkbox" value="@height.ID"> @height.Name</label>
+                                        </li>
+                                    }
+                                    @foreach (var type in (IEnumerable<MyShop.Web.Models.TypeViewModel>)ViewBag.Types)
+                                    {
+                                        <li>
+                                            <label class="type-s"><input class="types" type="checkbox" value="@type.ID">@type.Name</label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div class="widget widget_links clearfix">
                                 <a href='#filter_group_6' data-toggle='collapse'><h4>CHẤT LIỆU<i class='icon-angle-down'></i></h4></a>
                                 <ul id='filter_group_6' class='panel-collapse collapse in'>
                                     @foreach (var material in (IEnumerable<MyShop.Web.Models.MaterialViewModel>)ViewBag.Materials)
                                     {
                                         <li>
-                                            <label><input class="chatlieu" type="checkbox" value="@material.Name"> @material.Name</label>
+                                            <label class="chatlieus"><input class="chatlieu" type="checkbox" value="@material.ID"> @material.Name</label>
                                         </li>
                                     }
                                 </ul>
@@ -283,14 +333,13 @@
                     <h4><a href='/san-pham/viewcount/'>Được xem nhiều</a></h4>
                     @{Html.RenderAction("PopularProduct", "Product");}
                 </div>
-
                 <!-- recent view -->
                 <div class="widget clearfix">
                     <h4>Sản phẩm vừa xem</h4>
                     @{Html.RenderAction("RecentProduct", "Product");}
-                </div>             
+                </div>
             </div>
-        </div>      
+        </div>
     </div>
 
     <script id="data-template" type="x-tmpl-mustache">
@@ -303,7 +352,7 @@
                 {{/sale}}
                 <div class="product-overlay">
                     <a href="{{url}}" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                    <a href="#" class="btn-popup" data-id="{{ProductID}}"><i class="icon-shopping-cart"></i> Đặt hàng</a>                  
+                    <a href="#" class="btn-popup" data-id="{{ProductID}}"><i class="icon-shopping-cart"></i> Đặt hàng</a>
                 </div>
             </div>
             <div class="product-desc center">
@@ -315,7 +364,7 @@
                     {{/sale}}
                     {{^sale}}
                     <ins>{{ProductPrice}}₫ </ins>
-                    {{/sale}}                    
+                    {{/sale}}
                 </div>
             </div>
         </div>
@@ -366,29 +415,29 @@
                     </form>
 
                     <script>
-                    var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
-                    $('#ProductDetailsForm .minus').click(function () {
-                        if (quantity > 0) {
-                            if (quantity == 1) {
-                                $('#addcart').attr('disabled', 'disabled');
+                        var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
+                        $('#ProductDetailsForm .minus').click(function () {
+                            if (quantity > 0) {
+                                if (quantity == 1) {
+                                    $('#addcart').attr('disabled', 'disabled');
+                                }
+                                quantity -= 1;
                             }
-                            quantity -= 1;
-                        }
-                        else {
-                            quantity = 0;
-                        }
-                        $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
-                    });
-                    $('#ProductDetailsForm  .plus').click(function () {
-                        $('#addcart').removeAttr('disabled');
-                        if (quantity < 100) {
-                            quantity += 1;
-                        }
-                        else {
-                            quantity = 100;
-                        }
-                        $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
-                    });
+                            else {
+                                quantity = 0;
+                            }
+                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
+                        });
+                        $('#ProductDetailsForm  .plus').click(function () {
+                            $('#addcart').removeAttr('disabled');
+                            if (quantity < 100) {
+                                quantity += 1;
+                            }
+                            else {
+                                quantity = 100;
+                            }
+                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
+                        });
                     </script>
                 </div>
             </div>

@@ -93,10 +93,7 @@ namespace MyShop.Web.Infrastructure.Extensions
             product.MetaKeyword = productVm.MetaKeyword;
             product.MetaDescription = productVm.MetaDescription;
             product.Status = productVm.Status;
-            product.Tags = productVm.Tags;
-            product.Sizes = productVm.Sizes;
-            product.Colors = productVm.Colors;
-            product.Materials = productVm.Materials;
+            product.Tags = productVm.Tags;                            
         }
 
         public static void UpdateSlide(this Slide slide, SlideViewModel slideVm)
@@ -167,6 +164,36 @@ namespace MyShop.Web.Infrastructure.Extensions
             footer.ID = footerVm.ID;
             footer.Name = footerVm.Name;
             footer.Content = footerVm.Content;            
+        }
+
+        public static void UpdateMaterial(this Material material, MaterialViewModel materialVm)
+        {
+            material.ID = materialVm.ID;
+            material.Name = materialVm.Name;           
+        }
+
+        public static void UpdateSize(this Size size, SizeViewModel sizeVm)
+        {
+            size.ID = sizeVm.ID;
+            size.Name = sizeVm.Name;
+        }
+
+        public static void UpdateHeight(this Height height, HeightViewModel heightVm)
+        {
+            height.ID = heightVm.ID;
+            height.Name = heightVm.Name;
+        }
+
+        public static void UpdateType(this Model.Models.Type type, TypeViewModel typeVm)
+        {
+            type.ID = typeVm.ID;
+            type.Name = typeVm.Name;
+        }
+
+        public static void UpdateHeel(this Heel heel, HeelViewModel heelVm)
+        {
+            heel.ID = heelVm.ID;
+            heel.Name = heelVm.Name;
         }
 
         public static void UpdateOrder(this Order order, OrderViewModel orderVm)

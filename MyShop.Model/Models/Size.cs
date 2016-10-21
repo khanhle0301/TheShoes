@@ -7,10 +7,8 @@ namespace MyShop.Model.Models
     [Table("Sizes")]
     public class Size
     {
-        [Key]
-        [MaxLength(50)]
-        [Column(TypeName = "varchar")]
-        public string ID { set; get; }
+        [Key]        
+        public int ID { set; get; }
 
         [MaxLength(50)]
         [Required]

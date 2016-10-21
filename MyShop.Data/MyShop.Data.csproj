@@ -172,6 +172,42 @@
     <Compile Include="Migrations\201610121358379_ApplicationGroups.Designer.cs">
       <DependentUpon>201610121358379_ApplicationGroups.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610151134209_delete-Material-Product.cs" />
+    <Compile Include="Migrations\201610151134209_delete-Material-Product.Designer.cs">
+      <DependentUpon>201610151134209_delete-Material-Product.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151158588_edit_Material.cs" />
+    <Compile Include="Migrations\201610151158588_edit_Material.Designer.cs">
+      <DependentUpon>201610151158588_edit_Material.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151516460_delete_ProductColor.cs" />
+    <Compile Include="Migrations\201610151516460_delete_ProductColor.Designer.cs">
+      <DependentUpon>201610151516460_delete_ProductColor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151519524_edit_Colors.cs" />
+    <Compile Include="Migrations\201610151519524_edit_Colors.Designer.cs">
+      <DependentUpon>201610151519524_edit_Colors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151549567_delete_ProductSize.cs" />
+    <Compile Include="Migrations\201610151549567_delete_ProductSize.Designer.cs">
+      <DependentUpon>201610151549567_delete_ProductSize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151610466_edit_Sizes.cs" />
+    <Compile Include="Migrations\201610151610466_edit_Sizes.Designer.cs">
+      <DependentUpon>201610151610466_edit_Sizes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610161317396_Height_Create.cs" />
+    <Compile Include="Migrations\201610161317396_Height_Create.Designer.cs">
+      <DependentUpon>201610161317396_Height_Create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610161501224_ProductType_Create.cs" />
+    <Compile Include="Migrations\201610161501224_ProductType_Create.Designer.cs">
+      <DependentUpon>201610161501224_ProductType_Create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610170456569_ProductHeel_Create.cs" />
+    <Compile Include="Migrations\201610170456569_ProductHeel_Create.Designer.cs">
+      <DependentUpon>201610170456569_ProductHeel_Create.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyShopDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,6 +221,8 @@
     <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\FeedbackRepository.cs" />
     <Compile Include="Repositories\FooterRepository.cs" />
+    <Compile Include="Repositories\HeelRepository.cs" />
+    <Compile Include="Repositories\HeightRepository.cs" />
     <Compile Include="Repositories\MaterialRepository.cs" />
     <Compile Include="Repositories\OrderDetailRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
@@ -194,14 +232,18 @@
     <Compile Include="Repositories\PostTagRepository.cs" />
     <Compile Include="Repositories\ProductCategoryRepository.cs" />
     <Compile Include="Repositories\ProductColorRepository.cs" />
+    <Compile Include="Repositories\ProductHeelRepository.cs" />
+    <Compile Include="Repositories\ProductHeightRepository.cs" />
     <Compile Include="Repositories\ProductMaterialRepository.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Repositories\ProductSizeRepository.cs" />
     <Compile Include="Repositories\ProductTagRepository.cs" />
+    <Compile Include="Repositories\ProductTypeRepository.cs" />
     <Compile Include="Repositories\SizeRepository.cs" />
     <Compile Include="Repositories\SlideRepository.cs" />
     <Compile Include="Repositories\TagRepository.cs" />
     <Compile Include="Repositories\ProviderRepository.cs" />
+    <Compile Include="Repositories\TypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -277,6 +319,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610121358379_ApplicationGroups.resx">
       <DependentUpon>201610121358379_ApplicationGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151134209_delete-Material-Product.resx">
+      <DependentUpon>201610151134209_delete-Material-Product.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151158588_edit_Material.resx">
+      <DependentUpon>201610151158588_edit_Material.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151516460_delete_ProductColor.resx">
+      <DependentUpon>201610151516460_delete_ProductColor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151519524_edit_Colors.resx">
+      <DependentUpon>201610151519524_edit_Colors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151549567_delete_ProductSize.resx">
+      <DependentUpon>201610151549567_delete_ProductSize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151610466_edit_Sizes.resx">
+      <DependentUpon>201610151610466_edit_Sizes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610161317396_Height_Create.resx">
+      <DependentUpon>201610161317396_Height_Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610161501224_ProductType_Create.resx">
+      <DependentUpon>201610161501224_ProductType_Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610170456569_ProductHeel_Create.resx">
+      <DependentUpon>201610170456569_ProductHeel_Create.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

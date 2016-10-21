@@ -7,16 +7,23 @@ namespace MyShop.Service
 {
     public interface IColorService
     {
+        Color Add(Color color);
+
         void Update(Color Color);
+
+        Color Delete(int id);
 
         IEnumerable<Color> GetAll();
 
         IEnumerable<Color> GetAll(string keyword);
 
-        Color GetById(string id);
+        Color GetById(int id);
+
+        IEnumerable<Color> GetListColorByProductId(int id);
 
         void Save();
     }
+
     public class ColorService : IColorService
     {
         private IColorRepository _colorRepository;
@@ -26,6 +33,16 @@ namespace MyShop.Service
         {
             this._colorRepository = colorRepository;
             this._unitOfWork = unitOfWork;
+        }
+
+        public Color Add(Color color)
+        {
+            return _colorRepository.Add(color);
+        }
+
+        public Color Delete(int id)
+        {
+            return _colorRepository.Delete(id);
         }
 
         public IEnumerable<Color> GetAll()
@@ -41,10 +58,14 @@ namespace MyShop.Service
                 return _colorRepository.GetAll();
         }
 
-
-        public Color GetById(string id)
+        public Color GetById(int id)
         {
             return _colorRepository.GetSingleByCondition(x => x.ID == id);
+        }
+
+        public IEnumerable<Color> GetListColorByProductId(int id)
+        {
+            return _colorRepository.GetListColorByProductId(id);
         }
 
         public void Save()

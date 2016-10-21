@@ -17,10 +17,18 @@ namespace MyShop.Web.Controllers
         private IProviderService _providerService;
         private IProductCategoryService _productCategoryService;
         private IColorService _colorService;
+        private IHeelService _heelService;
+        private IHeightService _heightService;
+        private ITypeService _typeService;
 
         public ProductController(IProductService productService, IProductCategoryService productCategoryService,
-                                    IProviderService providerService, IColorService colorService, ICommonService commonService)
+                                    IProviderService providerService, IColorService colorService,
+                                    ICommonService commonService, IHeelService heelService,
+                                    IHeightService heightService, ITypeService typeService)
         {
+            this._typeService = typeService;
+            this._heightService = heightService;
+            this._heelService = heelService;
             this._commonService = commonService;
             this._providerService = providerService;
             this._colorService = colorService;
@@ -73,6 +81,9 @@ namespace MyShop.Web.Controllers
         public ActionResult ListByTag(string tagId)
         {
             ViewBag.Tags = _commonService.GetById(tagId);
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
             ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
@@ -80,9 +91,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataByTag(string tagId, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataByTag(string tagId, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetAllByTagPaging(tagId, sort, price, provider, color, chatlieu);
+            var model = _productService.GetAllByTagPaging(tagId, sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -96,6 +107,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult Category(string alias)
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             var category = _productCategoryService.GetByAlias(alias);
             ViewBag.Category = Mapper.Map<ProductCategory, ProductCategoryViewModel>(category);
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
@@ -106,9 +120,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadData(int id, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadData(int id, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetListProductByCategoryIdPaging(id, sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductByCategoryIdPaging(id, sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -122,6 +136,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult ViewAllProduct()
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
             ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
@@ -129,9 +146,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataAllProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataAllProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetListProductAllPaging(sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductAllPaging(sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -145,6 +162,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult ViewNewProduct()
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
             ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
@@ -152,9 +172,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataNewProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataNewProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetListProductNewPaging(sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductNewPaging(sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -168,6 +188,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult ViewOnSaleProduct()
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
             ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
@@ -175,9 +198,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataOnSaleProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataOnSaleProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetListProductOnSalePaging(sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductOnSalePaging(sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -191,6 +214,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult ViewHotProduct()
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
             ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
@@ -198,9 +224,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataHotProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataHotProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetListProductHotPaging(sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductHotPaging(sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -214,6 +240,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult ViewSaleHotProduct()
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
             ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
@@ -221,9 +250,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataSaleHotProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataSaleHotProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetListProductSaleHotPaging(sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductSaleHotPaging(sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -237,6 +266,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult ViewViewCountProduct()
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_colorService.GetAll());
             ViewBag.Materials = Mapper.Map<IEnumerable<Material>, IEnumerable<MaterialViewModel>>(_commonService.GetMaterial());
@@ -244,9 +276,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataViewCountProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataViewCountProduct(int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetListProductViewCountPaging(sort, price, provider, color, chatlieu);
+            var model = _productService.GetListProductViewCountPaging(sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 
@@ -323,6 +355,9 @@ namespace MyShop.Web.Controllers
 
         public ActionResult Search(string type, string keyword, string filter)
         {
+            ViewBag.Types = Mapper.Map<IEnumerable<Model.Models.Type>, IEnumerable<TypeViewModel>>(_typeService.GetAll());
+            ViewBag.Heels = Mapper.Map<IEnumerable<Heel>, IEnumerable<HeelViewModel>>(_heelService.GetAll());
+            ViewBag.Heights = Mapper.Map<IEnumerable<Height>, IEnumerable<HeightViewModel>>(_heightService.GetAll());
             ViewBag.Keyword = keyword;
             ViewBag.Filter = filter;
             ViewBag.Providers = Mapper.Map<IEnumerable<Provider>, IEnumerable<ProviderViewModel>>(_providerService.GetAll());
@@ -332,9 +367,9 @@ namespace MyShop.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LoadDataSearch(string keyword, string filter, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "")
+        public JsonResult LoadDataSearch(string keyword, string filter, int page, int pageSize, string sort = "", string price = "", string provider = "", string color = "", string chatlieu = "", string heel = "", string height = "", string type = "")
         {
-            var model = _productService.GetAllBySearch(keyword, filter, sort, price, provider, color, chatlieu);
+            var model = _productService.GetAllBySearch(keyword, filter, sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
 

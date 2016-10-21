@@ -4,6 +4,10 @@
  */
 
 CKEDITOR.editorConfig = function (config) {
+
+    config.allowedContent = true;
+    //config.extraPlugins = 'iframedialog';
+    //config.extraPlugins = 'iframe';
     // Define changes to default configuration here.
     // For complete reference see:
     // http://docs.ckeditor.com/#!/api/CKEDITOR.config

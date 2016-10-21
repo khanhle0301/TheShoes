@@ -8,9 +8,8 @@ namespace MyShop.Model.Models
     public class Material
     {
         [Key]
-        [MaxLength(50)]
-        [Column(TypeName = "varchar")]
-        public string ID { set; get; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ID { set; get; }
 
         [MaxLength(50)]
         [Required]

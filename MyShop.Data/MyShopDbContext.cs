@@ -34,6 +34,12 @@ namespace MyShop.Data
         public DbSet<ProductColor> ProductColors { set; get; }
         public DbSet<Material> Materials { set; get; }
         public DbSet<ProductMaterial> ProductMaterials { set; get; }
+        public DbSet<Height> Heights { set; get; }
+        public DbSet<ProductHeight> ProductHeights { set; get; }
+        public DbSet<Type> Types { set; get; }
+        public DbSet<ProductType> ProductTypes { set; get; }
+        public DbSet<Heel> Heels { set; get; }
+        public DbSet<ProductHeel> ProductHeels { set; get; }
 
         public DbSet<ApplicationGroup> ApplicationGroups { set; get; }
         public DbSet<ApplicationRole> ApplicationRoles { set; get; }

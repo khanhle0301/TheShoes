@@ -86,6 +86,84 @@
             $scope.moreImages.splice(index, 1);
         }
 
+        function loadMaterials() {
+            apiService.get('/api/material/getlistall',
+                null,
+                function (response) {
+                    $scope.materials = response.data;
+                }, function (response) {
+                    notificationService.displayError('Không tải được danh sách chất liệu.');
+                });
+
+        }
+
+        function loadColors() {
+            apiService.get('/api/color/getlistall',
+                null,
+                function (response) {
+                    $scope.colors = response.data;
+                }, function (response) {
+                    notificationService.displayError('Không tải được danh sách màu sắc.');
+                });
+
+        }
+
+        function loadSizes() {
+            apiService.get('/api/size/getlistall',
+                null,
+                function (response) {
+                    $scope.sizes = response.data;
+                }, function (response) {
+                    notificationService.displayError('Không tải được danh sách size.');
+                });
+
+        }
+
+        function loadHeights() {
+            apiService.get('/api/height/getlistall',
+                null,
+                function (response) {
+                    $scope.heights = response.data;
+                }, function (response) {
+                    notificationService.displayError('Không tải được danh sách chiều cao.');
+                });
+
+        }
+
+        function loadTypes() {
+            apiService.get('/api/type/getlistall',
+                null,
+                function (response) {
+                    $scope.types = response.data;
+                }, function (response) {
+                    notificationService.displayError('Không tải được danh sách loại giầy.');
+                });
+
+        }
+
+        function loadHeels() {
+            apiService.get('/api/heel/getlistall',
+                null,
+                function (response) {
+                    $scope.heels = response.data;
+                }, function (response) {
+                    notificationService.displayError('Không tải được danh sách gót giầy.');
+                });
+
+        }
+
+        loadHeels();
+
+        loadTypes();
+
+        loadHeights();
+
+        loadSizes();
+
+        loadColors();
+
+        loadMaterials();
+
         loadProvider();
         loadProductCategory();
         loadProductDetail();       

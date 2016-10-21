@@ -6,14 +6,11 @@ using MyShop.Model.Models;
 using MyShop.Web.App_Start;
 using MyShop.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using MyShop.Common;
 
 namespace MyShop.Web.Controllers
 {
@@ -51,7 +48,10 @@ namespace MyShop.Web.Controllers
                 _userManager = value;
             }
         }
-        public AccountController() { }
+
+        public AccountController()
+        {
+        }
 
         public ActionResult Index()
         {
@@ -113,7 +113,6 @@ namespace MyShop.Web.Controllers
                 FullName = userVm.FullName,
                 PhoneNumber = userVm.PhoneNumber,
                 Address = userVm.Address
-
             };
 
             await _userManager.CreateAsync(user, userVm.Password);

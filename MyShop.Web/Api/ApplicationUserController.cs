@@ -111,7 +111,7 @@ namespace MyShop.Web.Api
                             //add role to user
                             var listRole = _appRoleService.GetListRoleByGroupId(group.ID);
                             foreach (var role in listRole)
-                            {
+                            {                            
                                 await _userManager.RemoveFromRoleAsync(newAppUser.Id, role.Name);
                                 await _userManager.AddToRoleAsync(newAppUser.Id, role.Name);
                             }

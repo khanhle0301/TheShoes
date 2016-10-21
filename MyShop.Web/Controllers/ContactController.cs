@@ -5,24 +5,22 @@ using MyShop.Service;
 using MyShop.Web.Infrastructure.Extensions;
 using MyShop.Web.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-using MyShop.Common;
 
 namespace MyShop.Web.Controllers
 {
     public class ContactController : Controller
     {
-        IContactDetailService _contactDetailService;
-        IFeedbackService _feedbackService;
+        private IContactDetailService _contactDetailService;
+        private IFeedbackService _feedbackService;
+
         public ContactController(IContactDetailService contactDetailService, IFeedbackService feedbackService)
         {
             this._contactDetailService = contactDetailService;
             this._feedbackService = feedbackService;
         }
+
         // GET: Contact
         public ActionResult Index()
         {
