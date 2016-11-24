@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<MyShop.Web.Models.ProductCategoryViewModel>
 
 <ul>
-    <li class='menu'><a class='menu' href="/san-pham/all/">Tất cả sản phẩm</a></li>
-    <li class='menu'><a class='menu' href="/san-pham/news/">Hàng mới về</a></li>
-    <li class='menu'><a class='menu' href="/san-pham/onsale/">Sản phẩm khuyến mãi</a></li>
-    <li class='menu'><a class='menu' href="/san-pham/noi-bat/">Sản phẩm nổi bật</a></li>
-    <li class='menu'><a class='menu' href="/san-pham/ban-chay/">Bán chạy</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/all.html">Tất cả sản phẩm</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/news.html">Hàng mới về</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/onsale.html">Sản phẩm khuyến mãi</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/noi-bat.html">Sản phẩm nổi bật</a></li>
+    <li class='menu'><a class='menu' href="/san-pham/ban-chay.html">Bán chạy</a></li>
     @foreach (var category in Model.Where(x => x.ParentID == null))
     {
-        var url = "/san-pham/" + category.Alias + "/";
+        var url = "/san-pham/" + category.Alias + ".html";
         <li class='menu'>
             <a class='menu' href="@url">@category.Name</a>
         </li>

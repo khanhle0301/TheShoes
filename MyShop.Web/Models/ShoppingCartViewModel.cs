@@ -10,5 +10,6 @@ namespace MyShop.Web.Models
         public int Quantity { set; get; }
         public string Size { set; get; }
         public string Color { set; get; }
+        public string Note { set; get; }
     }
 }

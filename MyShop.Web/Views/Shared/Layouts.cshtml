@@ -1,70 +1,51 @@
 ﻿<!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
-    <link rel="shortcut icon" href="/Assets/client/hstatic.net/198/1000055198/1000144003/favicona6f6.png?v=313" type="image/png" />
+    <link rel="shortcut icon" href="/Assets/client/hstatic.net/198/1000055198/1000144003/favicona6f6.png" type="image/png" />
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <title>
-        The Shoes
+        @ViewBag.Title
     </title>
+    <meta name="Description" content="@ViewBag.Descriptions" />
+    <meta name="Keywords" content="@ViewBag.Keywords" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=0' name='viewport' />
-    <link rel="canonical" href="index.html" />
+    <link rel="canonical" href="/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="The Shoes" />
-    <meta property="og:image" content="/Assets/client/hstatic.net/198/1000055198/1000144003/logoa6f6.png?v=313" />
-    <meta property="og:image" content="/Assets/client/hstatic.net/198/1000055198/1000144003/logoa6f6.png?v=313" />
+    <meta property="og:image" content="/Assets/client/hstatic.net/198/1000055198/1000144003/logoa6f6.png" />
     <meta property="og:url" content="index.html" />
     <meta property="og:site_name" content="The Shoes" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Lato+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
+
+    @*@Styles.Render("~/css/base")*@
+
     <link rel="stylesheet" type="text/css" href="/Assets/client/hstatic.net/0/global/design/member/fonts/opensans.css">
-    <!-- Haravan plugins BEGIN -->
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/bootstrapa6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/stylea6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/darka6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/font-iconsa6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/animatea6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/magnific-popupa6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/font_defaulta6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/0/0/global/design/plugins/font-awesome/4.5.0/css/font-awesome.min.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/responsivea6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/custom_stylea6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/settingsa6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/0/0/global/design/plugins/fancybox/jquery.fancybox.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/simple-sidebara6f6.css' rel='stylesheet' type='text/css' media='all' />
+    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.css' rel='stylesheet' type='text/css' media='all' />
+
     <script src='/Assets/client/hstatic.net/0/0/global/design/plugins/jquery/jquery-2.1.4.min.js' type='text/javascript'></script>
 
-    <script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
+   
+    @*@Scripts.Render("~/js/jquery")
+        @Scripts.Render("~/js/plugins")*@
 
-    <script src='/Assets/client/hstatic.net/0/0/global/option_selection.js' type='text/javascript'></script>
-    <script src='/Assets/client/hstatic.net/0/0/global/api.jquery.js' type='text/javascript'></script>
-    <!-- Haravan plugins END -->
-    <!-- shop-asset -->
-    <!-- Fonts START -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Lato+Sans+Narrow|Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900&amp;subset=all" rel="stylesheet" type="text/css"><!--- fonts for slider on the index page -->
-    <!-- Fonts END -->
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/bootstrapa6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/stylea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/darka6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/font-iconsa6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/animatea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/magnific-popupa6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/font_defaulta6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/0/0/global/design/plugins/font-awesome/4.5.0/css/font-awesome.min.css' rel='stylesheet' type='text/css' media='all' />
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/responsivea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pluginsa6f6.js?v=313' type='text/javascript'></script>
-    <!-- custom style -->
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/custom_stylea6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
 
-    <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
-
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.tools.mina6f6.js?v=313' type='text/javascript'></script>
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.revolution.mina6f6.js?v=313' type='text/javascript'></script>
-    <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/settingsa6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <!-- script.js -->
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/scripta6f6.js?v=313' type='text/javascript'></script>
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.lazyloadxta6f6.js?v=313' type='text/javascript'></script>
-    <!-- BEGIN products scripts -->
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/fly-to-cart-aothuna6f6.js?v=313' type='text/javascript'></script>
-    <!-- END products scripts -->
-    <!-- BEGIN fancy box -->
-    <link href='/Assets/client/hstatic.net/0/0/global/design/plugins/fancybox/jquery.fancybox.css' rel='stylesheet' type='text/css' media='all' />
-    <script src='/Assets/client/hstatic.net/0/0/global/design/plugins/fancybox/jquery.fancybox.js' type='text/javascript'></script>
-    <!-- END fancy box -->
-    <!-- responsive menu -->
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/simple-sidebara6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <!-- end responsive menu -->
-    <!-- pwg slider -->
-    <link href='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.css?v=313' rel='stylesheet' type='text/css' media='all' />
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.js?v=313' type='text/javascript'></script>
     <style>
         .revo-slider-emphasis-text {
             font-size: 58px;
@@ -91,67 +72,42 @@
             font-family: 'Raleway', sans-serif;
         }
     </style>
-    <script type='text/javascript'>
-        //<![CDATA[
-        if ((typeof Haravan) === 'undefined') {
-            Haravan = {};
-        }
-        Haravan.culture = 'vi-VN';
-        Haravan.shop = 'the-shoes.myharavan.com';
-        Haravan.theme = { "name": "the-shoes_hrv_v1.2_20160729", "id": 1000144003, "role": "main" };
-        Haravan.domain = 'the-shoes.myharavan.com';
-        //]]>
-    </script>
-
 </head>
 <body class="stretched no-transition">
-    <!-- Document Wrapper
-    ============================================= -->
-    <!-- mobile menu -->
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.8&appId=1836521173301566";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     <div id="menu-wrapper">
-        <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <!-- Top Search
-                ============================================= -->
                 <div id="top-search-sm">
                     <form method="get" action="/tim-kiem.html">
                         <input type="hidden" name="type" value="product" />
                         <input type="text" name="keyword" class="form-control" placeholder="Tìm kiếm..">
                     </form>
-                </div><!-- #top-search end -->
+                </div>
                 @{ Html.RenderAction("SearchCategoryMobile", "Home");}
             </ul>
         </div>
-        <!-- /#sidebar-wrapper -->
         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><i class='icon-reorder'></i></a>
-        <!-- Page Content -->
-        <!-- /#page-content-wrapper -->
     </div>
-    <!-- end mobile menu -->
     <div id="wrapper" class="clearfix">
-        <!-- style="animation-duration: 1.5s; opacity: 1;"-->
         @RenderSection("left_menu", required: true)
-        <!-- Top Bar
-        ============================================= -->
         @{ Html.RenderAction("TopBar", "Home");}
-        <!-- #top-bar end -->
-        <!-- Header
-        ============================================= -->
         <header id="header">
             <div id="header-wrap">
                 <div class="container clearfix">
-                    <!--<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>-->
-                    <!-- Logo
-                    ============================================= -->
                     <div id="logo" class='col-md-3'>
-                        <a href="/" class="standard-logo" data-dark-logo="//hstatic.net/198/1000055198/1000144003/logo.png?v=313"><img src="/Assets/client/hstatic.net/198/1000055198/1000144003/logoa6f6.png?v=313" alt="The Shoes"></a>
-                        <a href="/" class="retina-logo" data-dark-logo="//hstatic.net/198/1000055198/1000144003/logo.png?v=313"><img src="/Assets/client/hstatic.net/198/1000055198/1000144003/logoa6f6.png?v=313" alt="The Shoes"></a>
-                    </div><!-- #logo end -->
-                    <!-- Top Search
-                    ============================================= -->
-                    <!-- Top Search
-                    ============================================= -->
+                        <a href="/" class="standard-logo" data-dark-logo="//hstatic.net/198/1000055198/1000144003/logo.png"><img src="/Assets/client/hstatic.net/198/1000055198/1000144003/logoa6f6.png" alt="The Shoes"></a>
+                        <a href="/" class="retina-logo" data-dark-logo="//hstatic.net/198/1000055198/1000144003/logo.png"><img src="/Assets/client/hstatic.net/198/1000055198/1000144003/logoa6f6.png" alt="The Shoes"></a>
+                    </div>
                     <div class='top_search col-md-9'>
                         <form class='col-md-9 form-inline hidden-xs hidden-sm' method="get" action="/tim-kiem.html">
                             <div class='form-group col-md-12'>
@@ -162,14 +118,11 @@
                                 <a class='button col-md-1' href='#'><i class='icon-search3'></i></a>
                             </div>
                         </form>
-                        <div id="top-cart" class='top-cart-block col-md-3'>                           
+                        <div id="top-cart" class='top-cart-block col-md-3'>
                             @{ Html.RenderAction("HeaderCart", "Home");}
                         </div>
                     </div>
-                    <!-- #top-search end -->
-                    <!-- top link trigger --->
                     <a href='#' id='top_link_trigger' class='hidden-lg hidden-md'><i class='icon-ellipsis-vertical'></i></a>
-                    <!-- end top link trigger --->
                     <script>
                         $("#sidebar-wrapper ul li a span").click(function (event) {
                             event.preventDefault();
@@ -177,36 +130,20 @@
                             li.children('ul').toggle('slow');
                         });
                     </script>
-                    <!-- #primary-menu end -->
                 </div>
             </div>
         </header>
-        <!-- #header end -->
-        <!-- Content
-        ============================================= -->
         @RenderSection("title", required: true)
         <section id="content">
             @RenderBody()
         </section>
-        <!-- #content end -->
-        <!-- Footer
-        ============================================= -->
         @{ Html.RenderAction("Footer", "Home");}
-        <!-- #footer end -->
-    </div><!-- #wrapper end -->
-    <!-- Go To Top
-    ============================================= -->
+    </div>
     <div id="gotoTop" class="icon-angle-up"></div>
-    <!-- Footer Scripts
-    ============================================= -->
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/functionsa6f6.js?v=313' type='text/javascript'></script>
 
-    <a class='mb_scroll_hotline hidden-lg hidden-md' href='tel:19000000'>
-        <img style="height: 24px; width: auto; margin-right:10px" src="/Assets/client/hstatic.net/198/1000055198/1000144003/call_muahanga6f6.png?v=313">Hotline: 19000000
-    </a>
-    <!--end scroll hotline-->
-    <!-- End Hotline and Quick Contact -->
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/layouta6f6.js?v=313' type='text/javascript'></script>
+
+
+
     <script type="text/javascript">
         jQuery(document).ready(function () {
             ega.init();
@@ -216,16 +153,26 @@
             Layout.initNavScrolling();
         });
     </script>
-
-    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/footer_scriptsa6f6.js?v=313' type='text/javascript'></script>
-    <script src="~/Assets/client/js/search.js"></script>
-    <script src="~/Assets/client/js/productSearchController.js"></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/layouta6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/0/0/global/option_selection.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/0/0/global/api.jquery.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pluginsa6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.tools.mina6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.themepunch.revolution.mina6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/scripta6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/jquery.lazyloadxta6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/fly-to-cart-aothuna6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/0/0/global/design/plugins/fancybox/jquery.fancybox.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/pgwslideshow.mina6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/functionsa6f6.js' type='text/javascript'></script>
+    <script src='/Assets/client/hstatic.net/198/1000055198/1000144003/footer_scriptsa6f6.js' type='text/javascript'></script>
+    <script src="~/Assets/client/js/controller/productSearchController.js"></script>
     <script src="~/Assets/admin/libs/mustache/mustache.js"></script>
     <script src="~/Assets/admin/libs/numeral/numeral.js"></script>
     <script src="~/Assets/client/js/plugins/jquery.twbsPagination.min.js"></script>
     <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.js"></script>  
-
+    <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.js"></script>
     @RenderSection("footerJS", required: false)
 </body>
 </html>
+<noembed>

@@ -3,6 +3,7 @@ using MyShop.Data.Repositories;
 using MyShop.Model.Models;
 using System.Collections.Generic;
 using System;
+using MyShop.Common.Exceptions;
 
 namespace MyShop.Service
 {
@@ -37,6 +38,8 @@ namespace MyShop.Service
 
         public Material Add(Material material)
         {
+            if (_materialRepository.CheckContains(x => x.Name == material.Name))
+                throw new NameDuplicatedException("Tên không được trùng");
             return _materialRepository.Add(material);
         }
 
@@ -76,6 +79,8 @@ namespace MyShop.Service
 
         public void Update(Material material)
         {
+            if (_materialRepository.CheckContains(x => x.Name == material.Name && x.ID != material.ID))
+                throw new NameDuplicatedException("Tên không được trùng");
             _materialRepository.Update(material);
         }
     }

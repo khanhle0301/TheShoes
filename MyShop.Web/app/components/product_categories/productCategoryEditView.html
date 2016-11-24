@@ -20,7 +20,7 @@
         <!-- form start -->
         <form class="form-horizontal" novalidate name="frmUpdateProductCategory" role="form" ng-submit="UpdateProductCategory()">
             <div class="box-body">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProductCategory.name.$invalid && !frmUpdateProductCategory.name.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tên danh mục</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" ng-change="GetSeoTitle()" ng-maxlength="256" required name="name" ng-model="productCategory.Name">
@@ -28,7 +28,7 @@
                         <span ng-show="frmUpdateProductCategory.name.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProductCategory.alias.$invalid && !frmUpdateProductCategory.alias.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tiêu đề SEO</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="alias" ng-maxlength="256" required ng-model="productCategory.Alias">
@@ -52,7 +52,7 @@
                         <input type="hidden" name="parentId" ng-model="productCategory.ParentID" />
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProductCategory.displayOrder.$invalid && !frmUpdateProductCategory.displayOrder.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Thứ tự</label>
                     <div class="col-sm-10">
                         <input type="number" class="form-control" name="displayOrder" required ng-model="productCategory.DisplayOrder">
@@ -68,15 +68,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Meta Keyword</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Từ khóa</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="metaKeyword" ng-model="productCategory.MetaKeyword">
+                        <input type="text" class="form-control" name="metaKeyword" ng-maxlength="256" ng-model="postCategory.MetaKeyword">
+                        <span ng-show="frmUpdateProductCategory.metaKeyword.$error.maxlength" class="has-error">Từ khóa chỉ được 256 ký tự</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Meta Description</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" name="metaKeyword" ng-model="productCategory.MetaDescription"></textarea>
+                        <textarea class="form-control" name="metaDescription" ng-maxlength="256" ng-model="postCategory.MetaDescription"></textarea>
+                        <span ng-show="frmUpdateProductCategory.metaDescription.$error.maxlength" class="has-error">Description chỉ được 256 ký tự</span>
                     </div>
                 </div>
                 <div class="form-group">

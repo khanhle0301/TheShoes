@@ -1,12 +1,9 @@
 ﻿@model MyShop.Web.Models.HomeViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = ViewBag.Title;
+    ViewBag.Keywords = ViewBag.Keywords;
+    ViewBag.Descriptions = ViewBag.Descriptions;
     Layout = "~/Views/Shared/Layouts.cshtml";
-}
-
-@section footerJS{
-    <script src="~/Assets/client/js/productPopup.js"></script>
-    <script src="~/Assets/client/js/addtocart.js"></script>
 }
 
 @section left_menu{
@@ -165,19 +162,15 @@
                                     <div class="product-image">
                                         <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                         <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                        @if (@product.PromotionPrice.HasValue)
+                                        @if (product.PromotionPrice.HasValue)
                                         {
                                             <div class="sale-flash">Sale</div>
-                                        }
-                                        <div class="product-overlay">
-                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                        </div>
+                                        }                                       
                                     </div>
                                     <div class="product-desc">
                                         <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
                                         <div class="product-price">
-                                            @if (@product.PromotionPrice.HasValue)
+                                            @if (product.PromotionPrice.HasValue)
                                             {
                                                 <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
                                                 <del>@product.Price.ToString("N0")₫</del>
@@ -208,19 +201,15 @@
                                     <div class="product-image">
                                         <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                         <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                        @if (@product.PromotionPrice.HasValue)
+                                        @if (product.PromotionPrice.HasValue)
                                         {
                                             <div class="sale-flash">Sale</div>
-                                        }
-                                        <div class="product-overlay">
-                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                        </div>
+                                        }                                       
                                     </div>
                                     <div class="product-desc">
                                         <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
                                         <div class="product-price">
-                                            @if (@product.PromotionPrice.HasValue)
+                                            @if (product.PromotionPrice.HasValue)
                                             {
                                                 <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
                                                 <del>@product.Price.ToString("N0")₫</del>
@@ -251,11 +240,7 @@
                                     <div class="product-image">
                                         <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                         <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                        <div class="sale-flash">Sale</div>
-                                        <div class="product-overlay">
-                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                        </div>
+                                        <div class="sale-flash">Sale</div>                                       
                                     </div>
                                     <div class="product-desc">
                                         <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
@@ -298,19 +283,15 @@
                                             <div class="product-image">
                                                 <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                                 <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                                @if (@product.PromotionPrice.HasValue)
+                                                @if (product.PromotionPrice.HasValue)
                                                 {
                                                     <div class="sale-flash">Sale</div>
-                                                }
-                                                <div class="product-overlay">
-                                                    <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                                    <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                                </div>
+                                                }                                               
                                             </div>
                                             <div class="product-desc">
                                                 <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
                                                 <div class="product-price">
-                                                    @if (@product.PromotionPrice.HasValue)
+                                                    @if (product.PromotionPrice.HasValue)
                                                     {
                                                         <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
                                                         <del>@product.Price.ToString("N0")₫</del>
@@ -355,19 +336,15 @@
                                             <div class="product-image">
                                                 <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                                 <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                                @if (@product.PromotionPrice.HasValue)
+                                                @if (product.PromotionPrice.HasValue)
                                                 {
                                                     <div class="sale-flash">Sale</div>
-                                                }
-                                                <div class="product-overlay">
-                                                    <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                                    <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                                </div>
+                                                }                                              
                                             </div>
                                             <div class="product-desc">
                                                 <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
                                                 <div class="product-price">
-                                                    @if (@product.PromotionPrice.HasValue)
+                                                    @if (product.PromotionPrice.HasValue)
                                                     {
                                                         <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
                                                         <del>@product.Price.ToString("N0")₫</del>
@@ -412,11 +389,7 @@
                                             <div class="product-image">
                                                 <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                                 <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                                <div class="sale-flash">Sale</div>
-                                                <div class="product-overlay">
-                                                    <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                                    <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                                </div>
+                                                <div class="sale-flash">Sale</div>                                               
                                             </div>
                                             <div class="product-desc">
                                                 <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
@@ -460,19 +433,15 @@
                                     <div class="product-image">
                                         <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                         <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                        @if (@product.PromotionPrice.HasValue)
+                                        @if (product.PromotionPrice.HasValue)
                                         {
                                             <div class="sale-flash">Sale</div>
-                                        }
-                                        <div class="product-overlay">
-                                            <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                            <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                        </div>
+                                        }                                       
                                     </div>
                                     <div class="product-desc center">
                                         <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
                                         <div class="product-price">
-                                            @if (@product.PromotionPrice.HasValue)
+                                            @if (product.PromotionPrice.HasValue)
                                             {
                                                 <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
                                                 <del>@product.Price.ToString("N0")₫</del>
@@ -514,19 +483,15 @@
                         <div class="product-image">
                             <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                             <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                            @if (@product.PromotionPrice.HasValue)
+                            @if (product.PromotionPrice.HasValue)
                             {
                                 <div class="sale-flash">Sale</div>
-                            }
-                            <div class="product-overlay">
-                                <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                <a href="#" class="btn-popup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                            </div>
+                            }                           
                         </div>
                         <div class="product-desc center">
                             <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
                             <div class="product-price">
-                                @if (@product.PromotionPrice.HasValue)
+                                @if (product.PromotionPrice.HasValue)
                                 {
                                     <ins>@product.PromotionPrice.Value.ToString("N0")₫ </ins>
                                     <del>@product.Price.ToString("N0")₫</del>
@@ -569,226 +534,7 @@
 
             });
         </script>
-
         <div class="clear bottommargin-sm"></div>
-        <div class="clear bottommargin-sm"></div>
-        <div class="col_one_third get_in_touch">
-            <div class="fancy-title title-border">
-                <h4><a style='color:#444' href='pages/about-us.html'>Giới thiệu</a></h4>
-            </div>
-            <p>Trang giới thiệu giúp khách hàng hiểu rõ hơn về cửa hàng của bạn. Hãy cung cấp thông tin cụ thể về việc kinh doanh, về cửa hàng, thông tin liên hệ. Điều này sẽ giúp khách hàng cảm thấy tin tưởng khi mua hàng trên website của bạn.Một vài gợi ý cho nội dung trang Giới thiệu:Bạn là aiGiá...</p>
-        </div>
-        <div class="col_one_third get_in_touch">
-            <div class="fancy-title title-border">
-                <h4>Đăng kí email</h4>
-            </div>
-            <p>Để nhận ngay voucher 100.000đ</p>
-
-            <div id="widget-subscribe-form-result2" data-notify-type="success" data-notify-msg=""></div>
-            <form accept-charset="UTF-8" id="widget-subscribe-form2" action="https://the-shoes.myharavan.com/account/contact" role="form" method="post" class="nobottommargin">
-                <div class="input-group divcenter">
-                    <span class="input-group-addon"><i class="icon-email2"></i></span>
-                    <input name="form_type" type="hidden" value="customer">
-                    <input name="utf8" type="hidden" value="✓">
-                    <input type="hidden" id="contact_tags" name="contact[tags]" value="khách hàng tiềm năng,Bản tin">
-                    <input type="hidden" id="newsletter-first-name" name="contact[first_name]" value="(Người đăng ký)">
-                    <input type="hidden" id="newsletter-last-name" name="contact[last_name]" value="Bản tin">
-                    <input type="email" name="contact[email]" id='newsletter-email-1' class="form-control required email" placeholder="Nhập email của bạn">
-                    <span class="input-group-btn">
-                        <button class="btn btn-info btnSignup-1" type="submit">Đăng ký</button>
-                    </span>
-                </div>
-            </form>
-        </div>
-        <div class="col_one_third col_last get_in_touch">
-            <div class="fancy-title title-border">
-                <h4>Theo dõi chúng tôi trên Facebook</h4>
-            </div>
-            <div class="fb-like-box small--hide" data-href="https://www.facebook.com/EGAnyCom/" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>
-
-            <!--Facebook-->
-        </div>
-        <div class="clear"></div>
-        <div class="fancy-title title-border title-center topmargin-sm" data-animate="fadeInUp">
-            <h4>Thương hiệu nổi tiếng</h4>
-        </div>
-        <div id="oc-clients-full" class="owl-carousel image-carousel">
-            <!--<div class="oc-item" ><a href="http://www.michaelkors.com/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_1.png?v=313" alt=""></a></div>-->
-            <a href="http://www.michaelkors.com/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_1.png?v=313" alt=""></a>
-            <!--<div class="oc-item" ><a href="http://www.dior.com/couture/en_int/womens-fashion"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_2.png?v=313" alt=""></a></div>-->
-            <a href="http://www.dior.com/couture/en_int/womens-fashion" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_2.png?v=313" alt=""></a>
-            <!--<div class="oc-item" ><a href="http://www.zara.com/us/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_3.png?v=313" alt=""></a></div>-->
-            <a href="http://www.zara.com/us/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_3.png?v=313" alt=""></a>
-            <!--<div class="oc-item" ><a href="http://www.gucci.com/us/en/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_4.png?v=313" alt=""></a></div>-->
-            <a href="http://www.gucci.com/us/en/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_4.png?v=313" alt=""></a>
-            <!--<div class="oc-item" ><a href="http://www.chanel.com/en_US/fragrance-beauty/Fragrance-88106"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_5.png?v=313" alt=""></a></div>-->
-            <a href="http://www.chanel.com/en_US/fragrance-beauty/Fragrance-88106" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_5.png?v=313" alt=""></a>
-            <!--<div class="oc-item" ><a href="http://usa.hermes.com/"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_6.png?v=313" alt=""></a></div>-->
-            <a href="http://usa.hermes.com/" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_6.png?v=313" alt=""></a>
-            <!--<div class="oc-item" ><a href="http://store.dolcegabbana.com/vn"><img src="//hstatic.net/198/1000055198/1000144003/popular_brand_img_7.png?v=313" alt=""></a></div>-->
-            <a href="http://store.dolcegabbana.com/vn" target='_blank'><img data-lazyload-pd="//hstatic.net/198/1000055198/1000144003/popular_brand_img_7.png?v=313" alt=""></a>
-        </div>
-        <script type="text/javascript">
-            jQuery(document).ready(function ($) {
-                var ocClients = $("#oc-clients-full");
-                ocClients.owlCarousel({
-                    items: 6,
-                    margin: 30,
-                    loop: true,
-                    nav: true,
-                    navText: ['<i class="icon-angle-left"></i>', '<i class="icon-angle-right"></i>'],
-                    autoplay: true,
-                    dots: false,
-                    autoplayHoverPause: true,
-                    responsive: {
-                        0: { items: 2 },
-                        480: { items: 3 },
-                        768: { items: 4 },
-                        992: { items: 5 },
-                        1200: { items: 6 }
-                    }
-                });
-
-            });
-        </script>
-
-    </div>
-    <div class="section nobottommargin get_in_touch" data-animate="fadeInUp">
-        <div class="container clearfix">
-            <div class="col_one_fourth nobottommargin">
-                <div class="feature-box fbox-plain fbox-dark fbox-small">
-                    <div class="icon_title_policies" align="center">
-                        <div class="fbox-icon">
-                            <i class="icon-truck2"></i>
-                        </div>
-                        <h3>Free</h3>
-                    </div>
-                    <p class="notopmargin">Nhận hàng trong vòng 3 ngày & hoàn toàn miễn phí vận chuyển</p>
-                </div>
-            </div>
-            <div class="col_one_fourth nobottommargin">
-                <div class="feature-box fbox-plain fbox-dark fbox-small">
-                    <div class="icon_title_policies">
-                        <div class="fbox-icon">
-                            <i class="icon-gift"></i>
-                        </div>
-                        <h3>Quà tặng</h3>
-                    </div>
-                    <p class="notopmargin">Nhiều quà tặng và ưu đãi hấp dẫn khi mua hàng từ 1.000.000đ trở lên.</p>
-                </div>
-            </div>
-            <div class="col_one_fourth nobottommargin">
-                <div class="feature-box fbox-plain fbox-dark fbox-small">
-                    <div class="icon_title_policies">
-                        <div class="fbox-icon">
-                            <i class="icon-undo"></i>
-                        </div>
-                        <h3>Đổi trả hàng</h3>
-                    </div>
-                    <p class="notopmargin">Hoàn tiền trong 30 ngày nếu không hài lòng</p>
-                </div>
-            </div>
-            <div class="col_one_fourth nobottommargin col_last">
-                <div class="feature-box fbox-plain fbox-dark fbox-small">
-                    <div class="icon_title_policies">
-                        <div class="fbox-icon">
-                            <i class="icon-phone3"></i>
-                        </div>
-                        <h3>HOTLINE: 08 7300 5757</h3>
-                    </div>
-                    <p class="notopmargin">Dịch vụ chăm sóc khách hàng sẵn sàng hỗ trợ bạn 24/7</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="section notopborder nobottomborder nomargin nopadding nobg footer-stick advertisement" data-animate="fadeInUp">
-        <div class="container clearfix">
-            <div class="col_half nobottommargin topmargin">
-                <a href='http://chefashion.net/collections/all' target='_blank'><img src="/Assets/client/hstatic.net/198/1000055198/1000144003/main_imga6f6.png?v=313" alt="Image" class="nobottommargin"></a>
-            </div>
-            <div class="col_half nobottommargin col_last">
-                <div class="heading-block topmargin-lg" style='margin-top:60px!important;'>
-                    <h3><strong>TƯNG BỪNG KHUYẾN MÃI</strong></h3>
-                    <span>Cho mùa mua sắm cuối năm</span>
-                </div>
-                <p> Còn suy nghĩ thêm gì nữa, đừng bỏ lỡ cơ hội mua hàng giá rẻ với những ưu đãi đi kèm không ở đâu có trong năm nay của THE SHOES ! Với tiêu chí khách hàng là thượng đế, CHẾ FASHION luôn cam kết đem đến cho khách hàng thân yêu những sản phẩm tốt nhất, chất lượng tuyệt vời và giá cả hợp lý. Hãy ghé  THE SHOES và chọn cho mình những sản phẩm ưng ý   cho mùa lễ hội sắp tới.</p>
-            </div>
-        </div>
-    </div>
+        <div class="clear bottommargin-sm"></div>     
+    </div>   
 </div>
-
-<script id="tpl-product-size" type="x-tmpl-mustache">
-    <option value="{{ProductSize}}">{{ProductSize}}</option>
-</script>
-
-<script id="tpl-product-color" type="x-tmpl-mustache">
-    <option value="{{ProductColor}}">{{ProductColor}}</option>
-</script>
-
-<div id="productManange" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" id="productName"></h4>
-            </div>
-            <div class="modal-body" style="height:auto">
-                <div class="product-page-options">
-                    <div class="sizePicker">
-                        <label class="control-label options-title">Kích thước</label>
-                        <div class="options-selection">
-                            <select id="product-size" class="form-control input-sm size"></select>
-                        </div>
-                    </div>
-
-                    <div class="sizePicker">
-                        <label class="control-label options-title">Màu sắc:</label>
-                        <div class="options-selection">
-                            <select id="product-color" class="form-control input-sm color" style="color:#555!important;"></select>
-                        </div>
-                    </div>
-
-                </div>
-
-                <form id="ProductDetailsForm" class="nobottommargin clearfix">
-                    <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
-                        <input type="button" value="-" class="minus">
-                        <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Qty" size="4">
-                        <input type="button" value="+" class="plus">
-                    </div>
-                    <button type="submit" id="addcart" class="btnAddToCart button nomargin col-xs-6">Thêm vào giỏ</button>
-                    <button type="submit" class="abc buy_btn button col-xs-12" id="buynow">Mua ngay </button>
-                    <input type="hidden" id="hidProductID" value="0" />
-                </form>
-
-                <script>
-                    var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
-                    $('#ProductDetailsForm .minus').click(function () {
-                        if (quantity > 0) {
-                            if (quantity == 1) {
-                                $('#addcart').attr('disabled', 'disabled');
-                            }
-                            quantity -= 1;
-                        }
-                        else {
-                            quantity = 0;
-                        }
-                        $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
-                    });
-                    $('#ProductDetailsForm  .plus').click(function () {
-                        $('#addcart').removeAttr('disabled');
-                        if (quantity < 100) {
-                            quantity += 1;
-                        }
-                        else {
-                            quantity = 100;
-                        }
-                        $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-</div>
-

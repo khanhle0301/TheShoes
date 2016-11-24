@@ -31,6 +31,7 @@ namespace MyShop.Web.Api
 
         [Route("getallparents")]
         [HttpGet]
+        [Authorize(Roles = "ViewProvider")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -46,6 +47,7 @@ namespace MyShop.Web.Api
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewProvider")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -62,6 +64,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewProvider")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -89,7 +92,7 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddProvider")]
         public HttpResponseMessage Create(HttpRequestMessage request, ProviderViewModel providerVm)
         {
             return CreateHttpResponse(request, () =>
@@ -102,7 +105,11 @@ namespace MyShop.Web.Api
                 else
                 {
                     var newProvider = new Provider();
-                    newProvider.UpdateProvider(providerVm);
+                    newProvider.UpdateProvider(providerVm);                   
+                    newProvider.CreatedDate = DateTime.Now;
+                    newProvider.CreatedBy = User.Identity.Name;
+                    newProvider.UpdatedDate = DateTime.Now;
+                    newProvider.UpdatedBy = User.Identity.Name;
                     _providerService.Add(newProvider);
                     _providerService.Save();
 
@@ -116,7 +123,7 @@ namespace MyShop.Web.Api
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateProvider")]
         public HttpResponseMessage Update(HttpRequestMessage request, ProviderViewModel providerVm)
         {
             return CreateHttpResponse(request, () =>
@@ -130,6 +137,8 @@ namespace MyShop.Web.Api
                 {
                     var dbProvider = _providerService.GetById(providerVm.ID);
                     dbProvider.UpdateProvider(providerVm);
+                    dbProvider.UpdatedDate = DateTime.Now;
+                    dbProvider.UpdatedBy = User.Identity.Name;
                     _providerService.Update(dbProvider);
                     _providerService.Save();
 
@@ -143,7 +152,7 @@ namespace MyShop.Web.Api
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteProvider")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -167,7 +176,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteProvider")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedProviders)
         {
             return CreateHttpResponse(request, () =>

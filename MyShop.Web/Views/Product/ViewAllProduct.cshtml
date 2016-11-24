@@ -1,11 +1,10 @@
 ﻿@{
-    ViewBag.Title = "ViewAllProduct";
+    ViewBag.Title = "Tất cả sản phẩm";
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
 @section footerJS{
     <script src="~/Assets/client/js/controller/productAllController.js"></script>
-    <script src="~/Assets/client/js/addtocart.js"></script>
 }
 
 @section left_menu{
@@ -66,7 +65,7 @@
                                         @foreach (var provider in (IEnumerable<MyShop.Web.Models.ProviderViewModel>)ViewBag.Providers)
                                         {
                                             <li>
-                                                <label class="providers">
+                                                <label>
                                                     <input class="provider" type="checkbox" value="@provider.ID"> @provider.Name
                                                 </label>
                                             </li>
@@ -95,27 +94,27 @@
                                     <a href='#filter_group_sm_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
                                     <ul id='filter_group_sm_4' class='panel-collapse collapse'>
                                         <li>
-                                            <label class="prices">
+                                            <label>
                                                 <input class="price" type="checkbox" value="-100"> dưới 100,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label class="prices">
+                                            <label>
                                                 <input class="price" type="checkbox" value="100-300"> 100,000₫ - 300,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label class="prices">
+                                            <label>
                                                 <input class="price" type="checkbox" value="300-500"> 300,000₫ - 500,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label class="prices">
+                                            <label>
                                                 <input class="price" type="checkbox" value="500-1000"> 500,000₫ - 1,000,000₫
                                             </label>
                                         </li>
                                         <li>
-                                            <label class="prices">
+                                            <label>
                                                 <input class="price" type="checkbox" value="1000"> trên 1,000,000₫
                                             </label>
                                         </li>
@@ -130,19 +129,25 @@
                                         @foreach (var heel in (IEnumerable<MyShop.Web.Models.HeelViewModel>)ViewBag.Heels)
                                         {
                                             <li>
-                                                <label class="heels"><input class="heel" type="checkbox" value="@heel.ID"> @heel.Name</label>
+                                                <label>
+                                                    <input class="heel" type="checkbox" value="@heel.ID"> @heel.Name
+                                                </label>
                                             </li>
                                         }
                                         @foreach (var height in (IEnumerable<MyShop.Web.Models.HeightViewModel>)ViewBag.Heights)
                                         {
                                             <li>
-                                                <label class="heights"><input class="height" type="checkbox" value="@height.ID"> @height.Name</label>
+                                                <label>
+                                                    <input class="height" type="checkbox" value="@height.ID"> @height.Name
+                                                </label>
                                             </li>
                                         }
                                         @foreach (var type in (IEnumerable<MyShop.Web.Models.TypeViewModel>)ViewBag.Types)
                                         {
                                             <li>
-                                                <label class="type-s"><input class="types" type="checkbox" value="@type.ID"> @type.Name</label>
+                                                <label>
+                                                    <input class="types" type="checkbox" value="@type.ID"> @type.Name
+                                                </label>
                                             </li>
                                         }
                                     </ul>
@@ -156,7 +161,9 @@
                                         @foreach (var material in (IEnumerable<MyShop.Web.Models.MaterialViewModel>)ViewBag.Materials)
                                         {
                                             <li>
-                                                <label class="chatlieus"><input class="chatlieu" type="checkbox" value="@material.ID"> @material.Name</label>
+                                                <label>
+                                                    <input class="chatlieu" type="checkbox" value="@material.ID"> @material.Name
+                                                </label>
                                             </li>
                                         }
                                     </ul>
@@ -180,15 +187,12 @@
                         <div class='col-md-3 col-lg-2 col-xs-7 col-sm-3 norightpadding noleftpadding'>
                             <span class="custom-dropdown custom-dropdown--white pull-right">
                                 <select id="sortControl" class="sort-by custom-dropdown__select custom-dropdown__select--white form-control input-sm">
-                                    <option value="manual">Sản phẩm nổi bật</option>
+                                    <option value="updated_desc">Mới nhất</option>
+                                    <option value="updated_asc">Cũ nhất</option>
                                     <option value="price_asc">Giá: Tăng dần</option>
                                     <option value="price_desc">Giá: Giảm dần</option>
                                     <option value="name_asc">Tên: A-Z</option>
                                     <option value="name_desc">Tên: Z-A</option>
-                                    <option value="updated_asc">Cũ nhất</option>
-                                    <option value="updated_desc">Mới nhất</option>
-                                    <option value="sold_quantity">Bán chạy nhất</option>
-                                    <option value="viewcount">Được xem nhiều</option>
                                 </select>
                             </span>
                         </div>
@@ -230,7 +234,7 @@
                                     @foreach (var provider in (IEnumerable<MyShop.Web.Models.ProviderViewModel>)ViewBag.Providers)
                                     {
                                         <li>
-                                            <label class="providers">
+                                            <label>
                                                 <input class="provider" type="checkbox" value="@provider.ID"> @provider.Name
                                             </label>
                                         </li>
@@ -256,27 +260,27 @@
                                 <a href='#filter_group_4' data-toggle='collapse'><h4>GIÁ<i class='icon-angle-down'></i></h4></a>
                                 <ul id='filter_group_4' class='panel-collapse collapse in'>
                                     <li>
-                                        <label class="prices">
+                                        <label>
                                             <input class="price" type="checkbox" value="-100"> dưới 100,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label class="prices">
+                                        <label>
                                             <input class="price" type="checkbox" value="100-300"> 100,000₫ - 300,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label class="prices">
+                                        <label>
                                             <input class="price" type="checkbox" value="300-500"> 300,000₫ - 500,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label class="prices">
+                                        <label>
                                             <input class="price" type="checkbox" value="500-1000"> 500,000₫ - 1,000,000₫
                                         </label>
                                     </li>
                                     <li>
-                                        <label class="prices">
+                                        <label>
                                             <input class="price" type="checkbox" value="1000"> trên 1,000,000₫
                                         </label>
                                     </li>
@@ -289,19 +293,25 @@
                                     @foreach (var heel in (IEnumerable<MyShop.Web.Models.HeelViewModel>)ViewBag.Heels)
                                     {
                                         <li>
-                                            <label class="heels"><input class="heel" type="checkbox" value="@heel.ID"> @heel.Name</label>
+                                            <label>
+                                                <input class="heel" type="checkbox" value="@heel.ID"> @heel.Name
+                                            </label>
                                         </li>
                                     }
                                     @foreach (var height in (IEnumerable<MyShop.Web.Models.HeightViewModel>)ViewBag.Heights)
                                     {
                                         <li>
-                                            <label class="heights"><input class="height" type="checkbox" value="@height.ID"> @height.Name</label>
+                                            <label>
+                                                <input class="height" type="checkbox" value="@height.ID"> @height.Name
+                                            </label>
                                         </li>
                                     }
                                     @foreach (var type in (IEnumerable<MyShop.Web.Models.TypeViewModel>)ViewBag.Types)
                                     {
                                         <li>
-                                            <label class="type-s"><input class="types" type="checkbox" value="@type.ID">@type.Name</label>
+                                            <label>
+                                                <input class="types" type="checkbox" value="@type.ID">@type.Name
+                                            </label>
                                         </li>
                                     }
                                 </ul>
@@ -313,7 +323,9 @@
                                     @foreach (var material in (IEnumerable<MyShop.Web.Models.MaterialViewModel>)ViewBag.Materials)
                                     {
                                         <li>
-                                            <label class="chatlieus"><input class="chatlieu" type="checkbox" value="@material.ID"> @material.Name</label>
+                                            <label>
+                                                <input class="chatlieu" type="checkbox" value="@material.ID"> @material.Name
+                                            </label>
                                         </li>
                                     }
                                 </ul>
@@ -321,14 +333,13 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- categories -->
                 <div class="widget widget_links clearfix">
                     <h4>Danh mục sản phẩm</h4>
                     @{Html.RenderAction("ProductCategory", "Product");}
                 </div>
                 <div class="widget clearfix">
-                    <h4><a href='/san-pham/viewcount/'>Được xem nhiều</a></h4>
+                    <h4><a href='/san-pham/viewcount.html'>Được xem nhiều</a></h4>
                     @{Html.RenderAction("PopularProduct", "Product");}
                 </div>
                 <!-- recent view -->
@@ -339,7 +350,6 @@
             </div>
         </div>
     </div>
-
     <script id="data-template" type="x-tmpl-mustache">
         <div class="product clearfix">
             <div class="product-image">
@@ -348,10 +358,6 @@
                 {{#sale}}
                 <div class="sale-flash">Sale</div>
                 {{/sale}}
-                <div class="product-overlay">
-                    <a href="{{url}}" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                    <a href="#" class="btn-popup" data-id="{{ProductID}}"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                </div>
             </div>
             <div class="product-desc center">
                 <div class="product-title"><h3><a href="{{url}}">{{ProductName}}</a></h3></div>
@@ -367,78 +373,4 @@
             </div>
         </div>
     </script>
-    <script id="tpl-product-size" type="x-tmpl-mustache">
-        <option value="{{ProductSize}}">{{ProductSize}}</option>
-    </script>
-
-    <script id="tpl-product-color" type="x-tmpl-mustache">
-        <option value="{{ProductColor}}">{{ProductColor}}</option>
-    </script>
-
-    <div id="productManange" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" id="productName"></h4>
-                </div>
-                <div class="modal-body" style="height:auto">
-                    <div class="product-page-options">
-                        <div class="sizePicker">
-                            <label class="control-label options-title">Kích thước</label>
-                            <div class="options-selection">
-                                <select id="product-size" class="form-control input-sm size"></select>
-                            </div>
-                        </div>
-
-                        <div class="sizePicker">
-                            <label class="control-label options-title">Màu sắc:</label>
-                            <div class="options-selection">
-                                <select id="product-color" class="form-control input-sm color" style="color:#555!important;"></select>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <form id="ProductDetailsForm" class="nobottommargin clearfix">
-                        <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
-                            <input type="button" value="-" class="minus">
-                            <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Qty" size="4">
-                            <input type="button" value="+" class="plus">
-                        </div>
-                        <button type="submit" id="addcart" class="btnAddToCart button nomargin col-xs-6">Thêm vào giỏ</button>
-                        <button type="submit" class="abc buy_btn button col-xs-12" id="buynow">Mua ngay </button>
-                        <input type="hidden" id="hidProductID" value="0" />
-                    </form>
-
-                    <script>
-                        var quantity = parseInt($('#ProductDetailsForm .product-quantity input.qty').val());
-                        $('#ProductDetailsForm .minus').click(function () {
-                            if (quantity > 0) {
-                                if (quantity == 1) {
-                                    $('#addcart').attr('disabled', 'disabled');
-                                }
-                                quantity -= 1;
-                            }
-                            else {
-                                quantity = 0;
-                            }
-                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity);
-                        });
-                        $('#ProductDetailsForm  .plus').click(function () {
-                            $('#addcart').removeAttr('disabled');
-                            if (quantity < 100) {
-                                quantity += 1;
-                            }
-                            else {
-                                quantity = 100;
-                            }
-                            $('#ProductDetailsForm .product-quantity input.qty').val(quantity)
-                        });
-                    </script>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>

@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <link rel="shortcut icon" href="/Assets/client/hstatic.net/198/1000055198/1000144003/favicona6f6.png?v=313" type="image/png" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Trang quản trị</title>
@@ -15,6 +16,8 @@
     <!-- Theme style -->
     <link href="~/Assets/admin/libs/toastr/toastr.css" rel="stylesheet" />
     <link href="~/Assets/admin/libs/angular-loading-bar/build/loading-bar.css" rel="stylesheet" />
+    <link href="~/Assets/admin/libs/angular-chart.js/dist/angular-chart.css" rel="stylesheet" />
+    @*<link href="~/Assets/admin/libs/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" />*@
     <link rel="stylesheet" href="/Assets/admin/css/AdminLTE.min.css">
     <link href="~/Assets/admin/css/custom.css" rel="stylesheet" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -29,7 +32,7 @@
 </head>
 <body class="hold-transition skin-blue sidebar-mini" ng-app="myshop" ng-controller="rootController">
     <div ui-view></div>
-   
+
     <!-- jQuery 2.1.4 -->
     <script src="~/Assets/admin/libs/jquery/dist/jquery.js"></script>
     <!-- Bootstrap 3.3.5 -->
@@ -41,6 +44,7 @@
     <!-- AdminLTE App -->
     @*<script src="/Assets/admin/js/app.min.js"></script>*@
     <!-- Begin embed angularJS -->
+
     <script src="~/Assets/admin/libs/angular/angular.js"></script>
     <script src="~/Assets/admin/libs/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="~/Assets/admin/libs/toastr/toastr.js"></script>
@@ -54,6 +58,7 @@
     <script src="~/Assets/admin/libs/checklist-model/checklist-model.js"></script>
     <script src="~/Assets/admin/libs/chart.js/dist/Chart.min.js"></script>
     <script src="~/Assets/admin/libs/angular-chart.js/angular-chart.js"></script>
+    @*<script src="~/Assets/admin/libs/datatables/media/js/jquery.dataTables.min.js"></script>*@
 
     <script src="~/app/shared/modules/myshop.common.js"></script>
     <script src="~/app/shared/filters/statusFilter.js"></script>
@@ -81,6 +86,13 @@
     <script src="~/app/components/application_groups/applicationGroups.module.js"></script>
     <script src="~/app/components/application_roles/applicationRoles.module.js"></script>
     <script src="~/app/components/application_users/applicationUsers.module.js"></script>
+    <script src="~/app/components/colors/colors.module.js"></script>
+    <script src="~/app/components/sizes/sizes.module.js"></script>
+    <script src="~/app/components/types/types.module.js"></script>
+    <script src="~/app/components/heels/heels.module.js"></script>
+    <script src="~/app/components/heights/heights.module.js"></script>
+    <script src="~/app/components/materials/materials.module.js"></script>
+    <script src="~/app/components/statistic/statistic.module.js"></script>
 
     <script src="~/app/app.js"></script>
     <script src="~/app/components/home/rootController.js"></script>
@@ -133,7 +145,55 @@
     <script src="~/app/components/application_users/applicationUserAddController.js"></script>
     <script src="~/app/components/application_users/applicationUserEditController.js"></script>
     <script src="~/app/components/application_users/applicationUserListController.js"></script>
+    <script src="~/app/components/colors/colorAddController.js"></script>
+    <script src="~/app/components/colors/colorEditController.js"></script>
+    <script src="~/app/components/colors/colorListController.js"></script>
+    <script src="~/app/components/sizes/sizeAddController.js"></script>
+    <script src="~/app/components/sizes/sizeEditController.js"></script>
+    <script src="~/app/components/sizes/sizeListController.js"></script>
+    <script src="~/app/components/types/typeAddController.js"></script>
+    <script src="~/app/components/types/typeEditController.js"></script>
+    <script src="~/app/components/types/typeListController.js"></script>
+    <script src="~/app/components/heels/heelAddController.js"></script>
+    <script src="~/app/components/heels/heelEditController.js"></script>
+    <script src="~/app/components/heels/heelListController.js"></script>
+    <script src="~/app/components/heights/heightAddController.js"></script>
+    <script src="~/app/components/heights/heightEditController.js"></script>
+    <script src="~/app/components/heights/heightListController.js"></script>
+    <script src="~/app/components/materials/materialAddController.js"></script>
+    <script src="~/app/components/materials/materialEditController.js"></script>
+    <script src="~/app/components/materials/materialListController.js"></script>
+    <script src="~/app/components/statistic/revenueStatisticController.js"></script>
 
     <script src="~/app/components/home/homeController.js"></script>
+    @*<script>
+        function filterGlobal() {
+            $('#example').DataTable().search(
+            $('#global_filter').val(),
+            $('#global_regex').prop('checked'),
+            $('#global_smart').prop('checked')
+            ).draw();
+        }
+
+        function filterColumn(i) {
+            $('#example').DataTable().column(i).search(
+            $('#col' + i + '_filter').val(),
+            $('#col' + i + '_regex').prop('checked'),
+            $('#col' + i + '_smart').prop('checked')
+            ).draw();
+        }
+
+        $(document).ready(function () {
+            $('#example').DataTable();
+
+            $('input.global_filter').on('keyup click', function () {
+                filterGlobal();
+            });
+
+            $('input.column_filter').on('keyup click', function () {
+                filterColumn($(this).parents('tr').attr('data-column'));
+            });
+        });
+    </script>*@    
 </body>
 </html>

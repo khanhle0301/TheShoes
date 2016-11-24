@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace MyShop.Web
@@ -12,6 +8,13 @@ namespace MyShop.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            routes.MapRoute(
+                 name: "CancelOrder",
+                 url: "loi-thanh-toan.html",
+                 defaults: new { controller = "ShoppingCart", action = "CancelOrder", id = UrlParameter.Optional },
+                 namespaces: new string[] { "MyShop.Web.Controllers" }
+             );
 
             routes.MapRoute(
                  name: "Login",
@@ -35,6 +38,13 @@ namespace MyShop.Web
              );
 
             routes.MapRoute(
+     name: "Checkout",
+     url: "thanh-toan.html",
+     defaults: new { controller = "ShoppingCart", action = "Checkout", id = UrlParameter.Optional },
+     namespaces: new string[] { "MyShop.Web.Controllers" }
+ );
+
+            routes.MapRoute(
           name: "Cart",
           url: "gio-hang.html",
           defaults: new { controller = "ShoppingCart", action = "Index", id = UrlParameter.Optional },
@@ -43,49 +53,49 @@ namespace MyShop.Web
 
             routes.MapRoute(
           name: "ViewViewCountProduct",
-          url: "san-pham/viewcount/",
+          url: "san-pham/viewcount.html",
           defaults: new { controller = "Product", action = "ViewViewCountProduct", id = UrlParameter.Optional },
           namespaces: new string[] { "MyShop.Web.Controllers" }
       );
 
             routes.MapRoute(
             name: "ViewAllProduct",
-            url: "san-pham/all/",
+            url: "san-pham/all.html",
             defaults: new { controller = "Product", action = "ViewAllProduct", id = UrlParameter.Optional },
             namespaces: new string[] { "MyShop.Web.Controllers" }
         );
 
             routes.MapRoute(
                 name: "ViewNewProduct",
-                url: "san-pham/news/",
+                url: "san-pham/news.html",
                 defaults: new { controller = "Product", action = "ViewNewProduct", id = UrlParameter.Optional },
                 namespaces: new string[] { "MyShop.Web.Controllers" }
             );
 
             routes.MapRoute(
               name: "ViewOnSaleProduct",
-              url: "san-pham/onsale/",
+              url: "san-pham/onsale.html",
               defaults: new { controller = "Product", action = "ViewOnSaleProduct", id = UrlParameter.Optional },
               namespaces: new string[] { "MyShop.Web.Controllers" }
           );
 
             routes.MapRoute(
             name: "ViewHotProduct",
-            url: "san-pham/noi-bat/",
+            url: "san-pham/noi-bat.html",
             defaults: new { controller = "Product", action = "ViewHotProduct", id = UrlParameter.Optional },
             namespaces: new string[] { "MyShop.Web.Controllers" }
         );
 
             routes.MapRoute(
           name: "ViewSaleHotProduct",
-          url: "san-pham/ban-chay/",
+          url: "san-pham/ban-chay.html",
           defaults: new { controller = "Product", action = "ViewSaleHotProduct", id = UrlParameter.Optional },
           namespaces: new string[] { "MyShop.Web.Controllers" }
-      );          
+      );
 
             routes.MapRoute(
                 name: "Post",
-                url: "bai-viet/news/",
+                url: "blogs/news.html",
                 defaults: new { controller = "Post", action = "Index", id = UrlParameter.Optional },
                 namespaces: new string[] { "MyShop.Web.Controllers" }
             );
@@ -99,35 +109,35 @@ namespace MyShop.Web
 
             routes.MapRoute(
                 name: "Post Category",
-                url: "bai-viet/{alias}/",
+                url: "blogs/{alias}.html",
                 defaults: new { controller = "Post", action = "Category", alias = UrlParameter.Optional },
                   namespaces: new string[] { "MyShop.Web.Controllers" }
             );
 
             routes.MapRoute(
               name: "Post Tag",
-              url: "bai-viet/tag/{tagId}/",
+              url: "blogs/tag/{tagId}.html",
               defaults: new { controller = "Post", action = "ListByTag", tagId = UrlParameter.Optional },
               namespaces: new string[] { "MyShop.Web.Controllers" }
           );
 
             routes.MapRoute(
               name: "Post Detail",
-              url: "bai-viet/{catealias}/{alias}-{id}.html",
+              url: "blogs/{catealias}/{alias}-{id}.html",
               defaults: new { controller = "Post", action = "Detail", id = UrlParameter.Optional },
                 namespaces: new string[] { "MyShop.Web.Controllers" }
           );
 
             routes.MapRoute(
           name: "Product Tag",
-          url: "san-pham/tag/{tagId}/",
+          url: "san-pham/tag/{tagId}.html",
           defaults: new { controller = "Product", action = "ListByTag", tagId = UrlParameter.Optional },
           namespaces: new string[] { "MyShop.Web.Controllers" }
       );
 
             routes.MapRoute(
              name: "Product Category",
-             url: "san-pham/{alias}/",
+             url: "san-pham/{alias}.html",
              defaults: new { controller = "Product", action = "Category", alias = UrlParameter.Optional },
                namespaces: new string[] { "MyShop.Web.Controllers" }
          );
@@ -138,7 +148,7 @@ namespace MyShop.Web
              defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
                namespaces: new string[] { "MyShop.Web.Controllers" }
          );
-       
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

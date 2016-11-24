@@ -1,0 +1,45 @@
+﻿  <!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>        
+        Thêm mới màu sắc
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+        <li><a ui-sref="products">Sản phẩm</a></li>
+        <li><a ui-sref="colors">Màu sắc</a></li>
+        <li class="active">Thêm mới</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- Horizontal Form -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title"> Thêm mới màu sắc: {{color.Name}}</h3>
+        </div><!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" novalidate name="frmAddColor" role="form" ng-submit="AddColor()">
+            <div class="box-body">
+                <div class="form-group" ng-class="{ 'has-error' : frmAddColor.name.$invalid && !frmAddColor.name.$pristine }">
+                    <label class="col-sm-2 control-label">Tên màu sắc</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="name" class="form-control" required ng-maxlength="250" ng-model="color.Name">
+                        <span ng-show="frmAddColor.name.$error.required" class="has-error">Vui lòng nhập tên màu sắc.</span>
+                        <span ng-show="frmAddColor.name.$error.maxlength" class="has-error">Tên màu sắc chỉ được 250 ký tự.</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : frmAddColor.background.$invalid && !frmAddColor.background.$pristine }">
+                    <label class="col-sm-2 control-label">Background</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="background" class="form-control" required ng-model="color.Background">
+                        <span ng-show="frmAddColor.background.$error.required" class="has-error">Vui lòng nhập background.</span>                    
+                    </div>
+                </div>         
+            </div><!-- /.box-body -->
+            <div class="box-footer">
+                <button ui-sref="colors" class="btn btn-default">Hủy</button>
+                <button type="submit" ng-disabled="frmAddColor.$invalid" class="btn btn-success pull-right">Lưu</button>
+            </div><!-- /.box-footer -->
+        </form>
+    </div><!-- /.box -->
+</section><!-- /.content -->

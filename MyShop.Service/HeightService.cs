@@ -1,4 +1,5 @@
-﻿using MyShop.Data.Infrastructure;
+﻿using MyShop.Common.Exceptions;
+using MyShop.Data.Infrastructure;
 using MyShop.Data.Repositories;
 using MyShop.Model.Models;
 using System.Collections.Generic;
@@ -35,6 +36,8 @@ namespace MyShop.Service
 
         public Height Add(Height height)
         {
+            if (_heightRepository.CheckContains(x => x.Name == height.Name))
+                throw new NameDuplicatedException("Tên không được trùng");
             return _heightRepository.Add(height);
         }
 
@@ -71,9 +74,11 @@ namespace MyShop.Service
             _unitOfWork.Commit();
         }
 
-        public void Update(Height Height)
+        public void Update(Height height)
         {
-            _heightRepository.Update(Height);
+            if (_heightRepository.CheckContains(x => x.Name == height.Name && x.ID != height.ID))
+                throw new NameDuplicatedException("Tên không được trùng");
+            _heightRepository.Update(height);
         }
     }
 }

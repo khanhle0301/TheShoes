@@ -27,6 +27,8 @@ namespace MyShop.Web.Api
         }
 
         [Route("getallparents")]
+        [HttpGet]
+        [Authorize(Roles = "ViewPostCategory")]
         public HttpResponseMessage Get(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -43,6 +45,7 @@ namespace MyShop.Web.Api
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewPostCategory")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -59,12 +62,13 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
-        public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
+        [Authorize(Roles = "ViewPostCategory")]
+        public HttpResponseMessage GetAll(HttpRequestMessage request, int page, int pageSize = 20, string filter = null)
         {
             return CreateHttpResponse(request, () =>
             {
                 int totalRow = 0;
-                var model = _postCategoryService.GetAll(keyword);
+                var model = _postCategoryService.GetAll();
 
                 totalRow = model.Count();
                 var query = model.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
@@ -85,7 +89,7 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddPostCategory")]
         public HttpResponseMessage Post(HttpRequestMessage request, PostCategoryViewModel postCategoryVm)
         {
             return CreateHttpResponse(request, () =>
@@ -99,7 +103,10 @@ namespace MyShop.Web.Api
                 {
                     PostCategory newPostCategory = new PostCategory();
                     newPostCategory.UpdatePostCategory(postCategoryVm);
-
+                    newPostCategory.CreatedDate = DateTime.Now;
+                    newPostCategory.CreatedBy = User.Identity.Name;
+                    newPostCategory.UpdatedDate = DateTime.Now;                  
+                    newPostCategory.UpdatedBy = User.Identity.Name;
                     var category = _postCategoryService.Add(newPostCategory);
                     _postCategoryService.Save();
 
@@ -112,7 +119,7 @@ namespace MyShop.Web.Api
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdatePostCategory")]
         public HttpResponseMessage Put(HttpRequestMessage request, PostCategoryViewModel postCategoryVm)
         {
             return CreateHttpResponse(request, () =>
@@ -126,6 +133,8 @@ namespace MyShop.Web.Api
                 {
                     var postCategoryDb = _postCategoryService.GetById(postCategoryVm.ID);
                     postCategoryDb.UpdatePostCategory(postCategoryVm);
+                    postCategoryDb.UpdatedDate = DateTime.Now;
+                    postCategoryDb.UpdatedBy = User.Identity.Name;
                     _postCategoryService.Update(postCategoryDb);
                     _postCategoryService.Save();
 
@@ -138,7 +147,7 @@ namespace MyShop.Web.Api
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeletePostCategory")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -162,7 +171,7 @@ namespace MyShop.Web.Api
 
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeletePostCategory")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedPostCategories)
         {
             return CreateHttpResponse(request, () =>

@@ -1,21 +1,20 @@
 ﻿(function (app) {
+    'use strict';
+
     app.controller('contactDetailListController', contactDetailListController);
 
     contactDetailListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
 
     function contactDetailListController($scope, apiService, notificationService, $ngBootbox, $filter) {
+        $scope.loading = true;
         $scope.contactDetails = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
         $scope.getContactDetails = getContactDetails;
         $scope.keyword = '';
-
         $scope.search = search;
-
         $scope.deleteContactDetail = deleteContactDetail;
-
         $scope.selectAll = selectAll;
-
         $scope.deleteMultiple = deleteMultiple;
 
         function deleteMultiple() {
@@ -83,6 +82,7 @@
 
         function getContactDetails(page) {
             page = page || 0;
+            $scope.loading = true;
             var config = {
                 params: {
                     keyword: $scope.keyword,
@@ -90,17 +90,21 @@
                     pageSize: 20
                 }
             }
-            apiService.get('/api/contactdetail/getall', config, function (result) {
-                if (result.data.TotalCount == 0) {
-                    notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
-                }
-                $scope.contactDetails = result.data.Items;
-                $scope.page = result.data.Page;
-                $scope.pagesCount = result.data.TotalPages;
-                $scope.totalCount = result.data.TotalCount;
-            }, function () {
-                console.log('Load contactdetail failed.');
-            });
+            apiService.get('api/contactdetail/getall', config, dataLoadCompleted, dataLoadFailed);           
+        }
+
+        function dataLoadCompleted(result) {
+            if (result.data.TotalCount == 0) {
+                notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
+            }
+            $scope.contactDetails = result.data.Items;
+            $scope.page = result.data.Page;
+            $scope.pagesCount = result.data.TotalPages;
+            $scope.totalCount = result.data.TotalCount;
+            $scope.loading = false;
+        }
+        function dataLoadFailed(response) {
+            notificationService.displayError(response.data);
         }
 
         $scope.getContactDetails();

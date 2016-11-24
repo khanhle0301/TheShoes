@@ -31,6 +31,7 @@ namespace MyShop.Web.Api
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "Feedback")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -47,6 +48,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "Feedback")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -74,7 +76,7 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Feedback")]
         public HttpResponseMessage Create(HttpRequestMessage request, FeedbackViewModel slideVm)
         {
             return CreateHttpResponse(request, () =>
@@ -101,7 +103,7 @@ namespace MyShop.Web.Api
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "Feedback")]
         public HttpResponseMessage Update(HttpRequestMessage request, FeedbackViewModel slideVm)
         {
             return CreateHttpResponse(request, () =>
@@ -128,7 +130,7 @@ namespace MyShop.Web.Api
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "Feedback")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -152,7 +154,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "Feedback")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedFeedbacks)
         {
             return CreateHttpResponse(request, () =>
@@ -173,6 +175,31 @@ namespace MyShop.Web.Api
                     _feedbackService.Save();
 
                     response = request.CreateResponse(HttpStatusCode.OK, listFeedback.Count);
+                }
+
+                return response;
+            });
+        }
+
+        [Route("changestatus")]
+        [HttpDelete]
+        [Authorize(Roles = "Feedback")]
+        public HttpResponseMessage ChangeStatus(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (!ModelState.IsValid)
+                {
+                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                else
+                {
+                    _feedbackService.ChangeStatus(id);
+                    _feedbackService.Save();
+                    var oldFeedback = _feedbackService.GetById(id);
+                    var responseData = Mapper.Map<Feedback, FeedbackViewModel>(oldFeedback);
+                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
                 return response;

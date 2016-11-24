@@ -208,6 +208,22 @@
     <Compile Include="Migrations\201610170456569_ProductHeel_Create.Designer.cs">
       <DependentUpon>201610170456569_ProductHeel_Create.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611090653152_OriginalPrice.cs" />
+    <Compile Include="Migrations\201611090653152_OriginalPrice.Designer.cs">
+      <DependentUpon>201611090653152_OriginalPrice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611090725041_edit-order.cs" />
+    <Compile Include="Migrations\201611090725041_edit-order.Designer.cs">
+      <DependentUpon>201611090725041_edit-order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611190526514_change-PaymentStatus.cs" />
+    <Compile Include="Migrations\201611190526514_change-PaymentStatus.Designer.cs">
+      <DependentUpon>201611190526514_change-PaymentStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611211724196_RevenuesStatisticSP.cs" />
+    <Compile Include="Migrations\201611211724196_RevenuesStatisticSP.Designer.cs">
+      <DependentUpon>201611211724196_RevenuesStatisticSP.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MyShopDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -346,6 +362,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610170456569_ProductHeel_Create.resx">
       <DependentUpon>201610170456569_ProductHeel_Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611090653152_OriginalPrice.resx">
+      <DependentUpon>201611090653152_OriginalPrice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611090725041_edit-order.resx">
+      <DependentUpon>201611090725041_edit-order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611190526514_change-PaymentStatus.resx">
+      <DependentUpon>201611190526514_change-PaymentStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611211724196_RevenuesStatisticSP.resx">
+      <DependentUpon>201611211724196_RevenuesStatisticSP.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,8 +4,7 @@
     postAddController.$inject = ['apiService', '$scope', 'notificationService', '$state', 'commonService'];
 
     function postAddController(apiService, $scope, notificationService, $state, commonService) {
-        $scope.post = {
-            CreatedDate: new Date(),
+        $scope.post = {           
             Status: true,
         }
         $scope.ckeditorOptions = {

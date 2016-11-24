@@ -11,7 +11,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System;
-
+using MyShop.Common.Exceptions;
 
 namespace MyShop.Web.Api
 {
@@ -32,6 +32,7 @@ namespace MyShop.Web.Api
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewHeight")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -48,6 +49,7 @@ namespace MyShop.Web.Api
 
         [Route("getlistall")]
         [HttpGet]
+        [Authorize(Roles = "ViewHeight")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -64,6 +66,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewHeight")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageHeight = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -91,61 +94,59 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddHeight")]
         public HttpResponseMessage Create(HttpRequestMessage request, HeightViewModel heightVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var newHeight = new Height();
+                newHeight.UpdateHeight(heightVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var newHeight = new Height();
-                    newHeight.UpdateHeight(heightVm);
                     _heightService.Add(newHeight);
                     _heightService.Save();
-
-                    var responseData = Mapper.Map<Height, HeightViewModel>(newHeight);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, heightVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }            
         }
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateHeight")]
         public HttpResponseMessage Update(HttpRequestMessage request, HeightViewModel heightVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var dbHeight = _heightService.GetById(heightVm.ID);
+                dbHeight.UpdateHeight(heightVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var dbHeight = _heightService.GetById(heightVm.ID);
-                    dbHeight.UpdateHeight(heightVm);
                     _heightService.Update(dbHeight);
                     _heightService.Save();
-
-                    var responseData = Mapper.Map<Height, HeightViewModel>(dbHeight);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, heightVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }            
         }
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteHeight")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -169,7 +170,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteHeight")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedHeights)
         {
             return CreateHttpResponse(request, () =>

@@ -20,15 +20,15 @@
         <!-- form start -->
         <form class="form-horizontal" novalidate name="frmUpdateProduct" role="form" ng-submit="UpdateProduct()">
             <div class="box-body">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProduct.name.$invalid && !frmUpdateProduct.name.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tên sản phẩm</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" ng-change="GetSeoTitle()" ng-maxlength="256" required name="name" ng-model="product.Name">
-                        <span ng-show="frmUpdateProduct.name.$error.required" class="has-error">Phải nhập tên danh mục</span>
-                        <span ng-show="frmUpdateProduct.name.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+                        <span ng-show="frmUpdateProduct.name.$error.required" class="has-error">Phải nhập tên sản phẩm</span>
+                        <span ng-show="frmUpdateProduct.name.$error.maxlength" class="has-error">Tên sản phẩm chỉ được 256 ký tự</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProduct.alias.$invalid && !frmUpdateProduct.alias.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tiêu đề SEO</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="alias" required ng-model="product.Alias">
@@ -70,7 +70,14 @@
                         <input type="number" class="form-control" name="warranty" ng-model="product.Warranty">(tháng)
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProduct.originalPrice.$invalid && !frmUpdateProduct.originalPrice.$pristine }">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Giá gốc</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control" name="originalPrice" required ng-model="product.OriginalPrice">
+                        <span ng-show="frmUpdateProduct.originalPrice.$error.required" class="has-error">Phải nhập giá gốc</span>
+                    </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProduct.price.$invalid && !frmUpdateProduct.price.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Giá</label>
                     <div class="col-sm-10">
                         <input type="number" class="form-control" name="price" required ng-model="product.Price">
@@ -83,7 +90,7 @@
                         <input type="number" class="form-control" name="promotionPrice" ng-model="product.PromotionPrice">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProduct.image.$invalid && !frmUpdateProduct.image.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Hình ảnh</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="image" required ng-model="product.Image">
@@ -93,7 +100,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProduct.image2.$invalid && !frmUpdateProduct.image2.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Hình ảnh 2</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="image2" required ng-model="product.Image2">
@@ -117,10 +124,11 @@
                         <button class="btn btn-default" type="button" ng-click="ChooseMoreImage()">Chọn ảnh</button>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateProduct.content.$invalid && !frmUpdateProduct.content.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Mô tả sản phẩm</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" name="content" ckeditor="ckeditorOptions" ng-model="product.Content"></textarea>
+                        <span ng-show="frmUpdateProduct.content.$error.required" class="has-error">Phải mô tả sản phẩm</span>
                     </div>
                 </div>
 
@@ -170,7 +178,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Kiểu giầy</label>                  
+                    <label for="inputEmail3" class="col-sm-2 control-label">Kiểu giầy</label>
                     <div class="col-sm-10">
                         <label ng-repeat="type in types">
                             <input ng-required="product.Types.length == 0" type="checkbox" checklist-model="product.Types" checklist-value="type"> {{type.Name}} &nbsp;
@@ -185,15 +193,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Meta Keyword</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Từ khóa</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="metaKeyword" ng-model="product.MetaKeyword">
+                        <input type="text" class="form-control" name="metaKeyword" ng-maxlength="256" ng-model="postCategory.MetaKeyword">
+                        <span ng-show="frmUpdateProduct.metaKeyword.$error.maxlength" class="has-error">Từ khóa chỉ được 256 ký tự</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Meta Description</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" name="metaKeyword" ng-model="product.MetaDescription"></textarea>
+                        <textarea class="form-control" name="metaDescription" ng-maxlength="256" ng-model="postCategory.MetaDescription"></textarea>
+                        <span ng-show="frmUpdateProduct.metaDescription.$error.maxlength" class="has-error">Description chỉ được 256 ký tự</span>
                     </div>
                 </div>
                 <div class="form-group">

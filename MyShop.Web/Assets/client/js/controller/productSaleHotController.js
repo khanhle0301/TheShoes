@@ -8,15 +8,6 @@ var productSaleHotController = {
         productSaleHotController.registerEvent();
     },
     registerEvent: function () {
-        $('.btn-popup').off('click').on('click', function (e) {
-            e.preventDefault();
-            $('#productManange').modal('show');
-            $('#hidProductID').val($(this).data('id'));
-            var productId = parseInt($(this).data('id'));
-            productSaleHotController.loadColor(productId);
-            productSaleHotController.loadSize(productId);
-            productSaleHotController.loadProductName(productId);
-        });
 
         $('#sortControl').off('click').on('click', function () {
             productSaleHotController.loadData(true);
@@ -32,16 +23,20 @@ var productSaleHotController = {
         });
         $('.chatlieu').off('click').on('click', function () {
             productSaleHotController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
         $('.heel').off('click').on('click', function () {
             productSaleHotController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
         $('.height').off('click').on('click', function () {
             productSaleHotController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
 
         $('.types').off('click').on('click', function () {
             productSaleHotController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
 
     },
@@ -136,8 +131,10 @@ var productSaleHotController = {
                         $('.productCount').html('Có <span class="require_symbol">' + response.total + '</span> sản phẩm.');
                         productSaleHotController.paging(response.total, function () {
                             productSaleHotController.loadData();
+                            $("#gotoTop").trigger("click");
                         }, changePageSize);
                     }
+                    //$("#gotoTop").trigger("click");
                     productSaleHotController.registerEvent();
                 }
             }
@@ -163,72 +160,6 @@ var productSaleHotController = {
                 setTimeout(callback, 200);
             }
         });
-    },
-
-    loadSize: function (id) {
-        $.ajax({
-            url: '/Product/GetSize',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var template = $('#tpl-product-size').html();
-                    var html = '';
-                    var data = res.data;
-                    $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            ProductSize: item.ID,
-                        });
-                    });
-                    $('#product-size').html(html);
-                }
-            }
-        })
-    },
-
-    loadColor: function (id) {
-        $.ajax({
-            url: '/Product/GetColor',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var template = $('#tpl-product-color').html();
-                    var html = '';
-                    var data = res.data;
-                    $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            ProductColor: item.Name,
-                        });
-                    });
-
-                    $('#product-color').html(html);
-                }
-            }
-        })
-    },
-
-    loadProductName: function (id) {
-        $.ajax({
-            url: '/Product/GetAll',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var productName = res.data.Name;
-                    $('#productName').html(productName);
-                }
-            }
-        })
     }
 }
 productSaleHotController.init();

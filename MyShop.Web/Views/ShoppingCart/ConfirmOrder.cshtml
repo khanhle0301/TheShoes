@@ -1,0 +1,52 @@
+﻿@model List<MyShop.Web.Models.ShoppingCartViewModel>
+@{
+    ViewBag.Title = "Thanh toán thành công";
+    Layout = "~/Views/Shared/LayoutsPM.cshtml";
+}
+<br />
+<a href="/">
+    <h1>
+        <span class="btn-back">Về trang chủ</span> Đặt hàng thành công
+    </h1>
+</a>
+<div class="clearfix">
+    <!-- start step3 -->
+    <span class="fbtracker-checkout-complete"></span>
+    <div class="checkout-complete col-12 ">
+        <div class="box-complete">
+            <h3>Mã đơn hàng của bạn: <strong>@ViewData["OrderID"]</strong></h3>
+            <label>Bạn vừa mua:</label>
+            <div class="cart-items">
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item">
+                        <img alt="@item.Product.Name" class="image_thumb" src="@item.Product.Image">
+                        <b>2 x</b>
+                        <span> @item.Product.Name</span>  <span>-@item.Color/@item.Size </span>
+
+                    </div>
+                }
+                <div class="payment_methol">
+                    <p>
+                        <b>Giá trị đơn hàng:</b>
+                        <span> @ViewBag.Amount.ToString("N0")₫</span>
+                    </p>
+                    <p>
+                        <b>Tổng cộng:</b>
+                        <span class="totalpayment"> @ViewBag.Amount.ToString("N0")₫</span>
+                    </p>
+                    <p>
+                        <b>Phương thức thanh toán:</b>
+                        <span> @ViewData["PaymentMethod"]</span>
+                    </p>
+                    <p>
+                    </p>
+                </div>
+            </div>
+            <p>Cảm ơn bạn đã mua hàng tại: <a class="linkshopname" href="/">TheShoes</a></p>
+        </div>
+    </div>
+    <!-- /end step3 -->
+
+</div>
+

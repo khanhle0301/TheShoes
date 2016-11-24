@@ -27,14 +27,17 @@
         }
         function UpdateProduct() {
             $scope.product.MoreImages = JSON.stringify($scope.moreImages)
-            apiService.put('api/product/update', $scope.product,
-                function (result) {
-                    notificationService.displaySuccess(result.data.Name + ' đã được cập nhật.');
-                    $state.go('products');
-                }, function (error) {
-                    notificationService.displayError('Cập nhật không thành công.');
-                });
+            apiService.put('/api/product/update', $scope.product, addSuccessed, addFailed);           
         }
+
+        function addSuccessed() {
+            notificationService.displaySuccess($scope.product.Name + ' đã được cập nhật.');
+            $state.go('products');
+        }
+        function addFailed(response) {
+            notificationService.displayError(response.data.Message);
+        }
+
         function loadProductCategory() {
             apiService.get('api/productcategory/getallparents', null, function (result) {
                 $scope.productCategories = result.data;

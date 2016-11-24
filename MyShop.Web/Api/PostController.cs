@@ -31,6 +31,7 @@ namespace MyShop.Web.Api
 
         [Route("getallparents")]
         [HttpGet]
+        [Authorize(Roles = "ViewPost")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -45,6 +46,7 @@ namespace MyShop.Web.Api
         }
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewPost")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -61,12 +63,13 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
-        public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
+        [Authorize(Roles = "ViewPost")]
+        public HttpResponseMessage GetAll(HttpRequestMessage request, int page, int pageSize = 20, string filter = null)
         {
             return CreateHttpResponse(request, () =>
             {
                 int totalRow = 0;
-                var model = _postService.GetAll(keyword);
+                var model = _postService.GetAll();
 
                 totalRow = model.Count();
                 var query = model.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
@@ -88,7 +91,7 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddPost")]
         public HttpResponseMessage Create(HttpRequestMessage request, PostViewModel postCategoryVm)
         {
             return CreateHttpResponse(request, () =>
@@ -103,6 +106,9 @@ namespace MyShop.Web.Api
                     var newPost = new Post();
                     newPost.UpdatePost(postCategoryVm);
                     newPost.CreatedDate = DateTime.Now;
+                    newPost.CreatedBy = User.Identity.Name;
+                    newPost.UpdatedDate = DateTime.Now;
+                    newPost.UpdatedBy = User.Identity.Name;
                     _postService.Add(newPost);
                     _postService.Save();
 
@@ -116,7 +122,7 @@ namespace MyShop.Web.Api
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdatePost")]
         public HttpResponseMessage Update(HttpRequestMessage request, PostViewModel postVm)
         {
             return CreateHttpResponse(request, () =>
@@ -132,7 +138,7 @@ namespace MyShop.Web.Api
 
                     dbPost.UpdatePost(postVm);
                     dbPost.UpdatedDate = DateTime.Now;
-
+                    dbPost.UpdatedBy = User.Identity.Name;
                     _postService.Update(dbPost);
                     _postService.Save();
 
@@ -146,7 +152,7 @@ namespace MyShop.Web.Api
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeletePost")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -170,7 +176,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeletePost")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedPosts)
         {
             return CreateHttpResponse(request, () =>

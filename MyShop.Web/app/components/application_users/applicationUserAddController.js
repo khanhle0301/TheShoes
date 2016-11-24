@@ -17,7 +17,7 @@
         }
 
         function addSuccessed() {
-            notificationService.displaySuccess($scope.account.Name + ' đã được thêm mới.');
+            notificationService.displaySuccess($scope.account.FullName + ' đã được thêm mới.');
 
             $location.url('application_users');
         }

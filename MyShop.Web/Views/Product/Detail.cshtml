@@ -1,13 +1,14 @@
 ﻿@model MyShop.Web.Models.ProductViewModel
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = Model.Name;
+    ViewBag.Keywords = Model.MetaKeyword;
+    ViewBag.Descriptions = Model.MetaDescription;
     Layout = "~/Views/Shared/Layouts.cshtml";
+    var urlface = Request.Url.ToString();
 }
 
 @section footerJS{
-    <script src="~/Assets/client/js/controller/productDetail/productPopup.js"></script>
-    <script src="~/Assets/client/js/controller/productDetail/addtocartPopup.js"></script>
-    <script src="~/Assets/client/js/controller/productDetail/addtocartDetail.js"></script>
+    <script src="~/Assets/client/js/addtocart.js"></script>
 }
 
 @section left_menu{
@@ -77,7 +78,7 @@
                                                 }
                                             </div>
                                         </div>
-                                        @if (@Model.PromotionPrice.HasValue)
+                                        @if (Model.PromotionPrice.HasValue)
                                         {
                                             <div class="sale-flash">Sale</div>
                                         }
@@ -87,7 +88,7 @@
                             <div class="col_half col_last product-desc">
                                 <div class="product-price">
                                     <ins style='margin-right: 5px;'>
-                                        @if (@Model.PromotionPrice.HasValue)
+                                        @if (Model.PromotionPrice.HasValue)
                                         {
                                             <ins>@Model.PromotionPrice.Value.ToString("N0")₫ </ins>
                                             <del>@Model.Price.ToString("N0")₫</del>
@@ -109,7 +110,7 @@
                                             <select id="product-size" class="form-control input-sm">
                                                 @foreach (var size in (IEnumerable<MyShop.Web.Models.SizeViewModel>)ViewBag.Sizes)
                                                 {
-                                                    <option data_size_code="@size.ID" data_color_code="@size.ID" class="" value="@size.ID">
+                                                    <option data_size_code="@size.ID" data_color_code="@size.ID" class="" value="@size.Name">
                                                         @size.Name
                                                     </option>
                                                 }
@@ -163,7 +164,7 @@
                                 @if (Model.Quantity.HasValue && Model.Quantity > 0)
                                 {
                                     <button type="submit" id="addcartDetail" data-id="@Model.ID" class="btnAddToCart col-xs-6 button nomargin">Thêm vào giỏ</button>
-                                    <button type="submit" class="button col-xs-12 nopadding">Mua ngay</button>
+                                    @*<button type="submit" class="button col-xs-12 nopadding">Mua ngay</button>*@
                                     <input type="hidden" id="hidProductID" value="@Model.ID" />
                                 }
                                 else
@@ -181,7 +182,7 @@
                                             Tags:
                                             @foreach (var tag in (IEnumerable<MyShop.Web.Models.TagViewModel>)ViewBag.Tags)
                                             {
-                                                <a href="/san-pham/tag/@tag.ID/" rel="tag">@(tag.Name), </a>
+                                                <a href="/san-pham/tag/@(tag.ID).html" rel="tag">@(tag.Name), </a>
                                             }
                                         </span>
                                     </div>
@@ -190,10 +191,7 @@
                                 <div class="si-share noborder clearfix">
                                     <span>Chia sẻ:</span>
                                     <div class='socical-wrapper'>
-                                        <ul class="social-icons">
-
-                                            <!-- script like share fb -->
-                                        </ul>
+                                        <div class="fb-like" data-href="@urlface" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
                                     </div>
                                 </div>
                             </div>
@@ -208,7 +206,7 @@
                                             @Html.Raw(Model.Content)
                                         </div>
                                         <div class="tab-content clearfix" id="tabs-2">
-
+                                            <div class="fb-comments" data-href="@urlface" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
                                             <!-- script comment fb -->
                                         </div>
                                     </div>
@@ -224,7 +222,7 @@
                                         </div>
                                         <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                             <div class="panel-body">
-                                                <div>Bảo hành 6 tháng bằng hóa đơn mua hàng</div><div style="padding-left: 30px;" data-mce-style="padding-left: 30px;"><ul><li>Thiết kế tinh tế<br></li><li>Kiểu dáng trẻ trung hiện đại<br></li><li>Màu sắc bắt mắt<br></li><li>Chất liệu cao cấp<br></li><li>Độ bền cao<br></li></ul></div><div><strong>THÔNG TIN SẢN PHẨM</strong></div><div><strong></strong><br></div><div>Hướng đến đối tượng là những bạn trẻ yêu thích vẻ đẹp năng động, tươi tắn, thương hiệu The Shoese Fashion đã cho ra mắt bộ sưu tập giày với những thiết kế vừa hiện đại, vừa hợp xu hướng. Được làm từ chất liệu da cao cấp với phần đế chắc chắn, đảm bảo an toàn cho từng bước đi. Sở hữu kiểu dáng trẻ trung, giày thích hợp phối cùng nhiều trang phục khác nhau. Bên cạnh đó, màu sắc bắt mắt cũng là một ưu điểm, giúp bạn trở nên nổi bật hơn trong mắt mọi người.</div><div><br></div><div><strong>ĐẶC ĐIỂM NỔI BẬT</strong></div><div style="padding-left: 30px;" data-mce-style="padding-left: 30px;"><ul><li>Thiết kế tinh tế, phù hợp với các bạn gái trẻ trung, hiện đại<br></li><li>Trẻ trung, năng động cùng màu sắc bắt mắt là những ưu điểm của những đôi giày này.<br></li></ul></div><div><strong>Thông tin sản phẩm</strong></div><div><br></div><div>Bộ sản phẩm bao gồm: 1 x sản phẩm</div><div><br></div><div><strong><strong>Đặc điểm chính:<br></strong></strong><strong><br></strong></div><table border="0" cellpadding="1" cellspacing="1" height="auto" width="100%" class="mce-item-table" data-mce-selected="1"><tbody><tr><td>Thương Hiệu</td><td>EGANY</td></tr><tr><td>Danh Mục</td><td>Giày nữ</td></tr><tr><td>Chất liệu</td><td>Da tổng hợp cao cấp<br></td></tr><tr><td>Kích thước</td><td>sản phẩm (D x R x C cm)<span class="Apple-tab-span" style="white-space: pre;" data-mce-style="white-space: pre;">	</span>25x10x7<br></td></tr><tr><td>Thời gian giao hàng&nbsp;</td><td>1-3 ngày làm việc</td></tr><tr><td>Chính Sách Bảo Hành</td><td>Bảo hành chính hãng</td></tr><tr><td>Showroom</td><td>61/2 Quang Trung, P.10 ,&nbsp;Q. Gò Vấp, TP. HCM</td></tr><tr><td>Hotline</td><td>0909 000 000</td></tr></tbody></table><div id="mceResizeHandlen" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: n-resize; margin: 0px; padding: 0px; left: 392.5px; top: 334.5px;"></div><div id="mceResizeHandlee" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: e-resize; margin: 0px; padding: 0px; left: 780.5px; top: 408px;"></div><div id="mceResizeHandles" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: s-resize; margin: 0px; padding: 0px; left: 392.5px; top: 481.5px;"></div><div id="mceResizeHandlew" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: w-resize; margin: 0px; padding: 0px; left: 4.5px; top: 408px;"></div><div id="mceResizeHandlenw" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: nw-resize; margin: 0px; padding: 0px; left: 4.5px; top: 334.5px;"></div><div id="mceResizeHandlene" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: ne-resize; margin: 0px; padding: 0px; left: 780.5px; top: 334.5px;"></div><div id="mceResizeHandlese" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: se-resize; margin: 0px; padding: 0px; left: 780.5px; top: 481.5px;"></div><div id="mceResizeHandlesw" data-mce-bogus="all" class="mce-resizehandle" unselectable="true" style="cursor: sw-resize; margin: 0px; padding: 0px; left: 4.5px; top: 481.5px;"></div>
+                                                @Html.Raw(Model.Content)
                                             </div>
                                         </div>
                                     </div>
@@ -239,51 +237,8 @@
                                         <!--facebook-->
                                         <div id="collapseTwo" class="panel-collapse collapse in " role="tabpanel">
                                             <div class="panel-body">
-                                               
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="line"></div>
-                                <div class="col_one_third nobottommargin">
-                                    <a href="http://haravan.com/" title="" class="hidden-xs" target='_blank'><img class="image_fade" src="/Assets/client/hstatic.net/198/1000055198/1000144003/sp_policies_imga6f6.jpg?v=313" alt=""></a>
-                                </div>
-                                <div class="col_two_third col_last nobottommargin">
-                                    <div class="col_half">
-                                        <div class="feature-box fbox-plain fbox-dark fbox-small">
-                                            <div class="fbox-icon">
-                                                <i class="icon-plane"></i>
                                             </div>
-                                            <h3>Giao hàng toàn quốc</h3>
-                                            <p class="notopmargin">Lorem ipsum dolor sit amet, nec error dignissim at. Porro graeco nonumes no eam, id est justo scaevola, porro bonorum euripidis nec ne.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col_half col_last">
-                                        <div class="feature-box fbox-plain fbox-dark fbox-small">
-                                            <div class="fbox-icon">
-                                                <i class="icon-calendar3"></i>
-                                            </div>
-                                            <h3>Bảo hành 1 năm</h3>
-                                            <p class="notopmargin">Novum appellantur et est, vel eius legere nominati cu. Postea aliquid ad vis, nam tota facer ea, sed ex agam fierent euripidis. Iisque inimicus qualisque ei ius.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col_half nobottommargin">
-                                        <div class="feature-box fbox-plain fbox-dark fbox-small">
-                                            <div class="fbox-icon">
-                                                <i class="icon-random"></i>
-                                            </div>
-                                            <h3>Đổi trả trong 30 ngày</h3>
-                                            <p class="notopmargin">Pri ut nonumy graeco sapientem, sit no meliore noluisse, splendide contentiones consectetuer ne mei.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col_half col_last nobottommargin">
-                                        <div class="feature-box fbox-plain fbox-dark fbox-small">
-                                            <div class="fbox-icon">
-                                                <i class="icon-folder-open"></i>
-                                            </div>
-                                            <h3>Hoàn tiền nếu hàng lỗi</h3>
-                                            <p class="notopmargin">Mucius vocibus maluisset ea eum, et eros idque timeam ius, vim nihil iuvaret mentitum cu.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -305,10 +260,6 @@
                                 <div class="product-image">
                                     <a href="@url"><img src="@product.Image" alt="@product.Name"></a>
                                     <a href="@url"><img src="@product.Image2" alt="@product.Name"></a>
-                                    <div class="product-overlay">
-                                        <a href="@url" class='add-to-cart'><i class='icon-zoom-in2'> Chi tiết</i></a>
-                                        <a href="#" class="btn-productPopup" data-id="@product.ID"><i class="icon-shopping-cart"></i> Đặt hàng</a>
-                                    </div>
                                 </div>
                                 <div class="product-desc center">
                                     <div class="product-title"><h3><a href="@url">@product.Name</a></h3></div>
@@ -356,12 +307,6 @@
                     @{Html.RenderAction("TopOnSale", "Product");}
                 </div>
 
-                <!-- recent view -->
-                <div class="widget clearfix">
-                    <h4>Sản phẩm vừa xem</h4>
-                    @{Html.RenderAction("RecentProduct", "Product");}
-                </div>
-
                 <!-- most popular -->
                 <div class="widget clearfix">
                     <h4><a href='/san-pham/viewcount/'>Sản phẩm được xem nhiều</a></h4>
@@ -372,80 +317,6 @@
                 <div class="widget clearfix" style='overflow:hidden'>
                     <h4>Facebook</h4>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script id="tpl-productPopup-size" type="x-tmpl-mustache">
-    <option value="{{ProductSize}}">{{ProductSize}}</option>
-</script>
-
-<script id="tpl-productPopup-color" type="x-tmpl-mustache">
-    <option value="{{ProductColor}}">{{ProductColor}}</option>
-</script>
-
-<div id="productPopupManange" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" id="productPopupName"></h4>
-            </div>
-            <div class="modal-body" style="height:auto">
-                <div class="product-page-options">
-                    <div class="sizePicker">
-                        <label class="control-label options-title">Kích thước</label>
-                        <div class="options-selection">
-                            <select id="productPopup-size" class="form-control input-sm size"></select>
-                        </div>
-                    </div>
-
-                    <div class="sizePicker">
-                        <label class="control-label options-title">Màu sắc:</label>
-                        <div class="options-selection">
-                            <select id="productPopup-color" class="form-control input-sm color" style="color:#555!important;"></select>
-                        </div>
-                    </div>
-                </div>
-
-                <form id="ProductDetailsPopupForm" class="nobottommargin clearfix">
-                    <div class="quantity product-quantity clearfix col-xs-6 noleftpadding">
-                        <input type="button" value="-" class="minus">
-                        <input type="text" class="qty" id="product_quantity" readonly="" step="1" min="1" name="quantity" value="1" title="Số lượng" size="4">
-                        <input type="button" value="+" class="plus">
-                    </div>
-                    <button type="submit" id="addcart" class="btnAddToCartDetail button nomargin col-xs-6">Thêm vào giỏ</button>
-                    <button type="submit" class="buy_btn button col-xs-12" id="buynow">Mua ngay </button>
-                    <input type="hidden" id="hidProductIDPopup" value="0" />
-                </form>
-
-                <script>
-                    var quantity = parseInt($('#ProductDetailsPopupForm .product-quantity input.qty').val());
-                    $('#ProductDetailsPopupForm .minus').click(function () {
-                        if (quantity > 0) {
-                            if (quantity == 1) {
-                                $('#addcart').attr('disabled', 'disabled');
-                            }
-                            quantity -= 1;
-                        }
-                        else {
-                            quantity = 0;
-                        }
-                        $('#ProductDetailsPopupForm .product-quantity input.qty').val(quantity);
-                    });
-                    $('#ProductDetailsPopupForm  .plus').click(function () {
-                        $('#addcart').removeAttr('disabled');
-                        if (quantity < 100) {
-                            quantity += 1;
-                        }
-                        else {
-                            quantity = 100;
-                        }
-                        $('#ProductDetailsPopupForm .product-quantity input.qty').val(quantity)
-                    });
-                </script>
             </div>
         </div>
     </div>

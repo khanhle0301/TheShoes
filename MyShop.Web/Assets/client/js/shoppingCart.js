@@ -68,6 +68,12 @@
             e.preventDefault();
             window.location.href = "/";
         });
+
+        $('.cart_checkout_btn').off('click').on('click', function (e) {
+            e.preventDefault();
+            window.location.href = "/thanh-toan.html";
+        });
+
         $('#btnDeleteAll').off('click').on('click', function (e) {
             e.preventDefault();
             cart.deleteAll();
@@ -222,19 +228,19 @@
                             ProductId: item.ProductId,
                             ProductName: item.Product.Name,
                             Image: item.Product.Image,
-                            Price: item.Product.Price,
+                            Price: (item.Product.PromotionPrice == null) ? item.Product.Price : item.Product.PromotionPrice,
                             Size: item.Size,
                             Color: item.Color,
-                            PriceF: numeral(item.Product.Price).format('0,0'),
+                            PriceF: (item.Product.PromotionPrice == null) ? numeral(item.Product.Price).format('0,0') : numeral(item.Product.PromotionPrice).format('0,0'),
                             Quantity: item.Quantity,
-                            Amount: numeral(item.Quantity * item.Product.Price).format('0,0')
+                            Amount: (item.Product.PromotionPrice == null) ? numeral(item.Quantity * item.Product.Price).format('0,0') : numeral(item.Quantity * item.Product.PromotionPrice).format('0,0')
                         });
                     });
 
                     $('#cartBody').html(html + cartTotal);
 
                     if (html == '') {
-                        $('#cartContent').html('<p>Không có sản phẩm nào trong giỏ hàng</p><a href="collections/all.html"><i class="icon-line2-action-undo"></i> Tiếp tục mua hàng</a>');
+                        $('#cartContent').html('<p>Không có sản phẩm nào trong giỏ hàng</p><a href="/san-pham/all.html"><i class="icon-line2-action-undo"></i> Tiếp tục mua hàng</a>');
                         $('#note').hide();
                     }
                     $('#lblTotalOrder').text(numeral(cart.getTotalOrder()).format('0,0') + '₫');

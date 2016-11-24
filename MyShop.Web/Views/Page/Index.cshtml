@@ -1,7 +1,9 @@
 ﻿@model MyShop.Web.Models.PageViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.Name;
+    ViewBag.Keywords = Model.MetaKeyword;
+    ViewBag.Descriptions = Model.MetaDescription;
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 @section left_menu{

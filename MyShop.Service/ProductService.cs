@@ -5,11 +5,14 @@ using MyShop.Model.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using MyShop.Common.Exceptions;
 
 namespace MyShop.Service
 {
     public interface IProductService
     {
+        bool SellProduct(int productId, int quantity);
+
         Product Add(Product Product);
 
         void Update(Product Product);
@@ -114,6 +117,15 @@ namespace MyShop.Service
             this._unitOfWork = unitOfWork;
         }
 
+        public bool SellProduct(int productId, int quantity)
+        {
+            var product = _productRepository.GetSingleById(productId);
+            if (product.Quantity < quantity)
+                return false;
+            product.Quantity -= quantity;
+            return true;
+        }
+
         public IEnumerable<Product> GetProductType(IEnumerable<Product> Products, int id)
         {
             return _productRepository.GetProductType(Products, id);
@@ -141,6 +153,14 @@ namespace MyShop.Service
 
         public Product Add(Product Product)
         {
+            if (Product.OriginalPrice >= Product.Price)
+                throw new NameDuplicatedException("Giá gốc không thể lớn hơn giá bán");
+            else
+               if (Product.PromotionPrice >= Product.Price)
+                throw new NameDuplicatedException("Giá khuyến mãi không thể lớn hơn giá bán");
+            else
+              if (Product.OriginalPrice >= Product.PromotionPrice)
+                throw new NameDuplicatedException("Giá khuyến mãi không thể nhỏ hơn giá gốc");
             var product = _productRepository.Add(Product);
             _unitOfWork.Commit();
 
@@ -194,6 +214,14 @@ namespace MyShop.Service
 
         public void Update(Product Product)
         {
+            if (Product.OriginalPrice >= Product.Price)
+                throw new NameDuplicatedException("Giá gốc không thể lớn hơn giá bán");
+            else
+               if (Product.PromotionPrice >= Product.Price)
+                throw new NameDuplicatedException("Giá khuyến mãi không thể lớn hơn giá bán");
+            else
+               if (Product.OriginalPrice >= Product.PromotionPrice)
+                throw new NameDuplicatedException("Giá khuyến mãi không thể nhỏ hơn giá gốc");
             _productRepository.Update(Product);
 
             if (!string.IsNullOrEmpty(Product.Tags))
@@ -382,15 +410,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -424,11 +452,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -545,15 +573,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -587,11 +615,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -708,15 +736,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -750,11 +778,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -871,15 +899,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -913,11 +941,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -1034,15 +1062,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -1076,11 +1104,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -1197,15 +1225,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -1239,11 +1267,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -1360,15 +1388,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -1402,11 +1430,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -1523,15 +1551,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -1565,11 +1593,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -1691,15 +1719,15 @@ namespace MyShop.Service
                 for (int i = 0; i < priceArr.Length; i++)
                 {
                     if (priceArr[i] == "-100")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price < 100000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice < 100000 : x.Price < 100000));
                     else if (priceArr[i] == "100-300")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 100000 && x.Price <= 300000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 100000 && x.PromotionPrice <= 300000 : x.Price >= 100000 && x.Price <= 300000));
                     else if (priceArr[i] == "300-500")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 300000 && x.Price <= 500000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 300000 && x.PromotionPrice <= 500000 : x.Price >= 300000 && x.Price <= 500000));
                     else if (priceArr[i] == "500-1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price >= 500000 && x.Price <= 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice >= 500000 && x.PromotionPrice <= 1000000 : x.Price >= 500000 && x.Price <= 1000000));
                     else if (priceArr[i] == "1000")
-                        priceResult = priceResult.Concat(resultHeight.Where(x => x.Price > 1000000));
+                        priceResult = priceResult.Concat(resultHeight.Where(x => x.PromotionPrice.HasValue ? x.PromotionPrice > 1000000 : x.Price > 1000000));
                 }
             }
             else
@@ -1733,11 +1761,11 @@ namespace MyShop.Service
                     break;
 
                 case "price_asc":
-                    result = result.OrderBy(x => x.Price);
+                    result = result.OrderBy(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "price_desc":
-                    result = result.OrderByDescending(x => x.Price);
+                    result = result.OrderByDescending(x => x.PromotionPrice.HasValue ? x.PromotionPrice : x.Price);
                     break;
 
                 case "name_asc":
@@ -1765,7 +1793,8 @@ namespace MyShop.Service
                     break;
             }
             return result;
-        }
+        }        
+
         public void Save()
         {
             _unitOfWork.Commit();

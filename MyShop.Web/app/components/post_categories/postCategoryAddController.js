@@ -4,8 +4,7 @@
     postCategoryAddController.$inject = ['apiService', '$scope', 'notificationService', '$state', 'commonService'];
 
     function postCategoryAddController(apiService, $scope, notificationService, $state, commonService) {
-        $scope.postCategory = {
-            CreatedDate: new Date(),
+        $scope.postCategory = {          
             Status: true,
         }
 

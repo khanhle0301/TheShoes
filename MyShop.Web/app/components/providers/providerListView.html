@@ -41,12 +41,12 @@
                         <tr>
                             <td><input name="all" type="checkbox" ng-click="selectAll()" /></td>
                             <th style="width: 5%">ID</th>
-                            <th style="width:55%">Tên danh mục</th>
+                            <th style="width:55%">Tiêu đề</th>
                             <th style="width: 20%">Ngày tạo</th>
                             <th style="width: 10%">Trạng thái</th>
                             <th style="width: 10%">Thao tác</th>
                         </tr>
-                        <tr ng-repeat="item in providers">
+                        <tr ng-repeat="item in providers | filter:keyword">
                             <td><input type="checkbox" ng-model="item.checked" name="all" /></td>
                             <td>{{item.ID}}</td>
                             <td>{{item.Name}}</td>
@@ -70,6 +70,13 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <div ng-if="loading">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                        </div>
+                        <div class="col-xs-4"></div>
+                    </div>
                 </div>
             </div>
         </div><!-- /.box-body -->

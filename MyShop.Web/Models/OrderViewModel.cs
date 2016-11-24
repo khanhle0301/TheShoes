@@ -21,7 +21,7 @@ namespace MyShop.Web.Models
 
         public DateTime? CreatedDate { set; get; }
         public string CreatedBy { set; get; }
-        public string PaymentStatus { set; get; }
+        public bool PaymentStatus { set; get; }
         public bool Status { set; get; }
 
         public virtual IEnumerable<OrderDetailViewModel> OrderDetails { set; get; }

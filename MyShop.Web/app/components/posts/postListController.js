@@ -4,19 +4,14 @@
     postListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
 
     function postListController($scope, apiService, notificationService, $ngBootbox, $filter) {
+        $scope.loading = true;
         $scope.posts = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
         $scope.getPosts = getPosts;
-        $scope.keyword = '';
-
-        $scope.search = search;
-
         $scope.deletePost = deletePost;
-
         $scope.selectAll = selectAll;
-
-        $scope.deleteMultiple = deleteMultiple;
+        $scope.deleteMultiple = deleteMultiple;      
 
         function deleteMultiple() {
             var listId = [];
@@ -30,7 +25,7 @@
             }
             apiService.del('api/post/deletemulti', config, function (result) {
                 notificationService.displaySuccess('Xóa thành công ' + result.data + ' bản ghi.');
-                search();
+                getPosts();
             }, function (error) {
                 notificationService.displayError('Xóa không thành công');
             });
@@ -70,37 +65,38 @@
                 }
                 apiService.del('api/post/delete', config, function () {
                     notificationService.displaySuccess('Xóa thành công');
-                    search();
+                    getPosts();
                 }, function () {
                     notificationService.displayError('Xóa không thành công');
                 })
             });
         }
 
-        function search() {
-            getPosts();
-        }
-
         function getPosts(page) {
+            $scope.loading = true;
             page = page || 0;
             var config = {
                 params: {
-                    keyword: $scope.keyword,
+                    filter: $scope.filterExpression,
                     page: page,
                     pageSize: 20
                 }
             }
-            apiService.get('/api/post/getall', config, function (result) {
-                if (result.data.TotalCount == 0) {
-                    notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
-                }
-                $scope.posts = result.data.Items;
-                $scope.page = result.data.Page;
-                $scope.pagesCount = result.data.TotalPages;
-                $scope.totalCount = result.data.TotalCount;
-            }, function () {
-                console.log('Load post failed.');
-            });
+            apiService.get('/api/post/getall', config, dataLoadCompleted, dataLoadFailed);
+        }
+
+        function dataLoadCompleted(result) {
+            $scope.posts = result.data.Items;
+            $scope.page = result.data.Page;
+            $scope.pagesCount = result.data.TotalPages;
+            $scope.totalCount = result.data.TotalCount;
+            $scope.loading = false;
+            //if ($scope.filterExpression && $scope.filterExpression.length) {
+            //    notificationService.displayInfo(result.data.Items.length + ' items found');
+            //}
+        }
+        function dataLoadFailed(response) {
+            notificationService.displayError(response.data);
         }
 
         $scope.getPosts();

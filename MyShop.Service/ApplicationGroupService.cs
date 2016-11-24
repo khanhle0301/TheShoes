@@ -11,7 +11,7 @@ namespace MyShop.Service
     {
         ApplicationGroup GetDetail(int id);
 
-        IEnumerable<ApplicationGroup> GetAll(int page, int pageSize, out int totalRow, string filter);
+        IEnumerable<ApplicationGroup> GetAll(int page, int pageSize, out int totalRow, string keyword);
 
         IEnumerable<ApplicationGroup> GetAll();
 
@@ -63,11 +63,11 @@ namespace MyShop.Service
             return _appGroupRepository.GetAll();
         }
 
-        public IEnumerable<ApplicationGroup> GetAll(int page, int pageSize, out int totalRow, string filter = null)
+        public IEnumerable<ApplicationGroup> GetAll(int page, int pageSize, out int totalRow, string keyword)
         {
             var query = _appGroupRepository.GetAll();
-            if (!string.IsNullOrEmpty(filter))
-                query = query.Where(x => x.Name.Contains(filter));
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.Name.Contains(keyword));
 
             totalRow = query.Count();
             return query.OrderBy(x => x.Name).Skip(page * pageSize).Take(pageSize);

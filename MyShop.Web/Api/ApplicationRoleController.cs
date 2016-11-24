@@ -29,13 +29,14 @@ namespace MyShop.Web.Api
 
         [Route("getlistpaging")]
         [HttpGet]
-        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize, string filter = null)
+        [Authorize(Roles = "ViewRole")]
+        public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize, string keyword)
         {
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
                 int totalRow = 0;
-                var model = _appRoleService.GetAll(page, pageSize, out totalRow, filter);
+                var model = _appRoleService.GetAll(page, pageSize, out totalRow, keyword);
                 IEnumerable<ApplicationRoleViewModel> modelVm = Mapper.Map<IEnumerable<ApplicationRole>, IEnumerable<ApplicationRoleViewModel>>(model);
 
                 PaginationSet<ApplicationRoleViewModel> pagedSet = new PaginationSet<ApplicationRoleViewModel>()
@@ -53,6 +54,7 @@ namespace MyShop.Web.Api
         }
         [Route("getlistall")]
         [HttpGet]
+        [Authorize(Roles = "ViewRole")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -68,6 +70,7 @@ namespace MyShop.Web.Api
         }
         [Route("detail/{id}")]
         [HttpGet]
+        [Authorize(Roles = "ViewRole")]
         public HttpResponseMessage Details(HttpRequestMessage request, string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -84,6 +87,7 @@ namespace MyShop.Web.Api
 
         [HttpPost]
         [Route("add")]
+        [Authorize(Roles = "AddRole")]
         public HttpResponseMessage Create(HttpRequestMessage request, ApplicationRoleViewModel applicationRoleViewModel)
         {
             if (ModelState.IsValid)
@@ -109,6 +113,7 @@ namespace MyShop.Web.Api
 
         [HttpPut]
         [Route("update")]
+        [Authorize(Roles = "UpdateRole")]
         public HttpResponseMessage Update(HttpRequestMessage request, ApplicationRoleViewModel applicationRoleViewModel)
         {
             if (ModelState.IsValid)
@@ -134,6 +139,7 @@ namespace MyShop.Web.Api
 
         [HttpDelete]
         [Route("delete")]
+        [Authorize(Roles = "DeleteRole")]
         public HttpResponseMessage Delete(HttpRequestMessage request, string id)
         {
             _appRoleService.Delete(id);
@@ -143,6 +149,7 @@ namespace MyShop.Web.Api
 
         [Route("deletemulti")]
         [HttpDelete]
+        [Authorize(Roles = "DeleteRole")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedList)
         {
             return CreateHttpResponse(request, () =>

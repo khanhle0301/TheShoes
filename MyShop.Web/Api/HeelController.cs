@@ -11,6 +11,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System;
+using MyShop.Common.Exceptions;
 
 namespace MyShop.Web.Api
 {
@@ -32,6 +33,7 @@ namespace MyShop.Web.Api
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewHeel")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -48,6 +50,7 @@ namespace MyShop.Web.Api
 
         [Route("getlistall")]
         [HttpGet]
+        [Authorize(Roles = "ViewHeel")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -64,6 +67,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewHeel")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageHeel = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -90,61 +94,59 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddHeel")]
         public HttpResponseMessage Create(HttpRequestMessage request, HeelViewModel heelVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var newHeel = new Heel();
+                newHeel.UpdateHeel(heelVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var newHeel = new Model.Models.Heel();
-                    newHeel.UpdateHeel(heelVm);
                     _heelService.Add(newHeel);
                     _heelService.Save();
-
-                    var responseData = Mapper.Map<Heel, HeelViewModel>(newHeel);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, heelVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }           
         }
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateHeel")]
         public HttpResponseMessage Update(HttpRequestMessage request, HeelViewModel heelVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var dbHeel = _heelService.GetById(heelVm.ID);
+                dbHeel.UpdateHeel(heelVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var dbHeel = _heelService.GetById(heelVm.ID);
-                    dbHeel.UpdateHeel(heelVm);
                     _heelService.Update(dbHeel);
                     _heelService.Save();
-
-                    var responseData = Mapper.Map<Heel, HeelViewModel>(dbHeel);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, heelVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }            
         }
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteHeel")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -169,7 +171,7 @@ namespace MyShop.Web.Api
 
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteHeel")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedHeels)
         {
             return CreateHttpResponse(request, () =>

@@ -1,4 +1,5 @@
-﻿using MyShop.Data.Infrastructure;
+﻿using MyShop.Common.Exceptions;
+using MyShop.Data.Infrastructure;
 using MyShop.Data.Repositories;
 using MyShop.Model.Models;
 using System.Collections.Generic;
@@ -36,6 +37,8 @@ namespace MyShop.Service
 
         public Type Add(Type type)
         {
+            if (_typeRepository.CheckContains(x => x.Name == type.Name))
+                throw new NameDuplicatedException("Tên không được trùng");
             return _typeRepository.Add(type);
         }
 
@@ -74,6 +77,8 @@ namespace MyShop.Service
 
         public void Update(Type type)
         {
+            if (_typeRepository.CheckContains(x => x.Name == type.Name && x.ID != type.ID))
+                throw new NameDuplicatedException("Tên không được trùng");
             _typeRepository.Update(type);
         }
     }

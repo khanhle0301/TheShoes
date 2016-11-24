@@ -8,15 +8,6 @@ var productViewCountController = {
         productViewCountController.registerEvent();
     },
     registerEvent: function () {
-        $('.btn-popup').off('click').on('click', function (e) {
-            e.preventDefault();
-            $('#productManange').modal('show');
-            $('#hidProductID').val($(this).data('id'));
-            var productId = parseInt($(this).data('id'));
-            productViewCountController.loadColor(productId);
-            productViewCountController.loadSize(productId);
-            productViewCountController.loadProductName(productId);
-        });
 
         $('#sortControl').off('click').on('click', function () {
             productViewCountController.loadData(true);
@@ -32,16 +23,20 @@ var productViewCountController = {
         });
         $('.chatlieu').off('click').on('click', function () {
             productViewCountController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
         $('.heel').off('click').on('click', function () {
             productViewCountController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
         $('.height').off('click').on('click', function () {
             productViewCountController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
 
         $('.types').off('click').on('click', function () {
             productViewCountController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
 
     },
@@ -136,8 +131,10 @@ var productViewCountController = {
                         $('.productCount').html('Có <span class="require_symbol">' + response.total + '</span> sản phẩm.');
                         productViewCountController.paging(response.total, function () {
                             productViewCountController.loadData();
+                            $("#gotoTop").trigger("click");
                         }, changePageSize);
                     }
+                    //$("#gotoTop").trigger("click");
                     productViewCountController.registerEvent();
                 }
             }
@@ -163,72 +160,6 @@ var productViewCountController = {
                 setTimeout(callback, 200);
             }
         });
-    },
-
-    loadSize: function (id) {
-        $.ajax({
-            url: '/Product/GetSize',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var template = $('#tpl-product-size').html();
-                    var html = '';
-                    var data = res.data;
-                    $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            ProductSize: item.ID,
-                        });
-                    });
-                    $('#product-size').html(html);
-                }
-            }
-        })
-    },
-
-    loadColor: function (id) {
-        $.ajax({
-            url: '/Product/GetColor',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var template = $('#tpl-product-color').html();
-                    var html = '';
-                    var data = res.data;
-                    $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            ProductColor: item.Name,
-                        });
-                    });
-
-                    $('#product-color').html(html);
-                }
-            }
-        })
-    },
-
-    loadProductName: function (id) {
-        $.ajax({
-            url: '/Product/GetAll',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var productName = res.data.Name;
-                    $('#productName').html(productName);
-                }
-            }
-        })
     }
 }
 productViewCountController.init();

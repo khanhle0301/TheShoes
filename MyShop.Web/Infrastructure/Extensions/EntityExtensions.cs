@@ -82,6 +82,7 @@ namespace MyShop.Web.Infrastructure.Extensions
             product.MoreImages = productVm.MoreImages;
             product.Price = productVm.Price;
             product.PromotionPrice = productVm.PromotionPrice;
+            product.OriginalPrice = productVm.OriginalPrice;
             product.Warranty = productVm.Warranty;
             product.HomeFlag = productVm.HomeFlag;
             product.HotFlag = productVm.HotFlag;
@@ -93,14 +94,14 @@ namespace MyShop.Web.Infrastructure.Extensions
             product.MetaKeyword = productVm.MetaKeyword;
             product.MetaDescription = productVm.MetaDescription;
             product.Status = productVm.Status;
-            product.Tags = productVm.Tags;                            
+            product.Tags = productVm.Tags;
         }
 
         public static void UpdateSlide(this Slide slide, SlideViewModel slideVm)
         {
             slide.ID = slideVm.ID;
             slide.Name = slideVm.Name;
-            slide.Description = slideVm.Description;           
+            slide.Description = slideVm.Description;
             slide.DisplayOrder = slideVm.DisplayOrder;
             slide.Image = slideVm.Image;
             slide.Url = slideVm.Url;
@@ -122,17 +123,17 @@ namespace MyShop.Web.Infrastructure.Extensions
         public static void UpdatePage(this Page page, PageViewModel pageVm)
         {
             page.ID = pageVm.ID;
-            page.Name = pageVm.Name;        
+            page.Name = pageVm.Name;
             page.Alias = pageVm.Alias;
             page.DisplayOrder = pageVm.DisplayOrder;
-            page.Content = pageVm.Content;           
+            page.Content = pageVm.Content;
             page.CreatedDate = pageVm.CreatedDate;
             page.CreatedBy = pageVm.CreatedBy;
             page.UpdatedDate = pageVm.UpdatedDate;
             page.UpdatedBy = pageVm.UpdatedBy;
             page.MetaKeyword = pageVm.MetaKeyword;
             page.MetaDescription = pageVm.MetaDescription;
-            page.Status = pageVm.Status;            
+            page.Status = pageVm.Status;
         }
 
         public static void UpdateContactDetail(this ContactDetail contactDetail, ContactDetailViewModel contactDetailVm)
@@ -145,9 +146,10 @@ namespace MyShop.Web.Infrastructure.Extensions
             contactDetail.Address = contactDetailVm.Address;
             contactDetail.Other = contactDetailVm.Other;
             contactDetail.Lat = contactDetailVm.Lat;
-            contactDetail.Lng = contactDetailVm.Lng;           
+            contactDetail.Lng = contactDetailVm.Lng;
             contactDetail.Status = contactDetailVm.Status;
         }
+
         public static void UpdateFeedback(this Feedback feedback, FeedbackViewModel feedbackVm)
         {
             feedback.ID = feedbackVm.ID;
@@ -155,7 +157,7 @@ namespace MyShop.Web.Infrastructure.Extensions
             feedback.Email = feedbackVm.Email;
             feedback.Phone = feedbackVm.Phone;
             feedback.Message = feedbackVm.Message;
-            feedback.CreatedDate = feedbackVm.CreatedDate;           
+            feedback.CreatedDate = feedbackVm.CreatedDate;
             feedback.Status = feedbackVm.Status;
         }
 
@@ -163,13 +165,13 @@ namespace MyShop.Web.Infrastructure.Extensions
         {
             footer.ID = footerVm.ID;
             footer.Name = footerVm.Name;
-            footer.Content = footerVm.Content;            
+            footer.Content = footerVm.Content;
         }
 
         public static void UpdateMaterial(this Material material, MaterialViewModel materialVm)
         {
             material.ID = materialVm.ID;
-            material.Name = materialVm.Name;           
+            material.Name = materialVm.Name;
         }
 
         public static void UpdateSize(this Size size, SizeViewModel sizeVm)
@@ -215,7 +217,9 @@ namespace MyShop.Web.Infrastructure.Extensions
         {
             orderDetail.OrderID = orderDetailVm.OrderID;
             orderDetail.ProductID = orderDetailVm.ProductID;
-            orderDetail.Quantitty = orderDetailVm.Quantitty;
+            orderDetail.Quantity = orderDetailVm.Quantity;
+            orderDetail.Price = orderDetailVm.Price;
+            orderDetail.Note = orderDetailVm.Note;
         }
 
         public static void UpdateProvider(this Provider provider, ProviderViewModel providerVm)
@@ -223,7 +227,7 @@ namespace MyShop.Web.Infrastructure.Extensions
             provider.ID = providerVm.ID;
             provider.Name = providerVm.Name;
             provider.Description = providerVm.Description;
-            provider.Alias = providerVm.Alias;            
+            provider.Alias = providerVm.Alias;
             provider.DisplayOrder = providerVm.DisplayOrder;
             provider.Image = providerVm.Image;
             provider.HomeFlag = providerVm.HomeFlag;
@@ -240,13 +244,14 @@ namespace MyShop.Web.Infrastructure.Extensions
         {
             color.ID = colorVm.ID;
             color.Name = colorVm.Name;
-            color.Background = colorVm.Background;            
+            color.Background = colorVm.Background;
         }
 
         public static void UpdateApplicationGroup(this ApplicationGroup appGroup, ApplicationGroupViewModel appGroupViewModel)
         {
             appGroup.ID = appGroupViewModel.ID;
             appGroup.Name = appGroupViewModel.Name;
+            appGroup.Description = appGroupViewModel.Description;
         }
 
         public static void UpdateApplicationRole(this ApplicationRole appRole, ApplicationRoleViewModel appRoleViewModel, string action = "add")
@@ -258,16 +263,16 @@ namespace MyShop.Web.Infrastructure.Extensions
             appRole.Name = appRoleViewModel.Name;
             appRole.Description = appRoleViewModel.Description;
         }
+
         public static void UpdateUser(this ApplicationUser appUser, ApplicationUserViewModel appUserViewModel, string action = "add")
         {
-
             appUser.Id = appUserViewModel.Id;
             appUser.FullName = appUserViewModel.FullName;
             appUser.BirthDay = appUserViewModel.BirthDay;
             appUser.Email = appUserViewModel.Email;
             appUser.UserName = appUserViewModel.UserName;
             appUser.PhoneNumber = appUserViewModel.PhoneNumber;
+            appUser.Address = appUserViewModel.Address;
         }
-
     }
 }

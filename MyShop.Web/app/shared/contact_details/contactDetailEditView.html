@@ -1,12 +1,11 @@
 ﻿  <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Cập nhật contactDetail {{contactDetail.Name}}
+        Cập nhật liên hệ
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="#">ContactDetail</a></li>
-        <li><a ui-sref="contactDetails">Danh sách</a></li>
+        <li><a ui-sref="contactDetails">Liên hệ</a></li>
         <li class="active">Cập nhật</li>
     </ol>
 </section>
@@ -15,69 +14,70 @@
     <!-- Horizontal Form -->
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">{{contactDetail.Name}}</h3>
+            <h3 class="box-title"> Cập nhật liên hệ: {{contactDetail.Name}}</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <form class="form-horizontal" novalidate name="frmUpdateContactDetail" role="form" ng-submit="UpdateContactDetail()">
             <div class="box-body">
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Tên</label>
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateContactDetail.name.$invalid && !frmUpdateContactDetail.name.$pristine }">
+                    <label class="col-sm-2 control-label">Tên</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-maxlength="256" required name="name" ng-model="contactDetail.Name">
-                        <span ng-show="frmUpdateContactDetail.name.$invalid" class="has-error">Phải nhập tên danh mục</span>
-                        <span ng-show="frmUpdateContactDetail.name.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+                        <input type="text" name="name" class="form-control" required ng-maxlength="256" ng-model="contactDetail.Name">
+                        <span ng-show="frmUpdateContactDetail.name.$error.required" class="has-error">Vui lòng nhập tên.</span>
+                        <span ng-show="frmUpdateContactDetail.name.$error.maxlength" class="has-error">Tên chỉ được 256 ký tự.</span>
                     </div>
-                </div>
-
-                <div class="form-group">
+                </div>               
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateContactDetail.phone.$invalid && !frmUpdateContactDetail.phone.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Điện thoại</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-maxlength="256" ng-model="contactDetail.Phone">
+                        <input type="text" class="form-control" ng-pattern="ph_numbr" required name="phone" ng-model="contactDetail.Phone">
+                        <span ng-show="frmUpdateContactDetail.phone.$error.required" class="has-error">Phải nhập số điện thoại.</span>
+                        <span ng-show="frmUpdateContactDetail.phone.$error.pattern" class="has-error">Định dạng số điện thoại không đúng.</span>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateContactDetail.email.$invalid && !frmUpdateContactDetail.email.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-maxlength="256" required name="email" ng-model="contactDetail.Email">
-                        <span ng-show="frmUpdateContactDetail.email.$invalid" class="has-error">Phải nhập email</span>
-                        <span ng-show="frmUpdateContactDetail.email.$error.maxlength" class="has-error">Email chỉ được 256 ký tự</span>
+                        <input type="email" class="form-control" ng-maxlength="256" required name="email" ng-model="contactDetail.Email">
+                        <span ng-show="frmUpdateContactDetail.email.$error.required" class="has-error">Phải nhập email.</span>
+                        <span ng-show="frmUpdateContactDetail.email.$error.maxlength" class="has-error">Email chỉ được 256 ký tự.</span>
+                        <span ng-show="frmUpdateContactDetail.email.$error.email" class="has-error">Định dạnh email không đúng.</span>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Website</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-maxlength="256" ng-model="contactDetail.Website">
+                        <input type="text" class="form-control" ng-model="contactDetail.Website">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Địa chỉ</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-maxlength="256" ng-model="contactDetail.Address">
+                        <input type="text" class="form-control" name="address" required ng-maxlength="256" ng-model="contactDetail.Address">
+                        <span ng-show="frmUpdateContactDetail.address.$error.required" class="has-error">Phải nhập địa chỉ.</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Lat</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" name="lat" ng-model="contactDetail.Lat">
+                        <input type="number" class="form-control" required name="lat" ng-model="contactDetail.Lat">
+                        <span ng-show="frmUpdateContactDetail.lat.$error.required" class="has-error">Phải nhập lat.</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Lng</label>
                     <div class="col-sm-10">
-                        <input type="number" class="form-control" name="lng" ng-model="contactDetail.Lng">
+                        <input type="number" class="form-control" required name="lng" ng-model="contactDetail.Lng">
+                        <span ng-show="frmUpdateContactDetail.lng.$error.required" class="has-error">Phải nhập Lng.</span>
                     </div>
                 </div>
-
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Other</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Khác</label>
                     <div class="col-sm-10">
                         <textarea class="form-control" name="other" ng-model="contactDetail.Other"></textarea>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
@@ -89,7 +89,7 @@
                 </div>
             </div><!-- /.box-body -->
             <div class="box-footer">
-                <button ui-sref="contactDetails" class="btn btn-default">Hủy</button>
+                <button ui-sref="contact_details" class="btn btn-default">Hủy</button>
                 <button type="submit" ng-disabled="frmUpdateContactDetail.$invalid" class="btn btn-success pull-right">Lưu</button>
             </div><!-- /.box-footer -->
         </form>

@@ -1,7 +1,7 @@
 ﻿@model MyShop.Web.Infrastructure.Core.PaginationSet<MyShop.Web.Models.PostViewModel>
 @using MyShop.Common;
 @{
-    ViewBag.Title = "ListByTag";
+    ViewBag.Title = "Tag: " + ViewBag.Tags.Name;
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
@@ -37,7 +37,7 @@
             <h1 class="col-md-6 col-sm-6">Tag: @ViewBag.Tags.Name</h1>
             <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
                 <li><a href="/">Trang chủ</a></li>
-                <li><a href="/bai-viet/news/"> Bài viết</a></li>
+                <li><a href="/blogs/news.html"> Tin tức</a></li>
                 <li class="active"> Tag: @ViewBag.Tags.Name</li>
             </ol>
         </div>
@@ -50,7 +50,7 @@
             <div id="posts" class="small-thumbs">
                 @foreach (var post in Model.Items)
                 {
-                    var url = "/bai-viet/" + post.PostCategory.Alias + "/" + post.Alias + "-" + post.ID + ".html";
+                    var url = "/blogs/" + post.PostCategory.Alias + "/" + post.Alias + "-" + post.ID + ".html";
                     <div class="entry clearfix">
                         <div class="entry-image">
                             <a href="@post.Image" data-lightbox="image"><img class="image_fade" src="@post.Image" alt="@post.Name"></a>
@@ -70,7 +70,7 @@
                                         for (var i = 0; i < tags.Length; i++)
                                         {
                                             var tagId = StringHelper.ToUnsignString(tags[i]);
-                                            var urlTag = "/bai-viet/tag/" + tagId + "/";
+                                            var urlTag = "/blogs/tag/" + tagId + ".html";
                                             <a href="@urlTag"> @tags[i],</a>
                                         }
                                     }
@@ -111,7 +111,7 @@
                 <!-- new post -->
                 <div class="widget clearfix">
                     <h4 style="margin-bottom:10px;">
-                        <a href="/bai-viet/news/">Bài viết mới nhất</a>
+                        <a href="/blogs/news.html">Bài viết mới nhất</a>
                     </h4>
                     @{Html.RenderAction("TopNewPost", "Post");}
                 </div>

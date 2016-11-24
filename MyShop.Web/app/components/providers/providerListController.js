@@ -4,6 +4,7 @@
     providerListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
 
     function providerListController($scope, apiService, notificationService, $ngBootbox, $filter) {
+        $scope.loading = true;
         $scope.providers = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
@@ -90,17 +91,21 @@
                     pageSize: 20
                 }
             }
-            apiService.get('/api/provider/getall', config, function (result) {
-                if (result.data.TotalCount == 0) {
-                    notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
-                }
-                $scope.providers = result.data.Items;
-                $scope.page = result.data.Page;
-                $scope.pagesCount = result.data.TotalPages;
-                $scope.totalCount = result.data.TotalCount;
-            }, function () {
-                console.log('Load provider failed.');
-            });
+            apiService.get('api/provider/getall', config, dataLoadCompleted, dataLoadFailed);           
+        }
+
+        function dataLoadCompleted(result) {
+            if (result.data.TotalCount == 0) {
+                notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
+            }
+            $scope.providers = result.data.Items;
+            $scope.page = result.data.Page;
+            $scope.pagesCount = result.data.TotalPages;
+            $scope.totalCount = result.data.TotalCount;
+            $scope.loading = false;
+        }
+        function dataLoadFailed(response) {
+            notificationService.displayError(response.data);
         }
 
         $scope.getProviders();

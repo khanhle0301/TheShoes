@@ -4,8 +4,7 @@
     productCategoryEditController.$inject = ['apiService', '$scope', 'notificationService', '$state', '$stateParams','commonService'];
 
     function productCategoryEditController(apiService, $scope, notificationService, $state, $stateParams,commonService) {
-        $scope.productCategory = {
-            CreatedDate: new Date(),
+        $scope.productCategory = {           
             Status: true
         }
 
@@ -24,6 +23,8 @@
             });
         }
 
+      
+
         $scope.ChooseImage = function () {
             var finder = new CKFinder();
             finder.selectActionFunction = function (fileUrl) {
@@ -35,14 +36,17 @@
         }
 
         function UpdateProductCategory() {
-            apiService.put('api/productcategory/update', $scope.productCategory,
-                function (result) {
-                    notificationService.displaySuccess(result.data.Name + ' đã được cập nhật.');
-                    $state.go('product_categories');
-                }, function (error) {
-                    notificationService.displayError('Cập nhật không thành công.');
-                });
+            apiService.put('/api/productcategory/update', $scope.productCategory, addSuccessed, addFailed);          
         }
+
+        function addSuccessed() {
+            notificationService.displaySuccess($scope.productCategory.Name + ' đã được cập nhật thành công.');
+            $state.go('product_categories');
+        }
+        function addFailed(response) {
+            notificationService.displayError(response.data.Message);
+        }
+
         function loadParentCategory() {
             apiService.get('api/productcategory/getallparents', null, function (result) {
                 $scope.parentCategories = result.data;

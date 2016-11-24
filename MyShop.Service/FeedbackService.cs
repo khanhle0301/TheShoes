@@ -2,6 +2,7 @@
 using MyShop.Data.Repositories;
 using MyShop.Model.Models;
 using System.Collections.Generic;
+using System;
 
 namespace MyShop.Service
 {
@@ -19,6 +20,8 @@ namespace MyShop.Service
 
         Feedback GetById(int id);
 
+        void ChangeStatus(int id);
+
         void Save();
     }
     class FeedbackService : IFeedbackService
@@ -35,6 +38,13 @@ namespace MyShop.Service
         public Feedback Add(Feedback feedback)
         {
             return _feedbackRepository.Add(feedback);
+        }
+
+        public void ChangeStatus(int id)
+        {
+            var feedback = _feedbackRepository.GetSingleById(id);
+            feedback.Status = !feedback.Status;
+            _feedbackRepository.Update(feedback);
         }
 
         public Feedback Delete(int id)

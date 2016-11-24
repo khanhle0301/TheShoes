@@ -31,6 +31,7 @@ namespace MyShop.Web.Api
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewBanner")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -47,6 +48,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewBanner")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -74,7 +76,7 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddBanner")]
         public HttpResponseMessage Create(HttpRequestMessage request, BannerViewModel bannerVm)
         {
             return CreateHttpResponse(request, () =>
@@ -101,7 +103,7 @@ namespace MyShop.Web.Api
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateBanner")]
         public HttpResponseMessage Update(HttpRequestMessage request, BannerViewModel bannerVm)
         {
             return CreateHttpResponse(request, () =>
@@ -128,7 +130,7 @@ namespace MyShop.Web.Api
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteBanner")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -152,7 +154,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteBanner")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedBanners)
         {
             return CreateHttpResponse(request, () =>

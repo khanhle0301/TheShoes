@@ -11,6 +11,7 @@ using MyShop.Service;
 using MyShop.Web.Infrastructure.Core;
 using MyShop.Web.Infrastructure.Extensions;
 using MyShop.Web.Models;
+using MyShop.Common.Exceptions;
 
 namespace MyShop.Web.Api
 {
@@ -61,6 +62,7 @@ namespace MyShop.Web.Api
 
         [Route("getallparents")]
         [HttpGet]
+        [Authorize(Roles = "ViewProduct")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -75,6 +77,7 @@ namespace MyShop.Web.Api
         }
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewProduct")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -109,6 +112,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewProduct")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -136,21 +140,19 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddProduct")]
         public HttpResponseMessage Create(HttpRequestMessage request, ProductViewModel productVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var newProduct = new Product();
+                newProduct.UpdateProduct(productVm);
+                newProduct.CreatedDate = DateTime.Now;
+                newProduct.CreatedBy = User.Identity.Name;
+                newProduct.UpdatedDate = DateTime.Now;
+                newProduct.UpdatedBy = User.Identity.Name;
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var newProduct = new Product();
-                    newProduct.UpdateProduct(productVm);
-                    newProduct.CreatedDate = DateTime.Now;
                     _productService.Add(newProduct);
                     _productService.Save();
 
@@ -221,32 +223,32 @@ namespace MyShop.Web.Api
                     _productHeelService.Save();
 
                     var responseData = Mapper.Map<Product, ProductViewModel>(newProduct);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, responseData);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }           
         }
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateProduct")]
         public HttpResponseMessage Update(HttpRequestMessage request, ProductViewModel productVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var dbProduct = _productService.GetById(productVm.ID);
+                dbProduct.UpdateProduct(productVm);
+                dbProduct.UpdatedDate = DateTime.Now;
+                dbProduct.UpdatedBy = User.Identity.Name;
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var dbProduct = _productService.GetById(productVm.ID);
-
-                    dbProduct.UpdateProduct(productVm);
-                    dbProduct.UpdatedDate = DateTime.Now;
-
                     _productService.Update(dbProduct);
                     _productService.Save();
 
@@ -322,18 +324,23 @@ namespace MyShop.Web.Api
                     }
                     _productHeelService.Save();
 
-
                     var responseData = Mapper.Map<Product, ProductViewModel>(dbProduct);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, responseData);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }           
         }
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteProduct")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -357,7 +364,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteProduct")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedProducts)
         {
             return CreateHttpResponse(request, () =>

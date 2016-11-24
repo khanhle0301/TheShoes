@@ -1,22 +1,36 @@
 ﻿(function (app) {
+    'use strict';
+
     app.controller('feedbackListController', feedbackListController);
 
     feedbackListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
 
     function feedbackListController($scope, apiService, notificationService, $ngBootbox, $filter) {
+        $scope.loading = true;
         $scope.feedbacks = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
         $scope.getFeedbacks = getFeedbacks;
         $scope.keyword = '';
-
         $scope.search = search;
-
         $scope.deleteFeedback = deleteFeedback;
-
         $scope.selectAll = selectAll;
-
         $scope.deleteMultiple = deleteMultiple;
+        $scope.changeStatus = changeStatus;
+
+        function changeStatus(id) {
+            var config = {
+                params: {
+                    id: id
+                }
+            }
+            apiService.del('api/feedback/changestatus', config, function () {
+                notificationService.displaySuccess('Thay đổi trạng thái thành công');
+                search();
+            }, function () {
+                notificationService.displayError('Thay đổi trạng thái không thành công');
+            });
+        }
 
         function deleteMultiple() {
             var listId = [];
@@ -83,6 +97,7 @@
 
         function getFeedbacks(page) {
             page = page || 0;
+            $scope.loading = true;
             var config = {
                 params: {
                     keyword: $scope.keyword,
@@ -90,17 +105,21 @@
                     pageSize: 20
                 }
             }
-            apiService.get('/api/feedback/getall', config, function (result) {
-                if (result.data.TotalCount == 0) {
-                    notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
-                }
-                $scope.feedbacks = result.data.Items;
-                $scope.page = result.data.Page;
-                $scope.pagesCount = result.data.TotalPages;
-                $scope.totalCount = result.data.TotalCount;
-            }, function () {
-                console.log('Load feedback failed.');
-            });
+            apiService.get('api/feedback/getall', config, dataLoadCompleted, dataLoadFailed);
+        }
+
+        function dataLoadCompleted(result) {
+            if (result.data.TotalCount == 0) {
+                notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
+            }
+            $scope.feedbacks = result.data.Items;
+            $scope.page = result.data.Page;
+            $scope.pagesCount = result.data.TotalPages;
+            $scope.totalCount = result.data.TotalCount;
+            $scope.loading = false;
+        }
+        function dataLoadFailed(response) {
+            notificationService.displayError(response.data);
         }
 
         $scope.getFeedbacks();

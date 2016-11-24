@@ -18,6 +18,13 @@
          'myshop.order_details',
          'myshop.banners',
          'myshop.providers',
+         'myshop.colors',
+         'myshop.sizes',
+         'myshop.types',
+         'myshop.heels',
+         'myshop.heights',
+         'myshop.materials',
+         'myshop.statistics',
          'myshop.common'])
         .config(config)
         .config(configAuthentication);

@@ -57,6 +57,8 @@ namespace MyShop.Web.Models
 
         public string Tags { set; get; }
 
+        public decimal OriginalPrice { set; get; }
+
         public virtual ProductCategoryViewModel ProductCategory { set; get; }
 
         public IEnumerable<MaterialViewModel> Materials { set; get; }

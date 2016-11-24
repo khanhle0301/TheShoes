@@ -15,7 +15,7 @@ using System.Web.Script.Serialization;
 namespace MyShop.Web.Controllers
 {
     public class AccountController : Controller
-    {
+    {      
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 

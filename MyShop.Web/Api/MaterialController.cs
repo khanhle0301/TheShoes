@@ -1,16 +1,17 @@
-﻿using System.Web.Http;
+﻿using AutoMapper;
+using MyShop.Common.Exceptions;
 using MyShop.Model.Models;
 using MyShop.Service;
 using MyShop.Web.Infrastructure.Core;
-using MyShop.Web.Models;
 using MyShop.Web.Infrastructure.Extensions;
-using System.Web.Script.Serialization;
-using System.Net.Http;
-using AutoMapper;
-using System.Linq;
-using System.Collections.Generic;
-using System.Net;
+using MyShop.Web.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace MyShop.Web.Api
 {
@@ -19,6 +20,7 @@ namespace MyShop.Web.Api
     public class MaterialController : ApiControllerBase
     {
         #region Initialize
+
         private IMaterialService _materialService;
 
         public MaterialController(IErrorService errorService, IMaterialService materialService)
@@ -27,10 +29,11 @@ namespace MyShop.Web.Api
             this._materialService = materialService;
         }
 
-        #endregion
+        #endregion Initialize
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewMaterial")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -47,6 +50,7 @@ namespace MyShop.Web.Api
 
         [Route("getlistall")]
         [HttpGet]
+        [Authorize(Roles = "ViewMaterial")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -63,6 +67,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewMaterial")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -87,64 +92,61 @@ namespace MyShop.Web.Api
             });
         }
 
-
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddMaterial")]
         public HttpResponseMessage Create(HttpRequestMessage request, MaterialViewModel materialVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var newMaterial = new Material();
+                newMaterial.UpdateMaterial(materialVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var newMaterial = new Material();
-                    newMaterial.UpdateMaterial(materialVm);
                     _materialService.Add(newMaterial);
                     _materialService.Save();
-
-                    var responseData = Mapper.Map<Material, MaterialViewModel>(newMaterial);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, materialVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateMaterial")]
         public HttpResponseMessage Update(HttpRequestMessage request, MaterialViewModel materialVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var dbMaterial = _materialService.GetById(materialVm.ID);
+                dbMaterial.UpdateMaterial(materialVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var dbMaterial = _materialService.GetById(materialVm.ID);
-                    dbMaterial.UpdateMaterial(materialVm);
                     _materialService.Update(dbMaterial);
                     _materialService.Save();
-
-                    var responseData = Mapper.Map<Material, MaterialViewModel>(dbMaterial);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, materialVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteMaterial")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -166,9 +168,10 @@ namespace MyShop.Web.Api
                 return response;
             });
         }
+
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteMaterial")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedMaterials)
         {
             return CreateHttpResponse(request, () =>

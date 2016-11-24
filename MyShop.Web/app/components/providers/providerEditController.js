@@ -4,8 +4,7 @@
     providerEditController.$inject = ['apiService', '$scope', 'notificationService', '$state', '$stateParams', 'commonService'];
 
     function providerEditController(apiService, $scope, notificationService, $state, $stateParams, commonService) {
-        $scope.provider = {
-            CreatedDate: new Date(),
+        $scope.provider = {            
             Status: true
         }
 

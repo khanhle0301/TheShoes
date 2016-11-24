@@ -10,9 +10,7 @@
             Heights: [],
             Types: [],
             Heels: [],
-            Sizes: [],
-            CreatedDate: new Date(),
-            UpdatedDate: new Date(),
+            Sizes: [],           
             Status: true,
         }
         $scope.ckeditorOptions = {
@@ -31,14 +29,17 @@
         function AddProduct() {
 
             $scope.product.MoreImages = JSON.stringify($scope.moreImages)
-            apiService.post('api/product/create', $scope.product,
-                function (result) {
-                    notificationService.displaySuccess(result.data.Name + ' đã được thêm mới.');
-                    $state.go('products');
-                }, function (error) {
-                    notificationService.displayError('Thêm mới không thành công.');
-                });
+            apiService.post('/api/product/create', $scope.product, addSuccessed, addFailed);           
         }
+
+        function addSuccessed() {
+            notificationService.displaySuccess($scope.product.Name + ' đã được thêm mới.');
+            $state.go('products');
+        }
+        function addFailed(response) {
+            notificationService.displayError(response.data.Message);            
+        }
+
         function loadProductCategory() {
             apiService.get('api/productcategory/getallparents', null, function (result) {
                 $scope.productCategories = result.data;

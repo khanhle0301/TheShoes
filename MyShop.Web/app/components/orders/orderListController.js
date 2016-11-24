@@ -4,6 +4,7 @@
     orderListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
 
     function orderListController($scope, apiService, notificationService, $ngBootbox, $filter) {
+       
         $scope.orders = [];
         $scope.page = 0;
         $scope.pagesCount = 0;
@@ -17,6 +18,22 @@
         $scope.selectAll = selectAll;
 
         $scope.deleteMultiple = deleteMultiple;
+
+        $scope.changeStatus = changeStatus;
+
+        function changeStatus(id) {
+            var config = {
+                params: {
+                    id: id
+                }
+            }
+            apiService.del('api/order/changestatus', config, function () {
+                notificationService.displaySuccess('Thay đổi trạng thái thành công');
+                search();
+            }, function () {
+                notificationService.displayError('Thay đổi trạng thái không thành công');
+            });
+        }
 
         function deleteMultiple() {
             var listId = [];

@@ -2,8 +2,11 @@
 @using MyShop.Common;
 
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = Model.Name;
+    ViewBag.Keywords = Model.MetaKeyword;
+    ViewBag.Descriptions = Model.MetaDescription;
     Layout = "~/Views/Shared/Layouts.cshtml";
+    var urlface = Request.Url.ToString();
 }
 
 @helper Truncate(string input, int length)
@@ -49,8 +52,8 @@ else
             <h1 class="col-md-6 col-sm-6"> @ViewBag.Category.Name</h1><br>
             <ol class="breadcrumb col-md-6 col-sm-6 hidden-xs">
                 <li><a href="/"> Trang chủ</a></li>
-                <li><a href="/bai-viet/news/"> Bài viết</a></li>
-                <li><a href="/bai-viet/@(ViewBag.Category.Alias)/"> @ViewBag.Category.Name</a></li>
+                <li><a href="/blogs/news.html"> Tin tức</a></li>
+                <li><a href="/blogs/@(ViewBag.Category.Alias).html"> @ViewBag.Category.Name</a></li>
                 <li class="active">@Model.Name</li>
             </ol>
         </div>
@@ -76,7 +79,7 @@ else
                                 for (var i = 0; i < tags.Length; i++)
                                 {
                                     var tagId = StringHelper.ToUnsignString(tags[i]);
-                                    var urlTag = "/bai-viet/tag/" + tagId + "/";
+                                    var urlTag = "/blogs/tag/" + tagId + ".html";
                                     <a href="@urlTag"> @tags[i],</a>
                                 }
                             }
@@ -88,7 +91,7 @@ else
                         <div class="tagcloud clearfix bottommargin">
                             @foreach (var tag in (IEnumerable<MyShop.Web.Models.TagViewModel>)ViewBag.Tags)
                             {
-                                <a href="/bai-viet/tag/@(tag.ID).html">@tag.Name</a>
+                                <a href="/blogs/tag/@(tag.ID).html">@tag.Name</a>
                             }
                         </div>
                         <div class="clear"></div>
@@ -96,7 +99,7 @@ else
                         <div class="si-share noborder clearfix">
                             <span>Chia sẻ:</span>
                             <div class='socical-wrapper'>
-                                <ul class="social-icons"></ul>
+                                <div class="fb-like" data-href="@urlface" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
                             </div>
                         </div>
                     </div>
@@ -109,11 +112,11 @@ else
                         {
                             <div class="mpost clearfix">
                                 <div class="entry-image related-posts-img">
-                                    <a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html"><img src="@post.Image" alt="@post.Name"></a>
+                                    <a href="/blogs/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html"><img src="@post.Image" alt="@post.Name"></a>
                                 </div>
                                 <div class="entry-c">
                                     <div class="entry-title">
-                                        <h4><a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html">@post.Name</a></h4>
+                                        <h4><a href="/blogs/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html">@post.Name</a></h4>
                                     </div>
                                     <ul class="entry-meta clearfix">
                                         <li><i class="icon-calendar3"></i> @post.CreatedDate</li>
@@ -129,11 +132,11 @@ else
                         {
                             <div class="mpost clearfix">
                                 <div class="entry-image related-posts-img">
-                                    <a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html"><img src="@post.Image" alt="@post.Name"></a>
+                                    <a href="/blogs/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html"><img src="@post.Image" alt="@post.Name"></a>
                                 </div>
                                 <div class="entry-c">
                                     <div class="entry-title">
-                                        <h4><a href="/bai-viet/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html">@post.Name</a></h4>
+                                        <h4><a href="/blogs/@(ViewBag.Category.Alias)/@(post.Alias)-@(post.ID).html">@post.Name</a></h4>
                                     </div>
                                     <ul class="entry-meta clearfix">
                                         <li><i class="icon-calendar3"></i> @post.CreatedDate</li>
@@ -157,7 +160,7 @@ else
                 <!-- new post -->
                 <div class="widget clearfix">
                     <h4 style="margin-bottom:10px;">
-                        <a href="/bai-viet/news/">Bài viết mới nhất</a>
+                        <a href="/blogs/news.html">Tin tức mới nhất</a>
                     </h4>
                     @{Html.RenderAction("TopNewPost", "Post");}
                 </div>

@@ -31,6 +31,7 @@ namespace MyShop.Web.Api
 
         [Route("getallparents")]
         [HttpGet]
+        [Authorize(Roles = "ContactDetail")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -45,6 +46,7 @@ namespace MyShop.Web.Api
         }
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ContactDetail")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -61,6 +63,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ContactDetail")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -88,7 +91,7 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "ContactDetail")]
         public HttpResponseMessage Create(HttpRequestMessage request, ContactDetailViewModel contactDetailVm)
         {
             return CreateHttpResponse(request, () =>
@@ -115,7 +118,7 @@ namespace MyShop.Web.Api
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "ContactDetail")]
         public HttpResponseMessage Update(HttpRequestMessage request, ContactDetailViewModel contactDetailVm)
         {
             return CreateHttpResponse(request, () =>
@@ -144,7 +147,7 @@ namespace MyShop.Web.Api
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "ContactDetail")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -168,7 +171,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "ContactDetail")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedContactDetails)
         {
             return CreateHttpResponse(request, () =>

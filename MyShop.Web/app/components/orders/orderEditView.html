@@ -1,12 +1,11 @@
 ﻿  <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Cập nhật order {{order.CustomerName}}
+        Cập nhật hóa đơn
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="#">Order</a></li>
-        <li><a ui-sref="orders">Danh sách</a></li>
+        <li><a ui-sref="orders">Hóa đơn</a></li>
         <li class="active">Cập nhật</li>
     </ol>
 </section>
@@ -15,28 +14,27 @@
     <!-- Horizontal Form -->
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">Cập nhật</h3>
+            <h3 class="box-title"> Cập nhật hóa đơn {{order.CustomerName}}</h3>
         </div><!-- /.box-header -->
         <!-- form start -->
         <form class="form-horizontal" novalidate name="frmUpdateOrder" role="form" ng-submit="UpdateOrder()">
             <div class="box-body">
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Tên</label>
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateOrder.name.$invalid && !frmUpdateOrder.name.$pristine }">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Họ tên</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" ng-maxlength="256" required name="customerName" ng-model="order.CustomerName">
                         <span ng-show="frmUpdateOrder.customerName.$invalid" class="has-error">Phải nhập tên</span>
-                        <span ng-show="frmUpdateOrder.customerName.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+                        <span ng-show="frmUpdateOrder.customerName.$error.maxlength" class="has-error">Tên chỉ được 256 ký tự</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateOrder.email.$invalid && !frmUpdateOrder.email.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-maxlength="256" required name="email" ng-model="order.CustomerEmail">
+                        <input type="text" class="form-control" required name="email" ng-model="order.CustomerEmail">
                         <span ng-show="frmUpdateOrder.email.$invalid" class="has-error">Phải nhập email</span>
-                        <span ng-show="frmUpdateOrder.email.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateOrder.customerAddress.$invalid && !frmUpdateOrder.customerAddress.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Địa chỉ</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" ng-maxlength="256" required name="customerAddress" ng-model="order.CustomerAddress">
@@ -44,30 +42,68 @@
                         <span ng-show="frmUpdateOrder.customerAddress.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdateOrder.customerMobile.$invalid && !frmUpdateOrder.customerMobile.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Điện thoại</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" ng-maxlength="256" required name="customerMobile" ng-model="order.CustomerMobile">
                         <span ng-show="frmUpdateOrder.customerMobile.$invalid" class="has-error">Phải nhập điện thoại</span>
-                        <span ng-show="frmUpdateOrder.customerMobile.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Lời nhắn</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" ng-maxlength="256" required name="customerMessage" ng-model="order.CustomerMessage">
-                        <span ng-show="frmUpdateOrder.customerMessage.$invalid" class="has-error">Phải nhập lời nhắn</span>
-                        <span ng-show="frmUpdateOrder.customerMessage.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
+                        <textarea class="form-control" name="customerMessage" ng-model="order.CustomerMessage"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Hình thức thanh toán</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="paymentMethod" ng-model="order.PaymentMethod">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Trạng thái giao hàng</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="paymentstatus" ng-model="order.PaymentStatus" ng-checked="order.PaymentStatus"> Kích hoạt
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Trạng thái</label>
+                    <div class="col-sm-10">
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" name="status" ng-model="order.Status" ng-checked="order.Status"> Kích hoạt
                             </label>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-12">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Số hóa đơn</th>
+                            <th>Mã sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Đơn giá</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                        <tr ng-repeat="item in orderDetails">
+                            <td>{{item.OrderID}}</td>
+                            <td>{{item.ProductID}}</td>
+                            <td>
+                                {{item.Quantity}}
+                            </td>
+                            <td>
+                                {{item.Price | number}}
+                            </td>
+                            <td>
+                                {{item.Note}}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div><!-- /.box-body -->
             <div class="box-footer">

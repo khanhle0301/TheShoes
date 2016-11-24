@@ -13,6 +13,7 @@ using MyShop.Web.App_Start;
 using MyShop.Web.Infrastructure.Core;
 using MyShop.Web.Infrastructure.Extensions;
 using MyShop.Web.Models;
+using System.Web.Script.Serialization;
 
 namespace MyShop.Web.Api
 {
@@ -67,7 +68,6 @@ namespace MyShop.Web.Api
         {
             if (string.IsNullOrEmpty(id))
             {
-
                 return request.CreateErrorResponse(HttpStatusCode.BadRequest, nameof(id) + " không có giá trị.");
             }
             var user = _userManager.FindByIdAsync(id);
@@ -101,7 +101,7 @@ namespace MyShop.Web.Api
                     if (result.Succeeded)
                     {
                         var listAppUserGroup = new List<ApplicationUserGroup>();
-                        foreach(var group in applicationUserViewModel.Groups)
+                        foreach (var group in applicationUserViewModel.Groups)
                         {
                             listAppUserGroup.Add(new ApplicationUserGroup()
                             {
@@ -111,7 +111,7 @@ namespace MyShop.Web.Api
                             //add role to user
                             var listRole = _appRoleService.GetListRoleByGroupId(group.ID);
                             foreach (var role in listRole)
-                            {                            
+                            {
                                 await _userManager.RemoveFromRoleAsync(newAppUser.Id, role.Name);
                                 await _userManager.AddToRoleAsync(newAppUser.Id, role.Name);
                             }
@@ -119,7 +119,7 @@ namespace MyShop.Web.Api
                         _appGroupService.AddUserToGroups(listAppUserGroup, newAppUser.Id);
                         _appGroupService.Save();
 
-                      
+
                         return request.CreateResponse(HttpStatusCode.OK, applicationUserViewModel);
 
                     }
@@ -155,6 +155,19 @@ namespace MyShop.Web.Api
                     var result = await _userManager.UpdateAsync(appUser);
                     if (result.Succeeded)
                     {
+
+                        foreach (var group in _appGroupService.GetListGroupByUserId(appUser.Id))
+                        {
+                            //remove role to user
+                            var listRole = _appRoleService.GetListRoleByGroupId(group.ID);
+                            foreach (var role in listRole)
+                            {
+                                await _userManager.RemoveFromRoleAsync(appUser.Id, role.Name);
+                                //await _userManager.AddToRoleAsync(appUser.Id, role.Name);
+                            }
+                        }
+
+
                         var listAppUserGroup = new List<ApplicationUserGroup>();
                         foreach (var group in applicationUserViewModel.Groups)
                         {
@@ -167,7 +180,7 @@ namespace MyShop.Web.Api
                             var listRole = _appRoleService.GetListRoleByGroupId(group.ID);
                             foreach (var role in listRole)
                             {
-                                await _userManager.RemoveFromRoleAsync(appUser.Id, role.Name);
+                                //await _userManager.RemoveFromRoleAsync(appUser.Id, role.Name);
                                 await _userManager.AddToRoleAsync(appUser.Id, role.Name);
                             }
                         }
@@ -202,6 +215,5 @@ namespace MyShop.Web.Api
             else
                 return request.CreateErrorResponse(HttpStatusCode.OK, string.Join(",", result.Errors));
         }
-
     }
 }

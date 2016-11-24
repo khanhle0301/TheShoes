@@ -11,6 +11,7 @@ using MyShop.Web.Infrastructure.Core;
 using MyShop.Web.Models;
 using MyShop.Web.Infrastructure.Extensions;
 using System.Web.Script.Serialization;
+using MyShop.Common.Exceptions;
 
 namespace MyShop.Web.Api
 {
@@ -31,6 +32,7 @@ namespace MyShop.Web.Api
 
         [Route("getallparents")]
         [HttpGet]
+        [Authorize(Roles = "ViewProductCategory")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -45,6 +47,7 @@ namespace MyShop.Web.Api
         }
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewProductCategory")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -61,6 +64,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewProductCategory")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -88,65 +92,69 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddProductCategory")]
         public HttpResponseMessage Create(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var newProductCategory = new ProductCategory();
+                newProductCategory.UpdateProductCategory(productCategoryVm);
+                newProductCategory.CreatedDate = DateTime.Now;
+                newProductCategory.CreatedBy = User.Identity.Name;
+                newProductCategory.UpdatedDate = DateTime.Now;
+                newProductCategory.UpdatedBy = User.Identity.Name;
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var newProductCategory = new ProductCategory();
-                    newProductCategory.UpdateProductCategory(productCategoryVm);
-                    newProductCategory.CreatedDate = DateTime.Now;
                     _productCategoryService.Add(newProductCategory);
                     _productCategoryService.Save();
 
                     var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(newProductCategory);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, responseData);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateProductCategory")]
         public HttpResponseMessage Update(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var dbProductCategory = _productCategoryService.GetById(productCategoryVm.ID);
+                dbProductCategory.UpdateProductCategory(productCategoryVm);
+                dbProductCategory.UpdatedDate = DateTime.Now;
+                dbProductCategory.UpdatedBy = User.Identity.Name;
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var dbProductCategory = _productCategoryService.GetById(productCategoryVm.ID);
-
-                    dbProductCategory.UpdateProductCategory(productCategoryVm);
-                    dbProductCategory.UpdatedDate = DateTime.Now;
-
                     _productCategoryService.Update(dbProductCategory);
                     _productCategoryService.Save();
 
                     var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(dbProductCategory);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, responseData);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteProductCategory")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -170,7 +178,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteProductCategory")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedProductCategories)
         {
             return CreateHttpResponse(request, () =>

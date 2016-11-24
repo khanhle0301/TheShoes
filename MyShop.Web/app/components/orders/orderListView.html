@@ -31,7 +31,7 @@
                     </div><!-- /input-group -->
                 </div>
                 <div class="col-md-6">
-                    <button class="btn btn-success" ui-sref="add_order">Thêm mới</button>
+                    <!--<button class="btn btn-success" ui-sref="add_order">Thêm mới</button>-->
                     <button class="btn btn-danger" ng-click="deleteMultiple()" id="btnDelete" disabled>Xóa</button>
                 </div>
             </di>
@@ -44,23 +44,25 @@
                             <th style="width:35%">Tên</th>
                             <th style="width:25%">Email</th>
                             <th style="width: 15%">Ngày tạo</th>
-                            <th style="width: 10%">Trạng thái</th>
+                            <th style="width: 10%">Trạng thái</th>                        
                             <th style="width: 10%">Thao tác</th>
                         </tr>
-                        <tr ng-repeat="item in orders">
+                        <tr ng-repeat="item in orders | filter:keyword"> 
                             <td><input type="checkbox" ng-model="item.checked" name="all" /></td>
                             <td>{{item.ID}}</td>
-                            <td>{{item.CustomerName}}</td>
+                            <td><a ui-sref="edit_order({id:item.ID})">{{item.CustomerName}}</a></td>
                             <td>{{item.CustomerEmail}}</td>
                             <td>
                                 {{item.CreatedDate  | date:'dd/MM/yyyy HH:mm:ss'}}
                             </td>
                             <!--class="badge bg-red"-->
                             <td>
-                                <span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">
-                                    {{item.Status | statusFilter}}
-                                </span>
-                            </td>
+                                <a class="btn btn-sm" title="Thay đổi trạng thái" ng-click="changeStatus(item.ID)">
+                                    <span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">
+                                        {{item.Status | statusFilter}}
+                                    </span>
+                                </a>
+                            </td>                           
                             <td>
                                 <button class="btn btn-sm btn-primary" title="Sửa" ui-sref="edit_order({id:item.ID})"><i class="fa fa-pencil"></i></button>
                                 <button class="btn  btn-sm btn-danger" title="Xóa" ng-click="deleteOrder(item.ID)"><i class="fa fa-trash"></i></button>
@@ -72,6 +74,13 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <div ng-if="loading">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                        </div>
+                        <div class="col-xs-4"></div>
+                    </div>
                 </div>
             </div>
         </div><!-- /.box-body -->

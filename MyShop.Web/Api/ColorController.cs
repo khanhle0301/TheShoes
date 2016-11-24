@@ -1,16 +1,17 @@
-﻿using System.Web.Http;
+﻿using AutoMapper;
+using MyShop.Common.Exceptions;
 using MyShop.Model.Models;
 using MyShop.Service;
 using MyShop.Web.Infrastructure.Core;
-using MyShop.Web.Models;
 using MyShop.Web.Infrastructure.Extensions;
-using System.Web.Script.Serialization;
-using System.Net.Http;
-using AutoMapper;
-using System.Linq;
-using System.Collections.Generic;
-using System.Net;
+using MyShop.Web.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace MyShop.Web.Api
 {
@@ -19,6 +20,7 @@ namespace MyShop.Web.Api
     public class ColorController : ApiControllerBase
     {
         #region Initialize
+
         private IColorService _colorService;
 
         public ColorController(IErrorService errorService, IColorService colorService)
@@ -27,10 +29,11 @@ namespace MyShop.Web.Api
             this._colorService = colorService;
         }
 
-        #endregion
+        #endregion Initialize
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewColor")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -47,6 +50,7 @@ namespace MyShop.Web.Api
 
         [Route("getlistall")]
         [HttpGet]
+        [Authorize(Roles = "ViewColor")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -63,6 +67,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewColor")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -87,64 +92,63 @@ namespace MyShop.Web.Api
             });
         }
 
-
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddColor")]
         public HttpResponseMessage Create(HttpRequestMessage request, ColorViewModel colorVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
-                {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var newColor = new Color();
-                    newColor.UpdateColor(colorVm);
+                var newColor = new Color();
+                newColor.UpdateColor(colorVm);
+                try
+                {                   
                     _colorService.Add(newColor);
                     _colorService.Save();
-
-                    var responseData = Mapper.Map<Color, ColorViewModel>(newColor);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, colorVm);
+                }
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
 
-                return response;
-            });
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }           
         }
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateColor")]
         public HttpResponseMessage Update(HttpRequestMessage request, ColorViewModel colorVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
-                {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var dbColor = _colorService.GetById(colorVm.ID);
-                    dbColor.UpdateColor(colorVm);
+                var dbColor = _colorService.GetById(colorVm.ID);
+                dbColor.UpdateColor(colorVm);
+                try
+                {                                    
                     _colorService.Update(dbColor);
                     _colorService.Save();
-
-                    var responseData = Mapper.Map<Color, ColorViewModel>(dbColor);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, colorVm);
+                }
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
                 }
 
-                return response;
-            });
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }          
         }
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteColor")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -166,9 +170,10 @@ namespace MyShop.Web.Api
                 return response;
             });
         }
+
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteColor")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedColors)
         {
             return CreateHttpResponse(request, () =>
@@ -196,4 +201,3 @@ namespace MyShop.Web.Api
         }
     }
 }
-

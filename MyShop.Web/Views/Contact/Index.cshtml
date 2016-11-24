@@ -1,12 +1,8 @@
-﻿@model MyShop.Web.Models.FeedbackViewModel
-@{
-    ViewBag.Title = "Contact";
+﻿@{
+    ViewBag.Title = "Liên hệ";
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
-@section footerJS{
-    <script src="~/Assets/client/js/contact.js"></script>
-}
 
 @section left_menu{
     <div class="panel-group left_menu col-md-3 hidden-xs hidden-sm" id='left_menu'>
@@ -45,25 +41,36 @@
     </section>
 }
 
+@section footerJS{
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBycQYX3bstI_wAn1F-pYXnZ5_8tdorvPM"></script>
+    <script src="~/Assets/client/js/contact.js"></script>
+}
+
+<style>
+    #map {
+        height: 400px;
+    }
+</style>
+
 <div class="content-wrap">
+    <input type="hidden" id="hidAddress" value="@Model.ContactDetail.Name<br />Điện thoại:@Model.ContactDetail.Phone <br>Địa chỉ: @Model.ContactDetail.Address" />
+    <input type="hidden" id="hidLat" value="@Model.ContactDetail.Lat" />
+    <input type="hidden" id="hidLng" value="@Model.ContactDetail.Lng" />
+    <input type="hidden" id="hidName" value="@Model.ContactDetail.Name" />
     <div class="container clearfix">
         <!-- Google Map
         ============================================= -->
-
         <section class='container' style='margin-bottom: 40px'>
-            <div class='google-maps'>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d979.6977785509154!2d106.67661599999998!3d10.827291499999992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317528fdf4930535%3A0xcbb44a8dbaa24d8a!2zSOG6u20gNjEgUXVhbmcgVHJ1bmcsIHBoxrDhu51uZyAxMCwgR8OyIFbhuqVwLCBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1440672170562" width="1140" height="600" frameborder="0" style="border:0" allowfullscreen></iframe>
-            </div>
+            <div id="map"></div>
         </section>
-
         <!-- Google Map End -->
         <!-- Postcontent
         ============================================= -->
         <div class="postcontent nobottommargin">
             <h3>Viết nhận xét</h3>
             <div id="contact-form-result" data-notify-type="success" data-notify-msg="<i class=icon-ok-sign></i> Message Sent Successfully!"></div>
-            <form accept-charset='UTF-8' id="frmContact"  class='contact-form' method='post'>
-                                
+            <form accept-charset='UTF-8' id="frmContact" class='contact-form' method='post'>
+
                 <div class="alert alert-success" id="contactResult" style="display: none;">
                     Cám ơn bạn đã liên hệ! Chúng tôi sẽ trả lời ngay khi có thể
                 </div>
@@ -71,7 +78,7 @@
                 <div class="form-process"></div>
                 <div class="col_one_third">
                     <label for="template-contactform-name">Tên <small class='require_symbol'>*</small></label>
-                    <input type="text" id="template-contactform-name" name="name" value="" placeholder='Họ tên của bạn' class="sm-form-control required" />                
+                    <input type="text" id="template-contactform-name" name="name" value="" placeholder='Họ tên của bạn' class="sm-form-control required" />
                 </div>
                 <div class="col_one_third">
                     <label for="template-contactform-email">Email <small class='require_symbol'>*</small></label>
@@ -93,25 +100,7 @@
                     <button class="button button-3d nomargin" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit">Gửi liên hệ</button>
                 </div>
             </form>
-            <!-- </form>-->
-            <script type="text/javascript">
-
-					$("#template-contactform").validate({
-					submitHandler: function(form) {
-					$('.form-process').fadeIn();
-					$(form).ajaxSubmit({
-					target: '#contact-form-result',
-					success: function() {
-					$('.form-process').fadeOut();
-					$(form).find('.sm-form-control').val('');
-					$('#contact-form-result').attr('data-notify-msg', $('#contact-form-result').html()).html('');
-					SEMICOLON.widget.notifications($('#contact-form-result'));
-					}
-					});
-					}
-					});
-
-            </script>
+            <!-- </form>-->            
         </div><!-- .postcontent end -->
         <!-- Sidebar
         ============================================= -->

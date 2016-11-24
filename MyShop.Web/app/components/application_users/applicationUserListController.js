@@ -3,17 +3,16 @@
 
     app.controller('applicationUserListController', applicationUserListController);
 
-    applicationUserListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox'];
+    applicationUserListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox', '$filter'];
 
-    function applicationUserListController($scope, apiService, notificationService, $ngBootbox) {
+    function applicationUserListController($scope, apiService, notificationService, $ngBootbox, $filter) {
         $scope.loading = true;
         $scope.data = [];
         $scope.page = 0;
         $scope.pageCount = 0;
         $scope.search = search;
-        $scope.clearSearch = clearSearch;
-        $scope.deleteItem = deleteItem;
-
+        $scope.deleteItem = deleteItem;       
+      
         function deleteItem(id) {
             $ngBootbox.confirm('Bạn có chắc muốn xóa?')
                 .then(function () {
@@ -59,11 +58,6 @@
         }
         function dataLoadFailed(response) {
             notificationService.displayError(response.data);
-        }
-
-        function clearSearch() {
-            $scope.filterExpression = '';
-            search();
         }
 
         $scope.search();

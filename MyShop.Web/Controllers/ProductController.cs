@@ -46,10 +46,8 @@ namespace MyShop.Web.Controllers
             ViewBag.Sizes = Mapper.Map<IEnumerable<Size>, IEnumerable<SizeViewModel>>(_productService.GetListSizeByProductId(id));
             ViewBag.Colors = Mapper.Map<IEnumerable<Color>, IEnumerable<ColorViewModel>>(_productService.GetListColorByProductId(id));
             ViewBag.Related = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(_productService.GetReatedProducts(id, 12));
-
             _productService.IncreaseView(id);
             _productService.Save();
-
             var recentProduct = (List<RecentProductItem>)Session[Common.CommonConstants.RecentProductSession];
             if (recentProduct == null)
             {
@@ -74,7 +72,6 @@ namespace MyShop.Web.Controllers
                 recentProduct.Add(newItem);
             }
             Session[Common.CommonConstants.RecentProductSession] = recentProduct;
-
             return View(viewModel);
         }
 
@@ -96,7 +93,6 @@ namespace MyShop.Web.Controllers
             var model = _productService.GetAllByTagPaging(tagId, sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
-
             return Json(new
             {
                 data = model,
@@ -125,7 +121,6 @@ namespace MyShop.Web.Controllers
             var model = _productService.GetListProductByCategoryIdPaging(id, sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
-
             return Json(new
             {
                 data = model,
@@ -151,7 +146,6 @@ namespace MyShop.Web.Controllers
             var model = _productService.GetListProductAllPaging(sort, price, provider, color, chatlieu, heel, height, type);
             int totalRow = model.Count();
             model = model.Skip((page - 1) * pageSize).Take(pageSize);
-
             return Json(new
             {
                 data = model,
@@ -331,27 +325,7 @@ namespace MyShop.Web.Controllers
                 data = model,
                 status = true
             }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetSize(int id)
-        {
-            var model = _productService.GetListSizeByProductId(id);
-            return Json(new
-            {
-                data = model,
-                status = true
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetColor(int id)
-        {
-            var model = _productService.GetListColorByProductId(id);
-            return Json(new
-            {
-                data = model,
-                status = true
-            }, JsonRequestBehavior.AllowGet);
-        }
+        }        
 
         public ActionResult Search(string type, string keyword, string filter)
         {
@@ -378,15 +352,6 @@ namespace MyShop.Web.Controllers
                 data = model,
                 total = totalRow,
                 status = true
-            }, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult GetListProductByName(string keyword)
-        {
-            var model = _productService.GetListProductByName(keyword);
-            return Json(new
-            {
-                data = model
             }, JsonRequestBehavior.AllowGet);
         }
     }

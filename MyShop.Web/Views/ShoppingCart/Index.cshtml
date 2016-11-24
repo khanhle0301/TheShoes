@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Giỏ hàng";
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
@@ -71,7 +71,7 @@
                         <td class="hidden-lg hidden-md hidden-sm" colspan="2"><span class="amount color"><strong id="lblTotalOrder">₫</strong></span></td>
                     </tr>
                 </tbody>
-            </table>           
+            </table>
         </div>
         <div id="note" class="row clearfix">
             <div class="col-md-6 col-sm-6 col-xs-12 nopadding" style="margin-top:-20px!important">
@@ -79,13 +79,13 @@
                     <label for="note">Ghi chú </label>
                     <textarea style="height:85px" id="note" class="sm-form-control" name="note" rows="8" cols="50"></textarea>
                 </div>
-            </div>          
+            </div>
             <div class="col-md-6 col-sm-6 col-xs-12 topmargin nopadding">
                 <button id="btnUpdate" class="cart_update_btn button button-3d nomargin fright">Cập nhật giỏ hàng</button>
-                <button class="cart_checkout_btn button button-3d notopmargin fright">Thanh toán</button>
-            </div>
-        </div>
-    </div>
+                <button  class="cart_checkout_btn button button-3d notopmargin fright">Thanh toán</button>
+            </div>                                             
+        </div>        
+    </div> 
 </div>
 
 <script id="tplCart" type="x-tmpl-mustache">
@@ -95,14 +95,16 @@
         </td>
         <td class="cart-product-name">
             <a href="/san-pham/{{ProductCategoryAlias}}/{{ProductAlias}}-{{ProductId}}.html">{{ProductName}}</a>
-            <p>{{Color}} / {{Size}}</p>            
+            <p>{{Color}} / {{Size}}</p>
         </td>
         <td class="cart-product-price">
             <span class="amount">{{PriceF}}₫</span>
         </td>
         <td class="cart-product-quantity">
-            <div class="quantity clearfix">               
-                <input type="number" data-size="{{Size}}" data-id="{{ProductId}}" data-color="{{Color}}" data-price="{{Price}}" value="{{Quantity}}" class="qty txtQuantity" />
+            <div class="quantity clearfix">
+                <input type="button" onclick="minus_quantity({{ProductId}})" value="-" class="minus">
+                <input type="text" min="1" name="updates[]" class="qty txtQuantity" id="product-quantity2updates_{{ProductId}}" readonly step="1" data-size="{{Size}}" data-id="{{ProductId}}" data-color="{{Color}}" data-price="{{Price}}" value="{{Quantity}}">
+                <input type="button" value="+" class="plus" onclick="plus_quantity({{ProductId}})">
             </div>
         </td>
         <td class="cart-product-subtotal">
@@ -115,3 +117,29 @@
 
 </script>
 
+<script type="text/javascript">
+    function minus_quantity(item_id) {
+        var quantity = parseInt($('#product-quantity2updates_' + item_id).val());
+        if (quantity > 0) {
+            if (quantity == 1) {
+                $('#btnUpdate').attr('disabled', 'disabled');
+            }
+            quantity -= 1;
+        }
+        else {
+            quantity = 0;
+        }
+        $('#product-quantity2updates_' + item_id).val(quantity);
+    }
+    function plus_quantity(item_id) {
+        var quantity = parseInt($('#product-quantity2updates_' + item_id).val());
+        $('#btnUpdate').removeAttr('disabled');
+        if (quantity < 100) {
+            quantity += 1;
+        }
+        else {
+            quantity = 100;
+        }
+        $('#product-quantity2updates_' + item_id).val(quantity);
+    }
+</script>

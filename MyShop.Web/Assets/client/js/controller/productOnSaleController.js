@@ -8,15 +8,6 @@ var productOnSaleController = {
         productOnSaleController.registerEvent();
     },
     registerEvent: function () {
-        $('.btn-popup').off('click').on('click', function (e) {
-            e.preventDefault();
-            $('#productManange').modal('show');
-            $('#hidProductID').val($(this).data('id'));
-            var productId = parseInt($(this).data('id'));
-            productOnSaleController.loadColor(productId);
-            productOnSaleController.loadSize(productId);
-            productOnSaleController.loadProductName(productId);
-        });
 
         $('#sortControl').off('click').on('click', function () {
             productOnSaleController.loadData(true);
@@ -32,16 +23,20 @@ var productOnSaleController = {
         });
         $('.chatlieu').off('click').on('click', function () {
             productOnSaleController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
         $('.heel').off('click').on('click', function () {
             productOnSaleController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
         $('.height').off('click').on('click', function () {
             productOnSaleController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
 
         $('.types').off('click').on('click', function () {
             productOnSaleController.loadData(true);
+            $("#gotoTop").trigger("click");
         });
 
     },
@@ -116,8 +111,8 @@ var productOnSaleController = {
                             ProductImage2: item.Image2,
                             ProductName: item.Name,
                             ProductID: item.ID,                        
+                            PromotionPrice: numeral(item.PromotionPrice).format('0,0'),
                             ProductPrice: numeral(item.Price).format('0,0'),
-                            ProductPromotionPrice: numeral(item.PromotionPrice).format('0,0'),
                             url: '/san-pham/' + item.ProductCategory.Alias + '/' + item.Alias + '-' + item.ID + '.html'
                         });
 
@@ -135,8 +130,10 @@ var productOnSaleController = {
                         $('.productCount').html('Có <span class="require_symbol">' + response.total + '</span> sản phẩm.');
                         productOnSaleController.paging(response.total, function () {
                             productOnSaleController.loadData();
+                            $("#gotoTop").trigger("click");
                         }, changePageSize);
                     }
+                    //$("#gotoTop").trigger("click");
                     productOnSaleController.registerEvent();
                 }
             }
@@ -162,72 +159,6 @@ var productOnSaleController = {
                 setTimeout(callback, 200);
             }
         });
-    },
-
-    loadSize: function (id) {
-        $.ajax({
-            url: '/Product/GetSize',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var template = $('#tpl-product-size').html();
-                    var html = '';
-                    var data = res.data;
-                    $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            ProductSize: item.ID,
-                        });
-                    });
-                    $('#product-size').html(html);
-                }
-            }
-        })
-    },
-
-    loadColor: function (id) {
-        $.ajax({
-            url: '/Product/GetColor',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var template = $('#tpl-product-color').html();
-                    var html = '';
-                    var data = res.data;
-                    $.each(data, function (i, item) {
-                        html += Mustache.render(template, {
-                            ProductColor: item.Name,
-                        });
-                    });
-
-                    $('#product-color').html(html);
-                }
-            }
-        })
-    },
-
-    loadProductName: function (id) {
-        $.ajax({
-            url: '/Product/GetAll',
-            data: {
-                id: id
-            },
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                if (res.status) {
-                    var productName = res.data.Name;
-                    $('#productName').html(productName);
-                }
-            }
-        })
     }
 }
 productOnSaleController.init();

@@ -27,8 +27,7 @@ namespace MyShop.Model.Models
         [Required]
         [MaxLength(50)]
         public string CustomerMobile { set; get; }
-
-        [Required]
+    
         [MaxLength(256)]
         public string CustomerMessage { set; get; }
 
@@ -37,7 +36,7 @@ namespace MyShop.Model.Models
 
         public DateTime? CreatedDate { set; get; }
         public string CreatedBy { set; get; }
-        public string PaymentStatus { set; get; }
+        public bool PaymentStatus { set; get; }
         public bool Status { set; get; }
 
         public virtual IEnumerable<OrderDetail> OrderDetails { set; get; }

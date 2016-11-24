@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using MyShop.Common;
 using MyShop.Model.Models;
 using MyShop.Service;
 using MyShop.Web.Models;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace MyShop.Web.Controllers
 {
@@ -17,7 +14,7 @@ namespace MyShop.Web.Controllers
         private IPageService _pageService;
         private IProductCategoryService _productCategoryService;
         private IProductService _productService;
-        private ICommonService _commonService;     
+        private ICommonService _commonService;
 
         public HomeController(IProductCategoryService productCategoryService,
                                 IPostService postService, IPageService pageService,
@@ -27,7 +24,7 @@ namespace MyShop.Web.Controllers
             this._postService = postService;
             this._pageService = pageService;
             this._commonService = commonService;
-            this._productService = productService;           
+            this._productService = productService;
         }
 
         public ActionResult Index()
@@ -55,26 +52,19 @@ namespace MyShop.Web.Controllers
             homeViewModel.SaleProducts = saleProductViewModel;
             homeViewModel.HotProducts = hotProductViewModel;
 
+            ViewBag.Title = ConfigHelper.GetByKey("HomeTitle");
+            ViewBag.Keywords = ConfigHelper.GetByKey("HomeKeyword");
+            ViewBag.Descriptions = ConfigHelper.GetByKey("HomeDescription");
+
             return View(homeViewModel);
         }
 
         [ChildActionOnly]
         public ActionResult Footer()
-        {         
+        {
             var footerViewModel = Mapper.Map<Footer, FooterViewModel>(_commonService.GetFooter());
             return PartialView(footerViewModel);
-        }
-
-        public JsonResult LoadCart()
-        {
-            if (Session[CommonConstants.SessionCart] == null)
-                Session[CommonConstants.SessionCart] = new List<ShoppingCartViewModel>();
-            var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-            return Json(new
-            {
-                data = cart
-            }, JsonRequestBehavior.AllowGet);
-        }
+        }        
 
         [ChildActionOnly]
         public ActionResult HeaderCart()
@@ -87,7 +77,7 @@ namespace MyShop.Web.Controllers
 
         [ChildActionOnly]
         public ActionResult TopBar()
-        {         
+        {
             var contactViewModel = Mapper.Map<ContactDetail, ContactDetailViewModel>(_commonService.GetContactDetail());
             return PartialView(contactViewModel);
         }
@@ -109,7 +99,7 @@ namespace MyShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult Category()
         {
-            var model = _productCategoryService.GetAllHome(4);
+            var model = _productCategoryService.GetAllHome();
             var listProductCategoryViewModel = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
             return PartialView(listProductCategoryViewModel);
         }
@@ -117,7 +107,7 @@ namespace MyShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult SearchCategory()
         {
-            var model = _productCategoryService.GetAllHome(4);
+            var model = _productCategoryService.GetAllHome();
             var listProductCategoryViewModel = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
             return PartialView(listProductCategoryViewModel);
         }
@@ -125,7 +115,7 @@ namespace MyShop.Web.Controllers
         [ChildActionOnly]
         public ActionResult SearchCategoryMobile()
         {
-            var model = _productCategoryService.GetAllHome(4);
+            var model = _productCategoryService.GetAllHome();
             var listProductCategoryViewModel = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(model);
             return PartialView(listProductCategoryViewModel);
         }

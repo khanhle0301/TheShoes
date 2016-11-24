@@ -4,8 +4,7 @@
     productCategoryAddController.$inject = ['apiService', '$scope', 'notificationService', '$state', 'commonService'];
 
     function productCategoryAddController(apiService, $scope, notificationService, $state, commonService) {
-        $scope.productCategory = {
-            CreatedDate: new Date(),
+        $scope.productCategory = {           
             Status: true
         }
 
@@ -18,13 +17,15 @@
         $scope.AddProductCategory = AddProductCategory;
 
         function AddProductCategory() {
-            apiService.post('api/productcategory/create', $scope.productCategory,
-                function (result) {
-                    notificationService.displaySuccess(result.data.Name + ' đã được thêm mới.');
-                    $state.go('product_categories');
-                }, function (error) {
-                    notificationService.displayError('Thêm mới không thành công.');
-                });
+            apiService.post('/api/productcategory/create', $scope.productCategory, addSuccessed, addFailed);           
+        }
+
+        function addSuccessed() {
+            notificationService.displaySuccess($scope.productCategory.Name + ' đã được thêm mới.');
+            $state.go('product_categories');
+        }
+        function addFailed(response) {
+            notificationService.displayError(response.data.Message);
         }
 
         $scope.ChooseImage = function () {

@@ -1,12 +1,11 @@
 ﻿  <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Phản hồi
+        Danh mục phản hồi
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="#">Phản hồi</a></li>
-        <li class="active">Danh sách</li>
+        <li class="active">Danh mục phản hồi</li>
     </ol>
 </section>
 <!-- Main content -->
@@ -14,7 +13,7 @@
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Phản hồi</h3>
+            <h3 class="box-title">Danh sách phản hồi</h3>
             <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -30,8 +29,9 @@
                         </span>
                     </div><!-- /input-group -->
                 </div>
+
                 <div class="col-md-6">
-                    <button class="btn btn-success" ui-sref="feedback_add">Thêm mới</button>
+                    <!--<button class="btn btn-success" ui-sref="feedback_add">Thêm mới</button>-->
                     <button class="btn btn-danger" ng-click="deleteMultiple()" id="btnDelete" disabled>Xóa</button>
                 </div>
             </di>
@@ -41,12 +41,12 @@
                         <tr>
                             <td><input name="all" type="checkbox" ng-click="selectAll()" /></td>
                             <th style="width: 5%">ID</th>
-                            <th style="width:55%">Tên</th>
+                            <th style="width:55%">Họ tên</th>
                             <th style="width: 20%">Ngày tạo</th>
                             <th style="width: 10%">Trạng thái</th>
                             <th style="width: 10%">Thao tác</th>
                         </tr>
-                        <tr ng-repeat="item in feedbacks">
+                        <tr ng-repeat="item in feedbacks | filter:keyword">
                             <td><input type="checkbox" ng-model="item.checked" name="all" /></td>
                             <td>{{item.ID}}</td>
                             <td>{{item.Name}}</td>
@@ -55,13 +55,15 @@
                             </td>
                             <!--class="badge bg-red"-->
                             <td>
-                                <span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">
-                                    {{item.Status | statusFilter}}
-                                </span>
+                                <a class="btn btn-sm" title="Thay đổi trạng thái" ng-click="changeStatus(item.ID)">
+                                    <span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">
+                                        {{item.Status | statusFilter}}
+                                    </span>
+                                </a>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-primary" ui-sref="feedback_edit({id:item.ID})"><i class="fa fa-pencil"></i></button>
-                                <button class="btn  btn-sm btn-danger" ng-click="deleteFeedback(item.ID)"><i class="fa fa-trash"></i></button>
+                                <button class="btn btn-sm btn-primary" title="Sửa" ui-sref="feedback_edit({id:item.ID})"><i class="fa fa-pencil"></i></button>
+                                <button class="btn  btn-sm btn-danger" title="Xóa" ng-click="deleteFeedback(item.ID)"><i class="fa fa-trash"></i></button>
                             </td>
                         </tr>
                         <tfoot>
@@ -70,6 +72,13 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <div ng-if="loading">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                        </div>
+                        <div class="col-xs-4"></div>
+                    </div>
                 </div>
             </div>
         </div><!-- /.box-body -->

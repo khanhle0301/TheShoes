@@ -20,7 +20,7 @@
         <!-- form start -->
         <form class="form-horizontal" novalidate name="frmUpdatePostCategory" role="form" ng-submit="UpdatePostCategory()">
             <div class="box-body">
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdatePostCategory.name.$invalid && !frmUpdatePostCategory.name.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tên danh mục</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" ng-change="GetSeoTitle()" required name="name" ng-model="postCategory.Name">
@@ -28,7 +28,7 @@
                         <span ng-show="frmUpdatePostCategory.name.$error.maxlength" class="has-error">Tên danh mục chỉ được 256 ký tự</span>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : frmUpdatePostCategory.alias.$invalid && !frmUpdatePostCategory.alias.$pristine }">
                     <label for="inputEmail3" class="col-sm-2 control-label">Tiêu đề SEO</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name="alias" required ng-model="postCategory.Alias">
@@ -67,15 +67,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Meta Keyword</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Từ khóa</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="metaKeyword" ng-model="postCategory.MetaKeyword">
+                        <input type="text" class="form-control" name="metaKeyword" ng-maxlength="256" ng-model="postCategory.MetaKeyword">
+                        <span ng-show="frmUpdatePostCategory.metaKeyword.$error.maxlength" class="has-error">Từ khóa chỉ được 256 ký tự</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Meta Description</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Description</label>
                     <div class="col-sm-10">
-                        <textarea class="form-control" name="metaKeyword" ng-model="postCategory.MetaDescription"></textarea>
+                        <textarea class="form-control" name="metaDescription" ng-maxlength="256" ng-model="postCategory.MetaDescription"></textarea>
+                        <span ng-show="frmUpdatePostCategory.metaDescription.$error.maxlength" class="has-error">Description chỉ được 256 ký tự</span>
                     </div>
                 </div>
                 <div class="form-group">

@@ -11,7 +11,7 @@ namespace MyShop.Service
     {
         ApplicationRole GetDetail(string id);
 
-        IEnumerable<ApplicationRole> GetAll(int page, int pageSize, out int totalRow, string filter);
+        IEnumerable<ApplicationRole> GetAll(int page, int pageSize, out int totalRow, string keyword);
 
         IEnumerable<ApplicationRole> GetAll();
 
@@ -46,7 +46,7 @@ namespace MyShop.Service
 
         public ApplicationRole Add(ApplicationRole appRole)
         {
-            if (_appRoleRepository.CheckContains(x => x.Description == appRole.Description))
+            if (_appRoleRepository.CheckContains(x => x.Name == appRole.Name))
                 throw new NameDuplicatedException("Tên không được trùng");
             return _appRoleRepository.Add(appRole);
         }
@@ -71,12 +71,11 @@ namespace MyShop.Service
             return _appRoleRepository.GetAll();
         }
 
-        public IEnumerable<ApplicationRole> GetAll(int page, int pageSize, out int totalRow, string filter = null)
+        public IEnumerable<ApplicationRole> GetAll(int page, int pageSize, out int totalRow, string keyword)
         {
             var query = _appRoleRepository.GetAll();
-            if (!string.IsNullOrEmpty(filter))
-                query = query.Where(x => x.Description.Contains(filter));
-
+            if (!string.IsNullOrEmpty(keyword))
+                query = query.Where(x => x.Description.Contains(keyword) || x.Name.Contains(keyword));
             totalRow = query.Count();
             return query.OrderBy(x => x.Description).Skip(page * pageSize).Take(pageSize);
         }
@@ -93,7 +92,7 @@ namespace MyShop.Service
 
         public void Update(ApplicationRole AppRole)
         {
-            if (_appRoleRepository.CheckContains(x => x.Description == AppRole.Description && x.Id != AppRole.Id))
+            if (_appRoleRepository.CheckContains(x => x.Name == AppRole.Name && x.Id != AppRole.Id))
                 throw new NameDuplicatedException("Tên không được trùng");
             _appRoleRepository.Update(AppRole);
         }

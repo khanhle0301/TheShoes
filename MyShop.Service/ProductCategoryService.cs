@@ -17,7 +17,7 @@ namespace MyShop.Service
 
         IEnumerable<ProductCategory> GetAll();
 
-        IEnumerable<ProductCategory> GetAllHome(int top);
+        IEnumerable<ProductCategory> GetAllHome();
 
         IEnumerable<ProductCategory> GetAll(string keyword);
 
@@ -71,9 +71,9 @@ namespace MyShop.Service
             return _productCategoryRepository.GetMulti(x => x.Status && x.ParentID == parentId);
         }
 
-        public IEnumerable<ProductCategory> GetAllHome(int top)
+        public IEnumerable<ProductCategory> GetAllHome()
         {
-            return _productCategoryRepository.GetMulti(x => x.Status && x.HomeFlag == true).OrderBy(x => x.DisplayOrder).Take(top);
+            return _productCategoryRepository.GetMulti(x => x.Status && x.HomeFlag == true).OrderBy(x => x.DisplayOrder);
         }
 
         public ProductCategory GetByAlias(string alias)

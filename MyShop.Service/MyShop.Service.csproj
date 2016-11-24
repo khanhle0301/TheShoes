@@ -86,6 +86,7 @@
     <Compile Include="SizeService.cs" />
     <Compile Include="SlideService.cs" />
     <Compile Include="ProviderService.cs" />
+    <Compile Include="StatisticService.cs" />
     <Compile Include="TypeService.cs" />
   </ItemGroup>
   <ItemGroup>

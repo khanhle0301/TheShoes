@@ -29,8 +29,28 @@ namespace MyShop.Web.Api
 
         #endregion
 
+
+        [Route("getbyorderid/{id:int}")]
+        [HttpGet]
+        [Authorize(Roles = "Order")]
+        public HttpResponseMessage GetByOrderId(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var model = _orderService.GetByOrderId(id);
+
+                var responseData = Mapper.Map<IEnumerable<OrderDetail>, IEnumerable<OrderDetailViewModel>>(model);
+
+                var response = request.CreateResponse(HttpStatusCode.OK, responseData);
+
+                return response;
+            });
+        }
+
+
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "Order")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -47,6 +67,7 @@ namespace MyShop.Web.Api
 
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "Order")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -74,7 +95,7 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Order")]
         public HttpResponseMessage Create(HttpRequestMessage request, OrderViewModel orderVm)
         {
             return CreateHttpResponse(request, () =>
@@ -101,7 +122,7 @@ namespace MyShop.Web.Api
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "Order")]
         public HttpResponseMessage Update(HttpRequestMessage request, OrderViewModel orderVm)
         {
             return CreateHttpResponse(request, () =>
@@ -128,7 +149,7 @@ namespace MyShop.Web.Api
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "Order")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -152,7 +173,7 @@ namespace MyShop.Web.Api
         }
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "Order")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedOrders)
         {
             return CreateHttpResponse(request, () =>
@@ -173,6 +194,31 @@ namespace MyShop.Web.Api
                     _orderService.Save();
 
                     response = request.CreateResponse(HttpStatusCode.OK, listOrder.Count);
+                }
+
+                return response;
+            });
+        }
+
+        [Route("changestatus")]
+        [HttpDelete]
+        [Authorize(Roles = "Order")]
+        public HttpResponseMessage ChangeStatus(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (!ModelState.IsValid)
+                {
+                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                else
+                {
+                    _orderService.ChangeStatus(id);
+                    _orderService.Save();
+                    var oldOrder = _orderService.GetById(id);
+                    var responseData = Mapper.Map<Order, OrderViewModel>(oldOrder);
+                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
 
                 return response;

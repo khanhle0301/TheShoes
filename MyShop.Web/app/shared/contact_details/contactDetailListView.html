@@ -4,9 +4,8 @@
         Thông tin liên hệ
     </h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-        <li><a href="#">Thông tin liên hệ</a></li>
-        <li class="active">Danh mục sản phẩm</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang chủ</a></li>       
+        <li class="active">Thông tin liên hệ</li>
     </ol>
 </section>
 <!-- Main content -->
@@ -30,27 +29,27 @@
                         </span>
                     </div><!-- /input-group -->
                 </div>
-                <div class="col-md-6">
+                <!--<div class="col-md-6">
                     <button class="btn btn-success" ui-sref="add_contact_detail">Thêm mới</button>
                     <button class="btn btn-danger" ng-click="deleteMultiple()" id="btnDelete" disabled>Xóa</button>
-                </div>
+                </div>-->
             </di>
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered">
                         <tr>
-                            <td><input name="all" type="checkbox" ng-click="selectAll()" /></td>
+                            <!--<td><input name="all" type="checkbox" ng-click="selectAll()" /></td>-->
                             <th style="width: 5%">ID</th>
                             <th style="width:50%">Tên</th>
                             <th style="width: 25%">Email</th>
                             <th style="width: 10%">Trạng thái</th>
                             <th style="width: 10%">Thao tác</th>
                         </tr>
-                        <tr ng-repeat="item in contactDetails">
-                            <td><input type="checkbox" ng-model="item.checked" name="all" /></td>
+                        <tr ng-repeat="item in contactDetails | filter:keyword">
+                            <!--<td><input type="checkbox" ng-model="item.checked" name="all" /></td>-->
                             <td>{{item.ID}}</td>
-                            <td>{{item.Name}}</td>
-                            <td>{{item.Email}}</td>
+                            <td><a ui-sref="edit_contact_detail({id:item.ID})">{{item.Name}}</a></td>
+                            <td><a ui-sref="edit_contact_detail({id:item.ID})">{{item.Email}}</a></td>
                             <!--class="badge bg-red"-->
                             <td>
                                 <span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">
@@ -58,16 +57,23 @@
                                 </span>
                             </td>
                             <td>
-                                <button class="btn btn-sm btn-primary" ui-sref="edit_contact_detail({id:item.ID})"><i class="fa fa-pencil"></i></button>
-                                <button class="btn  btn-sm btn-danger" ng-click="deleteContactDetail(item.ID)"><i class="fa fa-trash"></i></button>
+                                <button class="btn btn-sm btn-primary" title="Sửa" ui-sref="edit_contact_detail({id:item.ID})"><i class="fa fa-pencil"></i></button>
+                                <!--<button class="btn  btn-sm btn-danger" title="Xóa" ng-click="deleteContactDetail(item.ID)"><i class="fa fa-trash"></i></button>-->
                             </td>
                         </tr>
                         <tfoot>
                             <tr>
-                                <td colspan="6"><span class="pull-right">Trang: {{page+1}} - Tổng số bản ghi: {{totalCount}}</span></td>
+                                <td colspan="5"><span class="pull-right">Trang: {{page+1}} - Tổng số bản ghi: {{totalCount}}</span></td>
                             </tr>
                         </tfoot>
                     </table>
+                    <div ng-if="loading">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                        </div>
+                        <div class="col-xs-4"></div>
+                    </div>
                 </div>
             </div>
         </div><!-- /.box-body -->

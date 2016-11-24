@@ -23,12 +23,7 @@
         <div class="box-body">
             <di class="row">
                 <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khóa">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
-                        </span>
-                    </div><!-- /input-group -->
+                    <input type="text" class="form-control" ng-model="filterExpression" placeholder="Từ khóa">
                 </div>
                 <div class="col-md-6">
                     <button class="btn btn-success" ui-sref="post_category_add">Thêm mới</button>
@@ -46,7 +41,7 @@
                             <th style="width: 10%">Trạng thái</th>
                             <th style="width: 10%">Thao tác</th>
                         </tr>
-                        <tr ng-repeat="item in postCategories">
+                        <tr ng-repeat="item in postCategories | filter:filterExpression">
                             <td><input type="checkbox" ng-model="item.checked" name="all" /></td>
                             <td>{{item.ID}}</td>
                             <td>{{item.Name}}</td>
@@ -70,6 +65,13 @@
                             </tr>
                         </tfoot>
                     </table>
+                    <div ng-if="loading">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                        </div>
+                        <div class="col-xs-4"></div>
+                    </div>
                 </div>
             </div>
         </div><!-- /.box-body -->

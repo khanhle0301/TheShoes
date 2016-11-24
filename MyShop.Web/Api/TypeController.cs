@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MyShop.Common.Exceptions;
 using MyShop.Service;
 using MyShop.Web.Infrastructure.Core;
 using MyShop.Web.Infrastructure.Extensions;
@@ -31,6 +32,7 @@ namespace MyShop.Web.Api
 
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        [Authorize(Roles = "ViewType")]
         public HttpResponseMessage GetById(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -45,8 +47,10 @@ namespace MyShop.Web.Api
             });
         }
 
+
         [Route("getlistall")]
         [HttpGet]
+        [Authorize(Roles = "ViewType")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -61,8 +65,10 @@ namespace MyShop.Web.Api
             });
         }
 
+
         [Route("getall")]
         [HttpGet]
+        [Authorize(Roles = "ViewType")]
         public HttpResponseMessage GetAll(HttpRequestMessage request, string keyword, int page, int pageType = 20)
         {
             return CreateHttpResponse(request, () =>
@@ -89,61 +95,59 @@ namespace MyShop.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "AddType")]
         public HttpResponseMessage Create(HttpRequestMessage request, TypeViewModel typeVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var newType = new Model.Models.Type();
+                newType.UpdateType(typeVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var newType = new Model.Models.Type();
-                    newType.UpdateType(typeVm);
                     _typeService.Add(newType);
                     _typeService.Save();
-
-                    var responseData = Mapper.Map<Model.Models.Type, TypeViewModel>(newType);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, typeVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
 
         [Route("update")]
         [HttpPut]
-        [AllowAnonymous]
+        [Authorize(Roles = "UpdateType")]
         public HttpResponseMessage Update(HttpRequestMessage request, TypeViewModel typeVm)
         {
-            return CreateHttpResponse(request, () =>
+            if (ModelState.IsValid)
             {
-                HttpResponseMessage response = null;
-                if (!ModelState.IsValid)
+                var dbType = _typeService.GetById(typeVm.ID);
+                dbType.UpdateType(typeVm);
+                try
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
-                }
-                else
-                {
-                    var dbType = _typeService.GetById(typeVm.ID);
-                    dbType.UpdateType(typeVm);
                     _typeService.Update(dbType);
                     _typeService.Save();
-
-                    var responseData = Mapper.Map<Model.Models.Type, TypeViewModel>(dbType);
-                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                    return request.CreateResponse(HttpStatusCode.OK, typeVm);
                 }
-
-                return response;
-            });
+                catch (NameDuplicatedException dex)
+                {
+                    return request.CreateErrorResponse(HttpStatusCode.BadRequest, dex.Message);
+                }
+            }
+            else
+            {
+                return request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
         }
 
         [Route("delete")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteType")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -166,9 +170,10 @@ namespace MyShop.Web.Api
             });
         }
 
+
         [Route("deletemulti")]
         [HttpDelete]
-        [AllowAnonymous]
+        [Authorize(Roles = "DeleteType")]
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedTypes)
         {
             return CreateHttpResponse(request, () =>
