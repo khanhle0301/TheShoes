@@ -97,7 +97,7 @@
             }
         }
         function dataLoadFailed(response) {
-            notificationService.displayError(response.data);
+            notificationService.displayError(response.data.Message);
         }
 
         $scope.getPostCagories();

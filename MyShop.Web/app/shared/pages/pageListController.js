@@ -90,17 +90,21 @@
                     pageSize: 20
                 }
             }
-            apiService.get('/api/page/getall', config, function (result) {
-                if (result.data.TotalCount == 0) {
-                    notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
-                }
-                $scope.pages = result.data.Items;
-                $scope.page = result.data.Page;
-                $scope.pagesCount = result.data.TotalPages;
-                $scope.totalCount = result.data.TotalCount;
-            }, function () {
-                console.log('Load page failed.');
-            });
+            apiService.get('/api/page/getall', config, dataLoadCompleted, dataLoadFailed);          
+        }
+
+        function dataLoadCompleted(result) {
+            if (result.data.TotalCount == 0) {
+                notificationService.displayWarning('Không có bản ghi nào được tìm thấy.');
+            }
+            $scope.pages = result.data.Items;
+            $scope.page = result.data.Page;
+            $scope.pagesCount = result.data.TotalPages;
+            $scope.totalCount = result.data.TotalCount;
+            $scope.loading = false;
+        }
+        function dataLoadFailed(response) {
+            notificationService.displayError(response.data.Message);
         }
 
         $scope.getPages();

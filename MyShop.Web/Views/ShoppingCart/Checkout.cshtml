@@ -13,20 +13,19 @@
         var tongtien = (item.Product.PromotionPrice.HasValue) ? (item.Product.PromotionPrice.Value * @item.Quantity) : (item.Product.Price * @item.Quantity);
         thanhtien += tongtien;
         soluong += item.Quantity;
-    }
-    var urlrequest = HttpContext.Current.Request.Url.AbsolutePath;
+    }   
     decimal tong = thanhtien;
 }
 
 @section footerJS{
-<script src="~/Assets/client/js/payment.js"></script>
+    <script src="~/Assets/client/js/payment.js"></script>
 }
 <span class="fbtracker-checkout"></span>
 <a href="/gio-hang.html"><h1><span class="btn-back">Quay về giỏ hàng</span>  TheShoes</h1></a>
 <div class="container clearfix">
     <div class="col-4 step1">
         <h2>Thông tin giao hàng</h2>
-        <div class="user-login"><a href="/dang-nhap.html?urlredirect=@urlrequest">Đăng ký tài khoản mua hàng</a> | <a href="/dang-nhap.html?urlredirect=@urlrequest">Đăng nhập</a></div>
+        <div class="user-login"><a href="/dang-nhap.html">Đăng ký tài khoản mua hàng</a> | <a href="/dang-nhap.html">Đăng nhập</a></div>
         <div class="line"></div>
         <div class="form-info">
             <label class="color-blue">Mua không cần tài khoản</label>
@@ -72,7 +71,7 @@
                 <input class="input-method" type="radio" name="paymentMethod" value="ATM_ONLINE">
                 <span class="label-radio">Thanh toán trực tuyến</span>
             </label>
-           
+
         </div>
     </div>
 
@@ -80,24 +79,25 @@
         <div class="box-cart">
             <h2>Đơn hàng</h2>
             (<span>
-                @Model.Count()</span> sản phẩm)
-                <div class="cart-items">
-                    <div class="list_item cart-item">
-                        @foreach (var cart in Model)
-                        {
+                @Model.Count()
+            </span> sản phẩm)
+            <div class="cart-items">
+                <div class="list_item cart-item">
+                    @foreach (var cart in Model)
+                    {
                         <span>@cart.Quantity x</span>
                         <span> @cart.Product.Name</span>
                         <span class="price">@(cart.Product.PromotionPrice.HasValue ? cart.Product.PromotionPrice.Value.ToString("N0") : cart.Product.Price.ToString("N0"))</span>
-                        <p class="variant-title">@cart.Color</p>
-                        }
-                    </div>
+                        <p class="variant-title">@cart.Color/@cart.Size</p>
+                    }
                 </div>
-                <div class="total-price">
-                    Tạm tính   <label id="tientam" value="@thanhtien"> @thanhtien.ToString("N0")đ</label>
-                </div>                                          
-                <div class="total-checkout">
-                    Tổng cộng <span>@tong.ToString("N0")đ</span>
-                </div>
+            </div>
+            <div class="total-price">
+                Tạm tính   <label id="tientam" value="@thanhtien"> @thanhtien.ToString("N0")đ</label>
+            </div>
+            <div class="total-checkout">
+                Tổng cộng <span>@tong.ToString("N0")đ</span>
+            </div>
         </div>
         <button type="submit" class="btn-checkout">Đặt hàng</button>
     </div>

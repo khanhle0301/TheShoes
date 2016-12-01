@@ -5404,7 +5404,6 @@
     <Content Include="Assets\client\js\payment.js" />
     <Content Include="Assets\client\js\plugins\jquery.twbsPagination.min.js" />
     <Content Include="Assets\client\js\controller\productSearchController.js" />
-    <Content Include="Assets\client\js\search.js" />
     <Content Include="Assets\client\js\shoppingCart.js" />
     <Content Include="Assets\client\template\feedback.html" />
     <Content Include="Assets\client\template\neworder.html" />

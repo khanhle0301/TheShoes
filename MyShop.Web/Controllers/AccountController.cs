@@ -117,8 +117,8 @@ namespace MyShop.Web.Controllers
 
             await _userManager.CreateAsync(user, userVm.Password);
             var adminUser = await _userManager.FindByEmailAsync(userVm.Email);
-            if (adminUser != null)
-                await _userManager.AddToRolesAsync(adminUser.Id, new string[] { "User" });
+            //if (adminUser != null)
+            //    await _userManager.AddToRolesAsync(adminUser.Id, new string[] { "User" });
             string content = System.IO.File.ReadAllText(Server.MapPath("/Assets/client/template/newuser.html"));
             content = content.Replace("{{UserName}}", adminUser.FullName);
             content = content.Replace("{{Link}}", ConfigHelper.GetByKey("CurrentLink") + "dang-nhap.html");

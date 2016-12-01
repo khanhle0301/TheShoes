@@ -73,15 +73,7 @@
             e.preventDefault();
             window.location.href = "/thanh-toan.html";
         });
-
-        $('#btnDeleteAll').off('click').on('click', function (e) {
-            e.preventDefault();
-            cart.deleteAll();
-        });
-        $('#btnCheckout').off('click').on('click', function (e) {
-            e.preventDefault();
-            $('#divCheckout').show();
-        });
+       
         $('#chkUserLoginInfo').off('click').on('click', function () {
             if ($(this).prop('checked'))
                 cart.getLoginUser();

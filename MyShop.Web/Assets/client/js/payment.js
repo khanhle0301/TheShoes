@@ -57,8 +57,7 @@
         });
     },
 
-    payMent: function () {
-        //var PaymentMethod = $('input[name="paymentMethod"]:checked').val();
+    payMent: function () {       
         var order = {
             ID: 0,
             CustomerName: $('#txtName').val(),

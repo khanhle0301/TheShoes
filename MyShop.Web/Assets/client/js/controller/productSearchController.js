@@ -23,20 +23,20 @@ var productSearchController = {
         });
         $('.chatlieu').off('click').on('click', function () {
             productSearchController.loadData(true);
-            $("#gotoTop").trigger("click");
+          
         });
         $('.heel').off('click').on('click', function () {
             productSearchController.loadData(true);
-            $("#gotoTop").trigger("click");
+          
         });
         $('.height').off('click').on('click', function () {
             productSearchController.loadData(true);
-            $("#gotoTop").trigger("click");
+          
         });
 
         $('.types').off('click').on('click', function () {
             productSearchController.loadData(true);
-            $("#gotoTop").trigger("click");
+          
         });
 
     },
@@ -134,7 +134,7 @@ var productSearchController = {
                         $('.productCount').html('Có <span class="require_symbol">' + response.total + '</span> sản phẩm.');
                         productSearchController.paging(response.total, function () {
                             productSearchController.loadData();
-                            $("#gotoTop").trigger("click");
+                          
                         }, changePageSize);
                     }
                     //$("#gotoTop").trigger("click");

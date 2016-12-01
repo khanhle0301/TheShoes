@@ -43,7 +43,8 @@
                 $scope.chartdata = chartData;
                 $scope.labels = labels;
             }, function (response) {
-                notificationService.displayError('Không thể tải dữ liệu');
+                notificationService.displayError(response.data.Message);
+               // notificationService.displayError('Không thể tải dữ liệu');
             });
         }
 
